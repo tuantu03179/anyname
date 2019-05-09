@@ -1,0 +1,331 @@
+﻿@model bandienthoai.Areas.Admin.Models.EF.SANPHAM
+
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section Header{
+    <h2 class="no-margin-bottom">Sản Phẩm</h2>
+    <div class="page-button ml-auto">
+        <a href="/Admin/Product/Index"><button id="btn-back" type="button" class="btn btn-default"><i class="fas fa-arrow-left"></i> Trở Về</button></a>
+        <a href="# "><button id="btn-add" type="submit" class="btn btn-default" onclick="checkVal(); "><i class="fas fa-save"></i> Lưu</a></button></a>
+
+    </div>
+
+}
+@section jsFooter{
+    <script language="javascript">
+
+        function CheckStatus() {
+
+            var checkbox = document.getElementsByName("gender");
+            for (var i = 0; i < checkbox.length; i++) {
+                if (checkbox[i].checked === true && checkbox[i].value == "Khóa") {
+                    $("#TRANGTHAI").val(false);
+                    
+                }
+                else
+                    $("#TRANGTHAI").val(true);
+            }
+            @*@ViewBag.Ghichu = $(this).attr("txtContent");*@
+            frmCreate.submit();
+        }
+
+    </script>
+    <script>
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script>
+        function handleChange(input) {
+            if (input.value < 0) input.value = 0;
+            if (input.value > 100) input.value = 100;
+        }
+    </script>
+    <script>
+        function KTSLL(input) {
+            var s = document.getElementById("SOLUONGTON");
+            if (input.value > s.value) {
+                input.focus;
+                alert("So luong tồn tối thiểu phải nhỏ hơn số lượng tồn");
+                return;
+            }
+
+        }
+    </script>
+    <script>
+        function checkVal() {
+            //var m = document.getElementsByClassName("MASANPHAM");
+            //if (m.value == "" || m.value == null) {
+            //    $("lb_masp").html("Vui lòng nhập đủ thông tin");
+            //    return;
+            //}
+            var x = document.getElementsByClassName("requiedText");
+
+            for (var i = 0; i < x.length; i++) {
+
+                if (x[i].value == "" || x[i].value == null) {
+                    alert("Vui lòng nhập đủ thông tin");
+                    return;
+                }
+            }
+            CheckStatus();
+
+
+        }
+    </script>
+
+
+
+    <script>
+        function selectImage() {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $("#HINHANH_SANPHAM").val(url);
+                $("#txtImage").attr("src", url);
+
+            }
+            finder.popup();
+            if ($('#txtImage').attr('src') != null) {
+
+            }
+
+        }
+        var editor = CKEDITOR.replace("txtContent", {
+            customConfig: "/Assets/admin/js/plugins/ckeditor/config.js"
+
+        })
+
+    </script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { id = "frmCreate", name = "frmCreate", @class = "needs-validation" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="page-table">
+            <div class="container-fluid">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td width="20%"> <p class="">Loại Sản Phẩm</p></td>
+                            <td width="40%">
+                                <div class="input-group">
+                                    @Html.DropDownListFor(model => model.LOAISANPHAM_ID,null, new { htmlAttributes = new { @class = "form-control",  }, @class = "custom-select" })
+                                    @Html.ValidationMessageFor(model => model.LOAISANPHAM_ID, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td width="40%"></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Nhà Sản Xuất</p></td>
+                            <td>
+                                <div class="input-group">
+                                    @Html.DropDownListFor(model => model.ID_NSX, null, new { htmlAttributes = new { @class = "form-control select" }, @class = "custom-select" })
+                                    @Html.ValidationMessageFor(model => model.ID_NSX, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Nhà Cung Cấp</p></td>
+                            <td>
+                                <div class="input-group">
+                                    @Html.DropDownListFor(model => model.ID_NCC, null, new { htmlAttributes = new { @class = "form-control select" }, @class = "custom-select" })
+                                    @Html.ValidationMessageFor(model => model.ID_NCC, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Mã Sản Phẩm</p></td>
+                            <td>
+
+                                <div class="input-group">
+
+
+
+                                    @Html.TextBoxFor(model => model.MA_SANPHAM, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Mã sản phẩm", @class = "requiedText form-control rounded", required = true })
+                                    @Html.ValidationMessageFor(model => model.MA_SANPHAM, "", new { @class = "text-danger" })
+
+                                </div>
+
+                            </td>
+                            <td><p class="text-danger">(*)</p><p id="lb_masp"></p></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Tên Sản Phẩm</p></td>
+                            <td>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(model => model.TEN_SANPHAM, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Tên sản phẩm", @class = "requiedText form-control rounded", required = true })
+                                    @Html.ValidationMessageFor(model => model.TEN_SANPHAM, "", new { @class = "text-danger" })
+
+                                </div>
+                            </td>
+
+                            <td><p class="text-danger">(*)</p></td>
+                        </tr>
+
+                        <tr>
+                            <td> <p class="">Giá Sản Phẩm</p></td>
+                            <td>
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.GIA_SANPHAM, new { htmlAttributes = new { @type = "text", @class = "form-control " }, @Value = "0", @type = "number", placeholder = "0", @class = "requiedText form-control rounded", required = true })
+
+                                    @Html.ValidationMessageFor(model => model.GIA_SANPHAM, "", new { @class = "text-danger" })
+                                    <div class="invalid-feedback">
+                                        Please provide a valid zip.
+                                    </div>
+                                </div>
+
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td> <p class="">Hình Ảnh</p></td>
+                            <td>
+
+                                <div class="cms-form-content">
+                                    <div class="box-add-img " onclick="selectImage()">
+                                        <div class="box-add">  <img id="txtImage" name="txtImage" src="" /></div>
+                                        @Html.HiddenFor(m => m.HINHANH_SANPHAM)
+                                    </div>
+
+                                    @Html.ValidationMessageFor(model => model.HINHANH_SANPHAM, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Mô tả</p></td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.TextAreaFor(model => model.MOTA_SANPHAM, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Mô tả sản phẩm", @class = "requiedText form-control rounded", rows = "6", required = true })
+                                    @Html.ValidationMessageFor(model => model.MOTA_SANPHAM, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td> <p class="">Trạng Thái</p></td>
+                            <td>
+                                <div class="">
+                                    @Html.HiddenFor(model => model.TRANGTHAI)
+                                    @Html.ValidationMessageFor(model => model.TRANGTHAI, "", new { @class = "text-danger" })
+                                    <div>
+                                        <input type="radio" name="gender" value="Hoạt Động" checked><span> Hoạt Động</span>
+                                        <input type="radio" name="gender" value="Khóa" class="ml-4"> <span>Khóa</span>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td> <p class="">Số Lượng Tồn</p></td>
+                            <td>
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.SOLUONGTON, new { htmlAttributes = new { @type = "text", @class = "form-control " }, @Value = "0", @type = "number", placeholder = "0", @class = "requiedText form-control rounded", required = true })
+
+                                    @Html.ValidationMessageFor(model => model.SOLUONGTON, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Số Lượng Tồn Tối Thiểu</p></td>
+                            <td>
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.TONTOITHIEU, new { htmlAttributes = new { @type = "text", @class = "form-control " }, @Value = "0", @type = "number", placeholder = "0", @class = "requiedText form-control rounded", required = true })
+
+                                    @Html.ValidationMessageFor(model => model.TONTOITHIEU, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td> <p class="">Phụ Kiện Đi Kèm</p></td>
+                            <td>
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.SPDIKEM, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Phụ Kiện Đi Kèm", @class = "form-control rounded", required = true })
+
+                                    @Html.ValidationMessageFor(model => model.SPDIKEM, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Khuyến Mãi</p></td>
+                            <td>
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.KHUYENMAI, new { htmlAttributes = new { @class = "form-control " }, @min = "0", @max = "100", @onchange = "handleChange(this)", @Value = "0", @type = "number", placeholder = "0", @class = "form-control rounded", required = true })
+
+                                    @Html.ValidationMessageFor(model => model.KHUYENMAI, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <p class="">Ghi Chú</p></td>
+                            <td colspan="2">
+
+                                <div class="form-group">
+                                    <textarea id="txtContent" name="txtContent" placeholder="Ghi chú" class="form-control rounded" rows="3">
+                           </textarea>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+

@@ -1,0 +1,325 @@
+﻿@model bandienthoai.Areas.Admin.Models.EF.TAIKHOAN
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { id = "frmEditUser", name = "frmEditUser" }))
+{
+    @Html.AntiForgeryToken()
+    @section Header{
+        <h2 class="no-margin-bottom">Chỉnh Sửa Tài Khoản</h2>
+        <div class="page-button ml-auto">
+            <a href="/Admin/User/Index"><button id="btn-back" type="button" class="btn btn-default"><i class="fas fa-arrow-left"></i> Trở Về</button></a>
+            <a id="btnluu"href="javascript:SaveData()" type="submit" class="btn btn-primary" ><i class="fas fa-plus"></i> Lưu</a>
+
+        </div>
+    }
+
+
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="page-table">
+            <div class="container">
+                <table id="example" class="table table-striped ">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td width="20%">      <p class="title">Tên tài khoản</p></td>
+                            <td width="40%">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(model => model.TENTAIKHOAN, new { htmlAttributes = new { @type = "text", @class = "form-control" }, @class = "form-control", disabled = "disabled" })
+                                </div>
+                            </td>
+                            <td width="40%">
+                                <p class="text-danger">(*)</p>
+
+                                @Html.ValidationMessageFor(model => model.TENTAIKHOAN, "", new { @class = "text-danger", id = "txtTaikhoan" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Loại Tài Khoản</p></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.LOAITAIKHOAN_ID, null, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control" })
+                            </td>
+                            <td>
+
+                                @Html.ValidationMessageFor(model => model.LOAITAIKHOAN_ID, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Số điện thoại</p></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control" },
+                               @class = "form-control",
+                               Type="tel",
+                               @placeholder = "Nhập số điện thoại",
+                               maxlength = "11",
+
+                           })
+                            </td>
+                            <td>
+
+                                @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger", id = "txtsdt" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Họ tên</p></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.HOTEN, new { htmlAttributes = new { @type = "text", @class = "form-control" }, @class = "form-control", required = true })
+                            </td>
+                            <td>
+                                <p class="text-danger">(*)</p>
+                                @Html.ValidationMessageFor(model => model.HOTEN, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Email</p></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.EMAIL_TK, new { htmlAttributes = new { @type = "email", @class = "form-control" }, @class = "form-control", @pattern = "[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}", required = true })
+
+                            </td>
+                            <td>
+                                <p class="text-danger">(*)</p>
+                                @Html.ValidationMessageFor(model => model.EMAIL_TK, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Địa chỉ</p></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.DIACHI_TK, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.ValidationMessageFor(model => model.DIACHI_TK, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>         <p class="title">Nhâp mật khẩu mới</p></td>
+                            <td>
+                                <div class="input-group">
+                                    <input tabindex="2" id="txtMatKhauMoi" name="txtMatKhauMoi" maxlength="50" class="form-control" type="password" disabled="">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span style="" id="spanDoiMatKhau">
+                                        <input id="chkDoiMatKhau" name="chkDoiMatKhau" onclick="ChangePassword()" value="1" type="checkbox">
+                                        <label for="chkDoiMatKhau">Đổi mật khẩu</label>
+                                    </span>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Nhâp lại mật khẩu</p></td>
+                            <td>
+                                <div class="input-group">
+                                    <input tabindex="2" id="txtXacNhanMatKhau" name="txtXacNhanMatKhau" maxlength="50" class="form-control" type="password" disabled="">
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Mật khẩu hiện tại</p></td>
+                            <td>
+                                @Html.HiddenFor(model => model.MATKHAU, new { htmlAttributes = new { @class = "form-control" }, @value = "", @class = "form-control", required = true })
+                                <div class="input-group">
+                                    <input tabindex="2" id="txtMatKhauCu" name="txtMatKhauCu" maxlength="50" class="form-control" type="password">
+                                </div>
+                            </td>
+                            <td>
+
+                                @Html.ValidationMessageFor(model => model.MATKHAU, "", new { @class = "text-danger", required = true })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Ghi chú</p></td>
+                            <td>
+                                @Html.TextAreaFor(model => model.GHICHU_TK, new { htmlAttributes = new { @class = "form-control" }, @class = "w-100", @style = "height:100px" })
+
+                            </td>
+                            <td>
+                                @Html.ValidationMessageFor(model => model.GHICHU_TK, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>         <p class="title">Trạng thái</p></td>
+                            <td>
+                                @Html.HiddenFor(model => model.STATUS, new { htmlAttributes = new { @class = "form-control" }, @checked = "checked" })
+                                <div class="row">
+                                    <div class="col col-6">
+                                        <div class="text-center">
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="status" id="rdHoatDong" value="1" checked />Hoạt động
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6">
+                                        <div class="text-center">
+                                            <label class="checkbox-inline">
+                                                <input type="radio" name="status" id="rdKhoa" value="2" />Khóa
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>
+                                @Html.ValidationMessageFor(model => model.STATUS, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-primary btnSubmit" type="submit" id="btnSubmit" style="display:none!important">Lưu</button>
+}
+
+@section jsFooter{
+    <script>
+        $(document).ready(function () {
+            var list = $("#LOAITAIKHOAN_ID");
+          
+            var x = @ViewBag.typeLoai;
+          
+            if ( x== "1") {
+                list.prop('disabled', false);
+         
+            }
+            else {
+                //list.css("disabled", "disabled");
+                //list.css("pointer - events", "none");
+       
+                list.prop('disabled', true);
+                
+            }
+               
+          
+        });
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        function ChangePassword() {
+            var objChk = document.getElementById("chkDoiMatKhau");
+            var objTxtMatKhau = document.getElementById("txtMatKhauMoi");
+            document.getElementById("txtMatKhauMoi").value = "";
+            objTxtMatKhau.disabled = !objChk.checked;
+            document.getElementById("txtXacNhanMatKhau").disabled = !objChk.checked;
+            document.getElementById("txtMatKhauCu").disabled = !objChk.checked;
+        }
+        function checkStatus() {
+           
+            if ($("#rdHoatDong").val() == "1") {
+                $("#STATUS").val(true);
+               
+                }
+                else {
+                    $("#STATUS").val(false);
+              
+                }
+        }
+        function checkEmptyPass(pass) {
+            var kq = false;
+
+            if (pass.trim() == "") {
+                kq = true;
+
+            }
+            return kq;
+        }
+        function checkPassword() {
+            var kq = false;
+            var pass = $("#txtMatKhauCu");
+            var mk = $("#MATKHAU").val().trim();
+
+            if (pass.val().trim() == mk) {
+                kq= true;
+
+            }
+            return kq;
+        }
+        function CheckValidData() {
+            var valid = true;
+
+            var IsInputPassword = (document.getElementById("chkDoiMatKhau").checked || document.getElementById("spanDoiMatKhau").style.display == "none");
+            var objTxtMatKhau = $("#txtMatKhauMoi");
+            var objTxtXacNhanMatKhau = $("#txtXacNhanMatKhau");
+            var objTxtMatKhauCu = $("#txtMatKhauCu");
+
+            if (IsInputPassword) {
+
+                if (objTxtMatKhau.val().trim() == ""|| objTxtMatKhau.val().trim() == null) {
+
+                    valid = false;
+                    alert("Mật khẩu mới chưa nhập");
+                    objTxtMatKhau.val("");
+                    objTxtMatKhau.focus();
+                }
+                else if (objTxtXacNhanMatKhau.val().trim() == "" || objTxtXacNhanMatKhau.val().trim() == null) {
+                    valid = false;
+                    alert("Nhập lại mật khẩu chưa nhập");
+                    objTxtXacNhanMatKhau.focus();
+                }
+                else if (objTxtMatKhauCu.val().trim() == "" || objTxtMatKhauCu.val().trim() == "" ) {
+                    valid = false;
+                    alert("Mật khẩu cũ chưa nhập");
+                    objTxtMatKhauCu.focus();
+                }
+                else if (objTxtMatKhau.val().trim() != objTxtXacNhanMatKhau.val().trim()) {
+                    valid = false;
+                    alert("Mật khẩu mới và nhập lại mật khẩu không giống nhau");
+                    objTxtMatKhau.value = "";
+                    objTxtXacNhanMatKhau.value = "";
+                    objTxtMatKhau.focus();
+                }
+            }
+
+            return valid;
+        }
+        function SaveData() {
+            if (CheckValidData()) {
+                //$("#MATKHAU").val() = ("#txtMatKhauMoi").val();
+                checkStatus();
+                var pass = $("#txtMatKhauCu");
+                if (checkEmptyPass(pass.val())) {
+                    alert("Vui lòng nhập mật khẩu");
+                    pass.focus();
+                }
+                else if (!checkPassword()) {
+                    alert("Sai mật khẩu");
+                    objTxtMatKhauCu.focus();
+                }
+                else {
+
+                    $("#btnSubmit").click();
+                
+                    
+                }
+
+            }
+        }
+
+    </script>
+}

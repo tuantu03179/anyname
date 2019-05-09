@@ -1,0 +1,325 @@
+namespace bandienthoai.Areas.Admin.Models.EF
+{
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
+    public partial class QlBanHangDbContext : DbContext
+    {
+        public QlBanHangDbContext()
+            : base("name=QlBanHangDbContext")
+        {
+        }
+
+        public virtual DbSet<BANNER> BANNERs { get; set; }
+        public virtual DbSet<BINHLUAN> BINHLUANs { get; set; }
+        public virtual DbSet<CHITIETHOADON> CHITIETHOADONs { get; set; }
+        public virtual DbSet<CHITIETPHIEUNHAPHANG> CHITIETPHIEUNHAPHANGs { get; set; }
+        public virtual DbSet<CHITIETPHIEUNHAPKHO> CHITIETPHIEUNHAPKHOes { get; set; }
+        public virtual DbSet<CHITIETQUATANG> CHITIETQUATANGs { get; set; }
+        public virtual DbSet<CHITIETTHUOCTINH> CHITIETTHUOCTINHs { get; set; }
+        public virtual DbSet<CTIETPHIEUBAOHANH> CTIETPHIEUBAOHANHs { get; set; }
+        public virtual DbSet<CTIETPHIEUDOITRA> CTIETPHIEUDOITRAs { get; set; }
+        public virtual DbSet<CTIETPHIEUYCNHAPKHO> CTIETPHIEUYCNHAPKHOes { get; set; }
+        public virtual DbSet<DANHGIA> DANHGIAs { get; set; }
+        public virtual DbSet<HOADON> HOADONs { get; set; }
+        public virtual DbSet<KHACHHANG> KHACHHANGs { get; set; }
+        public virtual DbSet<LOAISANPHAM> LOAISANPHAMs { get; set; }
+        public virtual DbSet<LOAITAIKHOAN> LOAITAIKHOANs { get; set; }
+        public virtual DbSet<LOAITINTUC> LOAITINTUCs { get; set; }
+        public virtual DbSet<NHACUNGCAP> NHACUNGCAPs { get; set; }
+        public virtual DbSet<NHASANXUAT> NHASANXUATs { get; set; }
+        public virtual DbSet<PHIEUBAOHANH> PHIEUBAOHANHs { get; set; }
+        public virtual DbSet<PHIEUDOITRA> PHIEUDOITRAs { get; set; }
+        public virtual DbSet<PHIEUNHAPHANG> PHIEUNHAPHANGs { get; set; }
+        public virtual DbSet<PHIEUNHAPKHO> PHIEUNHAPKHOes { get; set; }
+        public virtual DbSet<PHIEUYEUCAUNHAPKHO> PHIEUYEUCAUNHAPKHOes { get; set; }
+        public virtual DbSet<QUATANG> QUATANGs { get; set; }
+        public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
+        public virtual DbSet<SHIPPER> SHIPPERs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<TAIKHOAN> TAIKHOANs { get; set; }
+        public virtual DbSet<THUOCTINH> THUOCTINHs { get; set; }
+        public virtual DbSet<TINTUC> TINTUCs { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BANNER>()
+                .Property(e => e.LINK)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<BINHLUAN>()
+                .Property(e => e.BINHLUANCHA_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CHITIETPHIEUNHAPKHO>()
+                .Property(e => e.CTIETPHIEUNHAPKHO_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CHITIETPHIEUNHAPKHO>()
+                .Property(e => e.PHIEUNHAPKHO_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CHITIETPHIEUNHAPKHO>()
+                .Property(e => e.SANPHAM_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CHITIETPHIEUNHAPKHO>()
+                .Property(e => e.DONGIA_CTIETNHAPKHO)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CHITIETTHUOCTINH>()
+                .Property(e => e.CHITIETTHUOCTINH_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CTIETPHIEUBAOHANH>()
+                .Property(e => e.PHIEUBAOHANH_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CTIETPHIEUBAOHANH>()
+                .Property(e => e.NGAYHEN)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CTIETPHIEUBAOHANH>()
+                .Property(e => e.NGAYTRA)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CTIETPHIEUYCNHAPKHO>()
+                .Property(e => e.CTIETPHIEUYCNHAPKHO_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<CTIETPHIEUYCNHAPKHO>()
+                .Property(e => e.DONGIA_CTYCNHAPKHO)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<HOADON>()
+                .HasMany(e => e.CHITIETHOADONs)
+                .WithRequired(e => e.HOADON)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<HOADON>()
+                .HasMany(e => e.PHIEUBAOHANHs)
+                .WithRequired(e => e.HOADON)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<HOADON>()
+                .HasMany(e => e.PHIEUDOITRAs)
+                .WithRequired(e => e.HOADON)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<KHACHHANG>()
+                .HasMany(e => e.HOADONs)
+                .WithRequired(e => e.KHACHHANG)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LOAISANPHAM>()
+                .Property(e => e.LOAISANPHAM_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<LOAISANPHAM>()
+                .HasMany(e => e.SANPHAMs)
+                .WithRequired(e => e.LOAISANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LOAITAIKHOAN>()
+                .HasMany(e => e.TAIKHOANs)
+                .WithRequired(e => e.LOAITAIKHOAN)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LOAITINTUC>()
+                .HasMany(e => e.TINTUCs)
+                .WithRequired(e => e.LOAITINTUC)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NHACUNGCAP>()
+                .Property(e => e.MANCC)
+                .IsFixedLength();
+
+            modelBuilder.Entity<NHACUNGCAP>()
+                .Property(e => e.SDT_NCC)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<NHACUNGCAP>()
+                .HasMany(e => e.PHIEUNHAPHANGs)
+                .WithRequired(e => e.NHACUNGCAP)
+                .HasForeignKey(e => e.MA_NCC)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NHACUNGCAP>()
+                .HasMany(e => e.SANPHAMs)
+                .WithRequired(e => e.NHACUNGCAP)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NHASANXUAT>()
+                .Property(e => e.MANSX)
+                .IsFixedLength();
+
+            modelBuilder.Entity<NHASANXUAT>()
+                .Property(e => e.SDT_NSX)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<NHASANXUAT>()
+                .HasMany(e => e.SANPHAMs)
+                .WithRequired(e => e.NHASANXUAT)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUBAOHANH>()
+                .Property(e => e.PHIEUBAOHANH_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<PHIEUBAOHANH>()
+                .Property(e => e.SOPHIEUBAOHANH)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PHIEUBAOHANH>()
+                .HasMany(e => e.CTIETPHIEUBAOHANHs)
+                .WithRequired(e => e.PHIEUBAOHANH)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUDOITRA>()
+                .Property(e => e.SOPHIEUDOITRA)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PHIEUDOITRA>()
+                .Property(e => e.LYDO)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PHIEUDOITRA>()
+                .HasMany(e => e.CTIETPHIEUDOITRAs)
+                .WithRequired(e => e.PHIEUDOITRA)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUNHAPHANG>()
+                .Property(e => e.SOPHIEUNHAPHANG)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PHIEUNHAPHANG>()
+                .HasMany(e => e.CHITIETPHIEUNHAPHANGs)
+                .WithRequired(e => e.PHIEUNHAPHANG)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUNHAPHANG>()
+                .HasMany(e => e.PHIEUYEUCAUNHAPKHOes)
+                .WithRequired(e => e.PHIEUNHAPHANG)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUYEUCAUNHAPKHO>()
+                .HasMany(e => e.CTIETPHIEUYCNHAPKHOes)
+                .WithRequired(e => e.PHIEUYEUCAUNHAPKHO)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PHIEUYEUCAUNHAPKHO>()
+                .HasMany(e => e.PHIEUNHAPKHOes)
+                .WithRequired(e => e.PHIEUYEUCAUNHAPKHO)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QUATANG>()
+                .HasMany(e => e.CHITIETQUATANGs)
+                .WithRequired(e => e.QUATANG)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .Property(e => e.LOAISANPHAM_ID)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SANPHAM>()
+                .Property(e => e.GIA_SANPHAM)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.BINHLUANs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CHITIETHOADONs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CHITIETPHIEUNHAPHANGs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CHITIETQUATANGs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CTIETPHIEUBAOHANHs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CTIETPHIEUDOITRAs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CTIETPHIEUYCNHAPKHOes)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.DANHGIAs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.THUOCTINHs)
+                .WithRequired(e => e.SANPHAM)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SHIPPER>()
+                .HasMany(e => e.HOADONs)
+                .WithRequired(e => e.SHIPPER)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .Property(e => e.SDT)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.BANNERs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.TENTK)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.BINHLUANs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.TENTK)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.DANHGIAs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.IDTAIKHOAN)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.HOADONs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.IDTOAIKHOAN)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.TINTUCs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.IDTAIKHOAN)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<THUOCTINH>()
+                .HasMany(e => e.CHITIETTHUOCTINHs)
+                .WithRequired(e => e.THUOCTINH)
+                .WillCascadeOnDelete(false);
+        }
+    }
+}
