@@ -72,7 +72,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     LOAITAIKHOAN dao = db.LOAITAIKHOANs.SingleOrDefault(m => m.IS_DELETE == false && m.LOAITAIKHOAN_ID == x.IDLOAITAIKHOAN);
 
-          
+                    dao.LOAITAIKHOAN_ID = x.IDLOAITAIKHOAN;
                     dao.TENLOAITK = x.TENLOAITAIKHOAN;
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;

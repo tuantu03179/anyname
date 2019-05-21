@@ -1,0 +1,103 @@
+﻿<html>
+
+<head>
+    <title>Điện thoại di động</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="~/Assets/client/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/client/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/owl.theme.default.css" rel="stylesheet" />
+
+    <link href="~/Assets/client/css/style-2.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+
+
+    <header>
+        <div class="topbar p-2">
+            <div class="container">
+                <div class="row">
+                    <div class=" col-md-4  col-lg-6 ">
+                        <div class="top_left fw">
+                            <ul class="d-flex  mb-1">
+
+                                <li class="ml-2 mr-2">
+                                    <a id="dangnhap" href="#" title="Đăng nhập" class=" btn btn-outline-success">
+                                        <i class="fa fa-sign-in"></i><span> Đăng nhập</span>
+                                    </a>
+                                </li>
+                                <li class="cp-item">
+                                    <a href="dang-ky-thanh-vien" title="Đăng ký" class="btn btn-outline-info">
+                                        <i class="fa fa-edit"></i><span> Đăng ký</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4  col-lg-6 ">
+                        <div class="top_right fw d-flex">
+                            <div class="hotline ">
+                                <a href="tel:0898168871">  <i class="fa fa-phone"></i><strong> 0898168871</strong></a>
+                            </div>
+                            @{Html.RenderAction("HeaderCart", "TrangChu");}
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*@RenderPage("TopBar.cshtml")*@
+        @{Html.RenderAction("MainMenu", "TrangChu");}
+
+
+        @RenderSection("Banner_Giua", required: false)
+
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <div class="footer group">
+        <div id="footer" class="container group">
+            @{ Html.RenderAction("Footer","TrangChu");}
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+</html>
+<script src="~/Assets/client/js/jquery-3.3.1.min.js"></script>
+<script src="~/Assets/client/js/bootstrap.min.js"></script>
+<script src="~/Assets/client/js/owl.carousel.js"></script>
+<script>
+    $(document).ready(function () {
+        loaddata();
+        function loaddata() {
+            $("#loadingStatus").html("Loading...");
+            //$.get("/NhaSanXuat/GetListNhaSX", null, DataBind);
+            $.ajax({
+                type: "GET",
+                url: "/TrangChu/Footer",
+                success: function (kq) {
+                
+                    var setData = $("#footer");
+                    setData.append(kq);
+                }
+
+            });
+        }
+    });
+</script>
+@RenderSection("js", required: false)

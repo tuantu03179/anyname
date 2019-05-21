@@ -74,7 +74,7 @@ namespace bandienthoai.Areas.Admin.Controllers
                 return 3;
             else
                 return 0;
-          
+
         }
         public int changeGiaoHang(int id)
         {
@@ -89,20 +89,20 @@ namespace bandienthoai.Areas.Admin.Controllers
         public JsonResult Delete(int id)
         {
             var dao = new DonHangDAO();
-        
+
             var result = false;
 
 
             result = dao.Delete(id);
-            if(result)
+            if (result)
             {
                 SetAlert("Xóa thành công", "success");
             }
-    else
+            else
             {
                 ModelState.AddModelError("", "Xóa Thất Bại!");
             }
-        
+
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }

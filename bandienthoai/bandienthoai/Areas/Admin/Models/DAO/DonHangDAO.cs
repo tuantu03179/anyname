@@ -23,34 +23,34 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                       join u in db.TAIKHOANs on t.IDTOAIKHOAN equals u.ID
                       join k in db.KHACHHANGs on t.IDKHACHHANG equals k.IDKHACHHANG
                       select new DonHangModel
-            {
-                HOADON_ID = t.HOADON_ID,
-                IDKHACHHANG=k.IDKHACHHANG,
-                HOTEN=k.HOTEN,
-                SDT=k.SDT,
-                GMAIL=k.GMAIL,
-                IDTOAIKHOAN = t.IDTOAIKHOAN,
-               TENTAIKHOAN=u.TENTAIKHOAN,
-                    HINHTHUCTHANHTOAN = t.HINHTHUCTHANHTOAN,
-                NGAYBDGIAO = t.NGAYBDGIAO,
-                NGAYKTGIAO = t.NGAYKTGIAO,
-                NGAYXUATHD = t.NGAYXUATHD,
-                TRANGTHAI = t.TRANGTHAI,
-                IS_DELETE = t.IS_DELETE,
-                CREATEBY = t.CREATEBY,
-                MODIFILEDBY = t.MODIFILEDBY,
-                MODIFILEDDATE = t.MODIFILEDDATE,
-                CREATEDATE = t.CREATEDATE,
+                      {
+                          HOADON_ID = t.HOADON_ID,
+                          IDKHACHHANG = k.IDKHACHHANG,
+                          HOTEN = k.HOTEN,
+                          SDT = k.SDT,
+                          GMAIL = k.GMAIL,
+                          IDTOAIKHOAN = t.IDTOAIKHOAN,
+                          TENTAIKHOAN = u.TENTAIKHOAN,
+                          HINHTHUCTHANHTOAN = t.HINHTHUCTHANHTOAN,
+                          NGAYBDGIAO = t.NGAYBDGIAO,
+                          NGAYKTGIAO = t.NGAYKTGIAO,
+                          NGAYXUATHD = t.NGAYXUATHD,
+                          TRANGTHAI = t.TRANGTHAI,
+                          IS_DELETE = t.IS_DELETE,
+                          CREATEBY = t.CREATEBY,
+                          MODIFILEDBY = t.MODIFILEDBY,
+                          MODIFILEDDATE = t.MODIFILEDDATE,
+                          CREATEDATE = t.CREATEDATE,
 
 
-            }).ToList();
+                      }).ToList();
             return kq;
         }
 
-      
+
         public int ChangeStatus(int id, string name, string stt)
         {
-       
+
             try
             {
                 var kq = db.HOADONs.Find(id);

@@ -21,7 +21,7 @@ namespace bandienthoai.Areas.Admin.Models
         [Required]
         [StringLength(250)]
         public string HINHANH_TINTUC { get; set; }
-      
+
         [StringLength(250)]
         public string GHICHU_TINTUC { get; set; }
 

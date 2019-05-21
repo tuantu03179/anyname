@@ -173,8 +173,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BanHangController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BannerController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\DonHangController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FooterController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiTaiKhoanController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiTinTucController.cs" />
@@ -185,17 +187,19 @@
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\TinTucController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Models\BannerModel.cs" />
+    <Compile Include="Areas\Admin\Models\DAO\BannerDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\DonHangDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\LoaiTaiKhoanDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\LoaiTinTucDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\NhaCungCapDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\NhapHangDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\NhaSanXuatDAO.cs" />
-    <Compile Include="Areas\Admin\Models\DAO\NhaSXDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\SanPhamDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\TinTucDAO.cs" />
     <Compile Include="Areas\Admin\Models\DAO\UserDAO.cs" />
     <Compile Include="Areas\Admin\Models\DonHangModel.cs" />
+    <Compile Include="Areas\Admin\Models\EF\BANGGIA.cs" />
     <Compile Include="Areas\Admin\Models\EF\BANNER.cs" />
     <Compile Include="Areas\Admin\Models\EF\BINHLUAN.cs" />
     <Compile Include="Areas\Admin\Models\EF\CHITIETHOADON.cs" />
@@ -207,11 +211,15 @@
     <Compile Include="Areas\Admin\Models\EF\CTIETPHIEUDOITRA.cs" />
     <Compile Include="Areas\Admin\Models\EF\CTIETPHIEUYCNHAPKHO.cs" />
     <Compile Include="Areas\Admin\Models\EF\DANHGIA.cs" />
+    <Compile Include="Areas\Admin\Models\EF\FEEDBACK.cs" />
+    <Compile Include="Areas\Admin\Models\EF\FOOTER.cs" />
     <Compile Include="Areas\Admin\Models\EF\HOADON.cs" />
     <Compile Include="Areas\Admin\Models\EF\KHACHHANG.cs" />
     <Compile Include="Areas\Admin\Models\EF\LOAISANPHAM.cs" />
     <Compile Include="Areas\Admin\Models\EF\LOAITAIKHOAN.cs" />
     <Compile Include="Areas\Admin\Models\EF\LOAITINTUC.cs" />
+    <Compile Include="Areas\Admin\Models\EF\LOAITT.cs" />
+    <Compile Include="Areas\Admin\Models\EF\Menu.cs" />
     <Compile Include="Areas\Admin\Models\EF\NHACUNGCAP.cs" />
     <Compile Include="Areas\Admin\Models\EF\NHASANXUAT.cs" />
     <Compile Include="Areas\Admin\Models\EF\PHIEUBAOHANH.cs" />
@@ -223,6 +231,7 @@
     <Compile Include="Areas\Admin\Models\EF\QUATANG.cs" />
     <Compile Include="Areas\Admin\Models\EF\SANPHAM.cs" />
     <Compile Include="Areas\Admin\Models\EF\SHIPPER.cs" />
+    <Compile Include="Areas\Admin\Models\EF\SLIDE.cs" />
     <Compile Include="Areas\Admin\Models\EF\sysdiagram.cs" />
     <Compile Include="Areas\Admin\Models\EF\TAIKHOAN.cs" />
     <Compile Include="Areas\Admin\Models\EF\THUOCTINH.cs" />
@@ -237,11 +246,68 @@
     <Compile Include="Areas\Admin\Models\TinTucModel.cs" />
     <Compile Include="Common\CommonStants.cs" />
     <Compile Include="Common\Encryptor.cs" />
-    <Compile Include="Controllers\BanHangController.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\BannerController.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\SanPhamController.cs" />
+    <Compile Include="Controllers\TrangChuController.cs" />
+    <Compile Include="Controllers\UserClientController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\DAO\BannerDAO.cs" />
+    <Compile Include="Models\DAO\CategoryDAO.cs" />
+    <Compile Include="Models\DAO\ContactDAO.cs" />
+    <Compile Include="Models\DAO\FooterDAO.cs" />
+    <Compile Include="Models\DAO\MenuDAO.cs" />
+    <Compile Include="Models\DAO\OrderDAO.cs" />
+    <Compile Include="Models\DAO\OrderDetailDAO.cs" />
+    <Compile Include="Models\DAO\RegisterDAO.cs" />
+    <Compile Include="Models\DAO\SanPhamDAO.cs" />
+    <Compile Include="Models\EF\BANGGIA.cs" />
+    <Compile Include="Models\EF\BANNER.cs" />
+    <Compile Include="Models\EF\BINHLUAN.cs" />
+    <Compile Include="Models\EF\CHITIETHOADON.cs" />
+    <Compile Include="Models\EF\CHITIETPHIEUNHAPHANG.cs" />
+    <Compile Include="Models\EF\CHITIETPHIEUNHAPKHO.cs" />
+    <Compile Include="Models\EF\CHITIETQUATANG.cs" />
+    <Compile Include="Models\EF\CHITIETTHUOCTINH.cs" />
+    <Compile Include="Models\EF\CONTACT.cs" />
+    <Compile Include="Models\EF\CTIETPHIEUBAOHANH.cs" />
+    <Compile Include="Models\EF\CTIETPHIEUDOITRA.cs" />
+    <Compile Include="Models\EF\CTIETPHIEUYCNHAPKHO.cs" />
+    <Compile Include="Models\EF\DANHGIA.cs" />
+    <Compile Include="Models\EF\FEEDBACK.cs" />
+    <Compile Include="Models\EF\FOOTER.cs" />
+    <Compile Include="Models\EF\HOADON.cs" />
+    <Compile Include="Models\EF\KHACHHANG.cs" />
+    <Compile Include="Models\EF\LOAISANPHAM.cs" />
+    <Compile Include="Models\EF\LOAITAIKHOAN.cs" />
+    <Compile Include="Models\EF\LOAITINTUC.cs" />
+    <Compile Include="Models\EF\LOAITT.cs" />
+    <Compile Include="Models\EF\Menu.cs" />
+    <Compile Include="Models\EF\MENUTYPE.cs" />
+    <Compile Include="Models\EF\NHACUNGCAP.cs" />
+    <Compile Include="Models\EF\NHASANXUAT.cs" />
+    <Compile Include="Models\EF\ORDER.cs" />
+    <Compile Include="Models\EF\ORDERDETAIL.cs" />
+    <Compile Include="Models\EF\PHIEUBAOHANH.cs" />
+    <Compile Include="Models\EF\PHIEUDOITRA.cs" />
+    <Compile Include="Models\EF\PHIEUNHAPHANG.cs" />
+    <Compile Include="Models\EF\PHIEUNHAPKHO.cs" />
+    <Compile Include="Models\EF\PHIEUYEUCAUNHAPKHO.cs" />
+    <Compile Include="Models\EF\QlBanHangDbContext.cs" />
+    <Compile Include="Models\EF\QUATANG.cs" />
+    <Compile Include="Models\EF\SANPHAM.cs" />
+    <Compile Include="Models\EF\SHIPPER.cs" />
+    <Compile Include="Models\EF\SLIDE.cs" />
+    <Compile Include="Models\EF\sysdiagram.cs" />
+    <Compile Include="Models\EF\TAIKHOAN.cs" />
+    <Compile Include="Models\EF\THUOCTINH.cs" />
+    <Compile Include="Models\EF\TINTUC.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\UserLogin.cs" />
   </ItemGroup>
@@ -1331,6 +1397,8 @@
     <Content Include="Assets\admin\webfonts\fa-brands-400.svg" />
     <Content Include="Assets\admin\webfonts\fa-regular-400.svg" />
     <Content Include="Assets\admin\webfonts\fa-solid-900.svg" />
+    <Content Include="Assets\client\controller\cartController.js" />
+    <Content Include="Assets\client\controller\ContacController.js" />
     <Content Include="Assets\client\css\bootstrap-grid.css" />
     <Content Include="Assets\client\css\bootstrap-grid.min.css" />
     <Content Include="Assets\client\css\bootstrap-reboot.css" />
@@ -1342,40 +1410,14 @@
     <Content Include="Assets\client\css\owl.css" />
     <Content Include="Assets\client\css\owl.theme.default.css" />
     <Content Include="Assets\client\css\style-2.css" />
-    <Content Include="Assets\client\css\style.css" />
     <Content Include="Assets\client\css\stylezoom.css" />
     <Content Include="Assets\client\font-awesome\css\font-awesome.css" />
     <Content Include="Assets\client\font-awesome\css\font-awesome.min.css" />
     <Content Include="Assets\client\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\client\font-awesome\HELP-US-OUT.txt" />
-    <Content Include="Assets\client\ImagesText\001.jpg" />
-    <Content Include="Assets\client\ImagesText\002.jpg" />
-    <Content Include="Assets\client\ImagesText\003.jpg" />
-    <Content Include="Assets\client\ImagesText\004.jpg" />
-    <Content Include="Assets\client\ImagesText\banner_home_1.jpg" />
-    <Content Include="Assets\client\ImagesText\banner_home_2.jpg" />
-    <Content Include="Assets\client\ImagesText\banner_product_home_1.jpg" />
-    <Content Include="Assets\client\ImagesText\banner_right_1.jpg" />
-    <Content Include="Assets\client\ImagesText\banner_right_2.jpg" />
-    <Content Include="Assets\client\ImagesText\slider_2_image.jpg" />
     <Content Include="Assets\client\img\banner_collection.jpg" />
-    <Content Include="Assets\client\img\boct.jpg" />
     <Content Include="Assets\client\img\h1.jpg" />
-    <Content Include="Assets\client\img\image1.jpg" />
-    <Content Include="Assets\client\img\iphone.png" />
-    <Content Include="Assets\client\img\jcb.png" />
-    <Content Include="Assets\client\img\loading.gif" />
     <Content Include="Assets\client\img\logo-mobile.png" />
-    <Content Include="Assets\client\img\logo.png" />
-    <Content Include="Assets\client\img\master.png" />
-    <Content Include="Assets\client\img\pdtop.png" />
-    <Content Include="Assets\client\img\product_policy_1.png" />
-    <Content Include="Assets\client\img\product_policy_2.png" />
-    <Content Include="Assets\client\img\product_policy_3.png" />
-    <Content Include="Assets\client\img\product_policy_4.png" />
-    <Content Include="Assets\client\img\sa.png" />
-    <Content Include="Assets\client\img\slider_5_image.jpg" />
-    <Content Include="Assets\client\img\spin.svg" />
     <Content Include="Assets\client\js\bootstrap.bundle.js" />
     <Content Include="Assets\client\js\bootstrap.bundle.min.js" />
     <Content Include="Assets\client\js\bootstrap.js" />
@@ -1398,6 +1440,7 @@
     <Content Include="Assets\client\js\jqzoom.js" />
     <Content Include="Assets\client\js\owl.carousel.js" />
     <Content Include="Assets\client\js\sidebar.js" />
+    <Content Include="Assets\client\teamplet\NewOrder.html" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1526,10 +1569,12 @@
     <Content Include="Assets\admin\js\holder.min.js" />
     <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiTaiKhoan\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiTinTuc\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NhaSanXuat\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NhaCungCap\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiTinTuc\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DonHang\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Banner\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Footer\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1577,16 +1622,35 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\TrangChu\Index.cshtml" />
+    <Content Include="Views\Shared\Banner_Giua.cshtml" />
+    <Content Include="Views\Shared\TopBar.cshtml" />
+    <Content Include="Views\Shared\MainMenu.cshtml" />
+    <Content Include="Views\SanPham\Index.cshtml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
+    <Content Include="Views\SanPham\Category.cshtml" />
+    <Content Include="Views\SanPham\Detail.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Shared\ProductCategory.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Shared\HeaderCart.cshtml" />
+    <Content Include="Views\Cart\Payment.cshtml" />
+    <Content Include="Views\Cart\Success.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\UserClient\Index.cshtml" />
+    <Content Include="Views\UserClient\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\BanHang\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Assets\admin\images\flags\16\" />
+    <Folder Include="Assets\client\img\Banner\" />
+    <Folder Include="Assets\client\img\ImgTest\" />
     <Folder Include="Data\Content\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\BanHang\" />
+    <Folder Include="Data\Footer\" />
+    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -1599,6 +1663,12 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Commom\Commom.csproj">
+      <Project>{A94E8FB3-0A0F-43E0-A9A4-85C990004B06}</Project>
+      <Name>Commom</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

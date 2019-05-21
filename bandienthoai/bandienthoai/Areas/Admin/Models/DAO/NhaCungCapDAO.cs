@@ -26,7 +26,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 MANCC = t.MANCC,
                 TEN_NCC = t.TEN_NCC,
                 SDT_NCC = t.SDT_NCC,
-          
+
                 DIACHI_NCC = t.DIACHI_NCC,
                 EMAIL_NCC = t.EMAIL_NCC,
                 IS_DELETE = t.IS_DELETE,
@@ -68,17 +68,17 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         //get  ncc by id
         public NHACUNGCAP GetById(int id)
         {
-           
-              
-           try
-           {
+
+
+            try
+            {
                 var kq = db.NHACUNGCAPs.SingleOrDefault(t => t.ID_NCC == id);
                 return kq;
             }
             catch
-           {
-               return null;
-         }
+            {
+                return null;
+            }
         }
         // ẩn hiện
         public int ChangeStatus(int id, string name, bool kq)
@@ -123,7 +123,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                     dao.DIACHI_NCC = x.DIACHI_NCC;
                     dao.MANCC = x.MANCC;
                     dao.SDT_NCC = x.SDT_NCC;
-              
+
                     db.SaveChanges();
 
                     return 1;
@@ -141,7 +141,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                     dao.DIACHI_NCC = x.DIACHI_NCC;
                     dao.MANCC = x.MANCC;
                     dao.SDT_NCC = x.SDT_NCC;
-                  
+
 
                     dao.CREATEDATE = DateTime.Now.Date;
                     dao.CREATEBY = user;

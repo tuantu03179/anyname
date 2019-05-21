@@ -19,7 +19,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long THUOCTINH_ID { get; set; }
 
-        public long SANPHAM_ID { get; set; }
+        public long? IDLOAITT { get; set; }
 
         [Required]
         [StringLength(250)]
@@ -46,6 +46,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHITIETTHUOCTINH> CHITIETTHUOCTINHs { get; set; }
 
-        public virtual SANPHAM SANPHAM { get; set; }
+        public virtual LOAITT LOAITT { get; set; }
     }
 }

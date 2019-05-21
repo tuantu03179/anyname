@@ -20,24 +20,24 @@ namespace bandienthoai.Areas.Admin.Controllers
         {
             var dao = new LoaiTaiKhoanDAO();
             var result = dao.GetListLoaiTK();
-           
-            return Json(result,JsonRequestBehavior.AllowGet);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetListLoaiTaikhoanByID(long ID)
         {
             var value = new LoaiTaiKhoanDAO().GetListLoaiTaikhoanByID(ID);
             return Json(value, JsonRequestBehavior.AllowGet);
         }
-        
+
         public JsonResult Delete(int id)
         {
             var dao = new LoaiTaiKhoanDAO();
             bool value = dao.Delete(id);
-          
-            if(value)
-            SetAlert("Xóa thành công", "success");
+
+            if (value)
+                SetAlert("Xóa thành công", "success");
             else
-            SetAlert("Xóa thất bại", "success");
+                SetAlert("Xóa thất bại", "success");
             return Json(value, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -53,15 +53,15 @@ namespace bandienthoai.Areas.Admin.Controllers
                 result = dao.SaveData(sp, user);
                 if (result == 1)
                 {
-                 
+
                     kq = true;
                 }
                 else if (result == 2)
                 {
-                  
+
                     kq = true;
                 }
-               
+
             }
             return Json(kq, JsonRequestBehavior.AllowGet);
 

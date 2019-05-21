@@ -10,7 +10,7 @@ namespace bandienthoai.Areas.Admin.Models
     {
         [Key]
         public int IDLOAITINTUC { get; set; }
- 
+
         [Required]
         [StringLength(50)]
         public string TENLOAITIN { get; set; }

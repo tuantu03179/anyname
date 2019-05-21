@@ -14,7 +14,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         // GET: Admin/LoaiTinTuc
         public ActionResult Index()
         {
-            
+
             return View();
         }
         public JsonResult GetListLoaiTin()
@@ -47,15 +47,15 @@ namespace bandienthoai.Areas.Admin.Controllers
                 result = dao.SaveData(sp, user);
                 if (result == 1)
                 {
-                   
+
                     kq = true;
                 }
                 else if (result == 2)
                 {
-                  
+
                     kq = true;
                 }
-             
+
             }
             return Json(kq, JsonRequestBehavior.AllowGet);
 
@@ -63,7 +63,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         public JsonResult Delete(int id)
         {
             var dao = new LoaiTinTucDAO();
-            bool value = dao.Delete(id);           
+            bool value = dao.Delete(id);
             return Json(value, JsonRequestBehavior.AllowGet);
         }
     }

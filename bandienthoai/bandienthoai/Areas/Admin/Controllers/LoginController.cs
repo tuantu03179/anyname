@@ -17,8 +17,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         {
             return View();
         }
-
-        public ActionResult logout()
+        public ActionResult logout(LoginModel model)
         {
             var userSession = new UserLogin();
             Session.Add(CommonStants.USER_SESSION, userSession);

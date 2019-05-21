@@ -20,51 +20,51 @@
 
     @using (Html.BeginForm("Index", "Product", FormMethod.Get))
     {
-    <div class="container">
-        <div class="row">
+        <div class="container">
+            <div class="row">
 
 
-            @*<div class="col col-4">
-            <div class="input-item">
+                @*<div class="col col-4">
+                        <div class="input-item">
 
-                <div class="input-group">
-                    <p></p>
-                    <input type="text" class="form-control" name="date" id="date" data-select="datepicker" data-locked="25/12/2014;1/1/2015" data-toggle="datepicker">
-                    <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="datepicker"><i class="fas fa-calendar-alt"></i></button></span>
+                            <div class="input-group">
+                                <p></p>
+                                <input type="text" class="form-control" name="date" id="date" data-select="datepicker" data-locked="25/12/2014;1/1/2015" data-toggle="datepicker">
+                                <span class="input-group-btn"><button type="button" class="btn btn-primary" data-toggle="datepicker"><i class="fas fa-calendar-alt"></i></button></span>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="col col-4">
+                    <div class="input-item">
+                        <div class="form-group">
+                            <p>Nhà cung cấp</p>
+                            @Html.DropDownList("ID_NCC", (IEnumerable<SelectListItem>)ViewBag.ID_NCC, "--select--", new { @class = "form-control" })
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>*@
-            <div class="col col-4">
-                <div class="input-item">
-                    <div class="form-group">
-                        <p>Nhà cung cấp</p>
-                        @Html.DropDownList("ID_NCC", (IEnumerable<SelectListItem>)ViewBag.ID_NCC, "--select--", new { @class = "form-control" })
+                <div class="col col-4">
+                    <div class="input-item">
+
+                        <div class="form-group">
+                            <p>Loại Sản Phẩm</p>
+                            @Html.DropDownList("LOAISANPHAM_ID", (IEnumerable<SelectListItem>)ViewBag.LOAISANPHAM_ID, "--select--", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col col-4">
+                    <div class="input-item">
+                        <div class="form-group">
+                            <p>Tìm kiếm</p>
+
+                            <input class="form-control" type="text" id="txtSearch" placeholder="Tìm kiếm" />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col col-4">
-                <div class="input-item">
 
-                    <div class="form-group">
-                        <p>Loại Sản Phẩm</p>
-                        @Html.DropDownList("LOAISANPHAM_ID", (IEnumerable<SelectListItem>)ViewBag.LOAISANPHAM_ID, "--select--", new { @class = "form-control" })
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="col col-4">
-                <div class="input-item">
-                    <div class="form-group">
-                        <p>Tìm kiếm</p>
-               
-                        <input class="form-control" type="text" id="txtSearch" placeholder="Tìm kiếm" />
-                    </div>
-                </div>
-            </div>
-            </div>
-
-    </div>
+        </div>
         <div class="page-table">
             <div class="container-fluid">
                 <table id="customer_data" class="table table-striped table-bordered">
@@ -91,45 +91,45 @@
                         @foreach (var item in Model)
                         {
 
-                        <tr id="row_@item.ID" class="Search">
-                            <td><p></p></td>
+                            <tr id="row_@item.ID" class="Search">
+                                <td><p></p></td>
 
 
-                            <td class="SearchName"><p>@item.TENSANPHAM</p></td>
-                            <td><p>@item.LOAISANPHAM</p></td>
-                            <td><p>@item.NCC</p></td>
-                            <td><p>@item.MOTA</p></td>
+                                <td class="SearchName"><p>@item.TENSANPHAM</p></td>
+                                <td><p>@item.LOAISANPHAM</p></td>
+                                <td><p>@item.NCC</p></td>
+                                <td><p>@item.MOTA</p></td>
 
 
-                            <td>
-                                <div style="width:100px;height:100px; border:2px solid #e2d4d4;background:#fff;">
-                                    <img id="img_@item.ID" style="cursor:pointer;height:100%;width:100%" src="@item.HINHANH"
-                                         onclick="selectImage('changeImage/@item.ID',this.id)" />
-                                </div>
-                            </td>
-                            <td><p>@item.GIASANPHAM</p></td>
-                            <td><p>@item.SOLUONGTON</p></td>
-                            <td><p>@item.KHUYENMAI</p></td>
-                            <td><a href="#" class="btn-active" data-id="@item.ID">@Html.Raw(item.TRANGTHAI ? "Hoạt động" : "Khoá")</a></td>
+                                <td>
+                                    <div style="width:100px;height:100px; border:2px solid #e2d4d4;background:#fff;">
+                                        <img id="img_@item.ID" style="cursor:pointer;height:100%;width:100%" src="@item.HINHANH"
+                                             onclick="selectImage('changeImage/@item.ID',this.id)" />
+                                    </div>
+                                </td>
+                                <td><p>@item.GIASANPHAM</p></td>
+                                <td><p>@item.SOLUONGTON</p></td>
+                                <td><p>@item.KHUYENMAI</p></td>
+                                <td><a href="#" class="btn-active" data-id="@item.ID">@Html.Raw(item.TRANGTHAI ? "Hoạt động" : "Khoá")</a></td>
 
-                            <td class="d-flex justify-content-center td-button">
-                                <button id="btn-del" type="button" class="btn btn-default">
+                                <td class="d-flex justify-content-center td-button">
+                                    <button id="btn-del" type="button" class="btn btn-default">
 
-                                    @Html.Raw(@Ajax.ActionLink("[replacetext]", "Delete", new { id = item.ID }, new AjaxOptions
-                               {
-                                   Confirm = "Bạn có muốn xóa?",
-                                   OnComplete = "$('#row_" + @item.ID + "'" + ").remove()",
-                                   HttpMethod = "Delete"
-                               }).ToHtmlString().Replace("[replacetext]", "<i class='fas fa-trash-alt'></i>"))
-                                </button>
-
-                                <a href="/Admin/TinTuc/Edit/@item.ID">
-                                    <button id="btn-edit" type="button" class="btn btn-default">
-                                        <i class="fas fa-pencil-alt"></i>
+                                        @Html.Raw(@Ajax.ActionLink("[replacetext]", "Delete", new { id = item.ID }, new AjaxOptions
+                                   {
+                                       Confirm = "Bạn có muốn xóa?",
+                                       OnComplete = "$('#row_" + @item.ID + "'" + ").remove()",
+                                       HttpMethod = "Delete"
+                                   }).ToHtmlString().Replace("[replacetext]", "<i class='fas fa-trash-alt'></i>"))
                                     </button>
-                                </a>
-                            </td>
-                        </tr>
+
+                                    <a href="/Admin/TinTuc/Edit/@item.ID">
+                                        <button id="btn-edit" type="button" class="btn btn-default">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
                         }
 
                     </tbody>
@@ -180,7 +180,7 @@
         function filterGlobal() {
             $('#customer_data').DataTable().search(
                 $('#ID_NCC option:selected').text(),
-               
+
             ).draw();
         }
 
@@ -205,25 +205,25 @@
     </script>
     <script>
         function Contains(txt1, txt2) {
-           
+
             if (txt1.indexOf(txt2) != -1) {
 
                 return true;
             }
         }
         $(document).ready(function () {
-         
+
             $("#txtSearch").keyup(function () {
                 var txtSearch = $("#txtSearch").val().toLowerCase();
-               
+
                 $(".Search").each(function () {
-                    if (!Contains($(this).text().toLowerCase(),txtSearch)) {
+                    if (!Contains($(this).text().toLowerCase(), txtSearch)) {
                         $(this).hide();
-                       
+
                     }
                     else {
                         $(this).show();
-                      
+
                     }
                 });
 

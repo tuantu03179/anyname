@@ -23,7 +23,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         {
             var dao = new NhapHangDAO();
             var model = dao.listPhieuNhapHang();
-            return Json(model,JsonRequestBehavior.AllowGet);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetPhieuNhapHang(int id)
         {
@@ -35,7 +35,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         {
             var dao = new NhapHangDAO();
             var pn = dao.InsertPhieuNhapHang(entity);
-            return Json(new{msg= pn}, JsonRequestBehavior.AllowGet);
+            return Json(new { msg = pn }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult CreateNCC()
@@ -52,7 +52,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 var dao = new NhapHangDAO();
                 decimal id = dao.InsertNCC(ncc);
                 if (id > 0)
@@ -69,7 +69,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             return View("QLNhaCungCap");
 
         }
-        
+
         [HttpGet]
         public ActionResult EditNCC(int id)
         {
@@ -90,7 +90,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var dao = new NhapHangDAO();
-                
+
                 var id = dao.UpdateNCC(ncc);
                 if (id)
                 {

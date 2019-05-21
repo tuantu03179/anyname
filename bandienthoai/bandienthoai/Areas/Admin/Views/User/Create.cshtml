@@ -114,7 +114,7 @@
                             <td>         <p class="title">Nhâp lại mật khẩu</p></td>
                             <td>
                                 <div class="input-group">
-                                    <input tabindex="2" id="txtXacNhanMatKhau" name="txtXacNhanMatKhau" maxlength="50" class="form-control" type="password" >
+                                    <input tabindex="2" id="txtXacNhanMatKhau" name="txtXacNhanMatKhau" maxlength="50" class="form-control" type="password">
                                 </div>
                             </td>
                             <td></td>
@@ -162,31 +162,31 @@
     </div>
 
 
-   <button class="btn btn-primary btnSubmit" type="submit" id="btnSubmit" style="display:none!important">Lưu</button>
+    <button class="btn btn-primary btnSubmit" type="submit" id="btnSubmit" style="display:none!important">Lưu</button>
 }
 
 @section jsFooter{
     <script>
- 
+
         $(document).ready(function () {
-       
+
             ChangePassword();
             var mk = $("#MATKHAU");
             $("#MATKHAU").on("change",function () {
                 if (mk.val().trim() != "" || mk.val().trim() != null) {
                     $("#txtXacNhanMatKhau").prop('disabled', false);
-                
+
                 }
 
                 if (mk.val().trim() == "" || mk.val().trim() == null){
                     $("#txtXacNhanMatKhau").prop('disabled', true);
-                 
+
                 }
-                  
+
             });
-    
+
         });
-     
+
         (function () {
             'use strict';
             window.addEventListener('load', function () {
@@ -215,7 +215,7 @@
         function ChangePassword() {
             $("#txtXacNhanMatKhau").val("");
             $("#MATKHAU").value = "";
-            ($("#MATKHAU").val().trim() == "" || $("#MATKHAU").val().trim() == "") ? $("#txtXacNhanMatKhau").prop('disabled', false) : $("#txtXacNhanMatKhau").prop('disabled', true);       
+            ($("#MATKHAU").val().trim() == "" || $("#MATKHAU").val().trim() == "") ? $("#txtXacNhanMatKhau").prop('disabled', false) : $("#txtXacNhanMatKhau").prop('disabled', true);
         }
         function checkStatus() {
 
@@ -237,7 +237,7 @@
             }
             return kq;
         }
-       
+
         function CheckValidData() {
             var valid = true;
 
@@ -245,17 +245,17 @@
             var objTxtXacNhanMatKhau = $("#txtXacNhanMatKhau");
             var objTxtMatKhau = $("#MATKHAU");
 
-        
+
 
                 if (objTxtMatKhau.val().trim() == "" || objTxtMatKhau.val().trim() == null) {
-                 
+
                     valid = false;
                     alert("Mật khẩu chưa nhập");
                     objTxtMatKhau.val("");
                     objTxtMatKhau.focus();
                 }
                 else {
-             
+
                       if (objTxtXacNhanMatKhau.val().trim() == "" || objTxtXacNhanMatKhau.val().trim() == null) {
                         valid = false;
                         alert("Nhập lại mật khẩu chưa nhập");
@@ -270,18 +270,18 @@
                         objTxtMatKhau.focus();
                     }
                 }
-            
+
 
             return valid;
         }
         function SaveData() {
             if (CheckValidData()) {
-              
-             
+
+
                     checkStatus();
                     $("#btnSubmit").click();
-               
-               
+
+
             }
         }
 

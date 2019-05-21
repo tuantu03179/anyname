@@ -26,7 +26,7 @@
                 <div class="input-item">
 
                     <div class="form-group mt-2">
-                        
+
                         @Html.DropDownList("IDLOAITAIKHOAN", (IEnumerable<SelectListItem>)ViewBag.IDLOAITAIKHOAN, "--Chọn loại tài khoản--", new { @class = "form-control" })
 
                     </div>
@@ -75,11 +75,11 @@
                                     <button id="btn-del" onclick="checkDelete(@item.ID)" type="button" class="btn btn-default">
                                         <i class='fas fa-trash-alt'></i>
                                         @*@Html.Raw(@Ajax.ActionLink("[replacetext]", "Delete", new { id = item.ID }, new AjaxOptions
-                                        {
-                                            Confirm = "Bạn có muốn xóa?",
-                                            OnComplete = "$('#row_" + @item.ID + "'" + ").remove()",
-                                            HttpMethod = "Delete"
-                                        }).ToHtmlString().Replace("[replacetext]", "<i class='fas fa-trash-alt'></i>"))*@
+                                            {
+                                                Confirm = "Bạn có muốn xóa?",
+                                                OnComplete = "$('#row_" + @item.ID + "'" + ").remove()",
+                                                HttpMethod = "Delete"
+                                            }).ToHtmlString().Replace("[replacetext]", "<i class='fas fa-trash-alt'></i>"))*@
                                     </button>
 
                                     @*<a href="/Admin/User/Edit/@item.ID">*@
@@ -124,10 +124,10 @@
 
 @section jsFooter{
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script >
+    <script>
           var typeUser = @ViewBag.typeLoai;
-       
-      
+
+
         var user = {
             init: function () {
                 user.registerEvents();
@@ -160,7 +160,7 @@
             }
         }
             user.init();
-       
+
     </script>
     <script type="text/javascript">
 
@@ -168,7 +168,7 @@
         $(document).ready(function () {
 
 
-           
+
 
             var t = $('#customer_data').DataTable({
                 "columnDefs": [{
@@ -270,14 +270,14 @@
 
                 var x = @ViewBag.typeLoai;
             var id =@ViewBag.IDUser;
-        
+
             if (a ==id) {
                 alert("Bạn không được xóa chính bạn");
-              
+
             }
             else if (x == "2") {
                 alert("Bạn không được quyền xóa");
-               
+
             }
             else {
                 $('#DeleteConfim').modal("show");
@@ -288,15 +288,15 @@
                     type: "POST",
                     url: "/User/Delete?id=" + a,
                     success: function (value) {
-       
+
                         if (value ) {
-                            
+
                             $("#row_" + a).remove();
                            alert("Xóa thành công!");
 
                         }
                         else {
-                    
+
                           alert("Xóa thất bại!");
 
                         }
@@ -316,9 +316,9 @@
 
                 fillerBytypeUser()
             });
-            
+
         });
-       
+
     </script>
 }
 

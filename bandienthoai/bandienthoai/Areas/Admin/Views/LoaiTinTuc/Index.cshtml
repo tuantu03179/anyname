@@ -19,11 +19,11 @@
         <thead>
             <tr>
                 <th>STT</th>
-            
+
                 <th> Loại Tin Tức</th>
                 <th>Người Tạo</th>
                 <th>Người Cập Nhật</th>
-               
+
                 <th>Action(Edit)</th>
                 <th>Action(Delete)</th>
 
@@ -52,7 +52,7 @@
                                 @Html.TextBoxFor(m => m.TENLOAITIN, new { @id = "NametypeNews", @class = "form-control", @placeholder = "Loại tin tức*" })
 
                             </div>
-                        
+
 
                             <div class="form-group">
                                 <a href="#" class="btn btn-block btn-danger" id="SaveRecord">Lưu</a>
@@ -98,34 +98,34 @@
                 //    type: "GET",
                 //    url: "/Admin/LoaiTinTuc/GetListLoaiTin",
                 //    success: function (TkList) {
-                    
+
                 //  DataBind(TkList);
                 //    }
-                    
+
                 //});
             }
 
             function DataBind(TkList) {
-          
+
                 var setData = $("#setTkList");
                 for (var i = 0; TkList.length; i++) {
                     var data = "<tr class='row_" + TkList[i].IDLOAITINTUC + "'>" +
                         "<td><p>" + (i + 1) + "</p></td>" +
-                       
+
                         "<td>" + TkList[i].TENLOAITIN + "</td>" +
                         "<td>" + TkList[i].CREATEBY + "</td>" +
 
                         "<td>" + TkList[i].MODIFILEDBY + "</td>" +
-                    
-                      
+
+
                         "<td>" + "<a href='#' class='btn btn-warning' onclick='EditRecord(" + TkList[i].IDLOAITINTUC + ")' >  <i class='fas fa-pencil-alt'></i> </a>" + "</td>" +
                         "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteRecord(" + TkList[i].IDLOAITINTUC + ")'>   <i class='fas fa-trash-alt'></i></a>" + "</td>" +
                         "</tr>";
                     setData.append(data);
                     $("#loadingStatus").html(" ");
                 }
-             
-               
+
+
 
             }
             //Show The Popup Modal For Add New
@@ -134,7 +134,7 @@
 
 
         });
-      
+
         function AddNew(Id) {
             $("#form")[0].reset();
             $("#LoaiId").val(0);
@@ -144,8 +144,8 @@
 
         }
         //Show The Popup Modal For Edit Student Record
-     
-    
+
+
         function EditRecord(Id) {
             var url = "/LoaiTinTuc/GetListTypeNewsByID?ID=" + Id;
             $("#ModalTitle").html("Chỉnh sửa");
@@ -163,7 +163,7 @@
         $("#SaveRecord").click(function () {
 
             var data = $("#SubmitForm").serialize();
-        
+
             $.ajax({
                 type: "POST",
                 url: "/LoaiTinTuc/SaveData",

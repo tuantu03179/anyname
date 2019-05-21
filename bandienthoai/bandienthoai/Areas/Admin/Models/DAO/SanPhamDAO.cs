@@ -23,7 +23,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             db.SaveChanges();
             return user.TRANGTHAI;
         }
-      
+
         public List<SanPhamModel> GetListProduct(long idncc, long idloaisp)
         {
 
@@ -31,7 +31,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                        join l in db.LOAISANPHAMs on t.LOAISANPHAM_ID equals l.LOAISANPHAM_ID
                        join nc in db.NHACUNGCAPs on t.ID_NCC equals nc.ID_NCC
                        join sx in db.NHASANXUATs on t.ID_NCC equals sx.ID_NSX
-                       where t.ID_NCC==idncc && t.LOAISANPHAM_ID==idloaisp
+                       where t.ID_NCC == idncc && t.LOAISANPHAM_ID == idloaisp
                        select new
                        {
                            idnsx = sx.ID_NSX,
@@ -98,14 +98,14 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                            SPkemtheo = t.SPDIKEM,
                            Ncc = nc.TEN_NCC,
                            maloai = l.LOAISANPHAM_ID,
-                           idncc=nc.ID_NCC,
-                         
+                           idncc = nc.ID_NCC,
+
                            Tensp = t.TEN_SANPHAM,
-                          Mota = t.MOTA_SANPHAM,
+                           Mota = t.MOTA_SANPHAM,
                            Giasp = t.GIA_SANPHAM,
-                           Luotxem=t.LUOTXEM,
+                           Luotxem = t.LUOTXEM,
                            Trangthai = t.TRANGTHAI,
-                           Khuyenmai=t.KHUYENMAI,
+                           Khuyenmai = t.KHUYENMAI,
                            Hinhanh = t.HINHANH_SANPHAM
 
                        }).ToList();
@@ -125,7 +125,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 m.TRANGTHAI = item.Trangthai;
                 m.HINHANH = item.Hinhanh;
                 m.MASANPHAM = item.Masp;
-             
+
                 m.SANPHAMKEMTHEO = item.SPkemtheo;
                 m.SOLUONGTON = item.SLTon;
                 m.TONTOITHIEU = item.Tontoithieu;
@@ -170,12 +170,12 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             long kq = -1;
             try
             {
-                
-               var i= db.SANPHAMs.Count();
+
+                var i = db.SANPHAMs.Count();
                 if (i > 0)
                 {
                     List<SANPHAM> result = db.SANPHAMs.OrderBy(t => t.SANPHAM_ID).Skip(db.SANPHAMs.Count() - 1).Take(1).ToList();
-                   kq =  result[0].SANPHAM_ID;
+                    kq = result[0].SANPHAM_ID;
                 }
             }
 
@@ -298,7 +298,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }
 
         }
-     
+
         public List<PHIEUNHAPHANG> listPhieuNhapHang()
         {
             return db.PHIEUNHAPHANGs.ToList();

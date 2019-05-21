@@ -1,6 +1,4 @@
-﻿@model bandienthoai.Areas.Admin.Models.TinTucModel
-
-
+﻿@model bandienthoai.Areas.Admin.Models.EF.TINTUC
 
 @{
     ViewBag.Title = "Create";
@@ -8,126 +6,32 @@
 }
 
 @section Header{
-    <h2 class="no-margin-bottom">Sản Phẩm</h2>
+    <h2 class="no-margin-bottom">Tin Tức</h2>
     <div class="page-button ml-auto">
-        <a href="/Admin/Product/Index"><button id="btn-back" type="button" class="btn btn-default"><i class="fas fa-arrow-left"></i> Trở Về</button></a>
-        <a href="# "><button id="btn-add" type="submit" class="btn btn-default" onclick="SaveData(); "><i class="fas fa-save"></i> Lưu</a></button></a>
+        <a href="/Admin/TinTuc/Index"><button id="btn-back" type="button" class="btn btn-default"><i class="fas fa-arrow-left"></i> Trở Về</button></a>
+        <a href="# "><button id="btn-add" type="submit" class="btn btn-default" onclick="frmCreate.submit()"><i class="fas fa-save"></i> Lưu</a></button></a>
 
     </div>
-
 }
-
-@using (Html.BeginForm("Create", "TinTuc", FormMethod.Post, new { id = "frmCreate", name = "frmCreate", @class = "needs-validation" }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form">
-
-
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="page-table">
-            <div class="container-fluid">
-                <table id="example" class="table table-striped table-bordered">
-                    <thead>
-
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td width="20%"> <p class="">Loại Tin Tức</p></td>
-                            <td width="40%">
-                                <div class="input-group">
-                                    @Html.HiddenFor(model=>model.IDTAIKHOAN)
-                                    @Html.DropDownListFor(model => model.IDLOAITINTUC, null, new { htmlAttributes = new { @class = "form-control", }, @class = "custom-select" })
-                                    @Html.ValidationMessageFor(model => model.IDLOAITINTUC, "", new { @class = "text-danger" })
-                                </div>
-                            </td>
-                            <td width="40%"></td>
-                        </tr>
-
-                        <tr>
-                            <td> <p class="">Tiêu Đề</p></td>
-                            <td>
-
-                                <div class="input-group">
-
-
-
-                                    @Html.TextBoxFor(model => model.TIEUDE_TINTUC, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Nhập tiêu đề*", @class = "requiedText form-control rounded", required = true })
-                                    @Html.ValidationMessageFor(model => model.TIEUDE_TINTUC, "", new { @class = "text-danger" })
-
-                                </div>
-
-                            </td>
-                            <td><p class="text-danger">(*)</p><p id="lb_masp"></p></td>
-                        </tr>
-
-
-                        <tr>
-                            <td> <p class="">Ghi Chú</p></td>
-                            <td>
-                                <div class="input-group">
-
-                                    @Html.TextBoxFor(model => model.GHICHU_TINTUC, new { htmlAttributes = new { @type = "text", @class = "form-control " }, @type = "text", placeholder = "Ghi chú*", @class = "requiedText form-control rounded"})
-
-                                    @Html.ValidationMessageFor(model => model.GHICHU_TINTUC, "", new { @class = "text-danger" })
-                                    <div class="invalid-feedback">
-                                        Please provide a valid zip.
-                                    </div>
-                                </div>
-
-                            <td></td>
-
-                        </tr>
-                        <tr>
-                            <td> <p class="">Hình Ảnh</p></td>
-                            <td>
-
-                                <div class="cms-form-content">
-                                    <div class="box-add-img " onclick="selectImage()">
-                                        <div class="box-add">  <img id="txtImage" name="txtImage" src="" /></div>
-                                        @Html.HiddenFor(m => m.HINHANH_TINTUC)
-                                    </div>
-
-                                    @Html.ValidationMessageFor(model => model.HINHANH_TINTUC, "", new { @class = "text-danger" })
-                                </div>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td> <p class="">Mô tả ngắn</p></td>
-                            <td>
-                                <div class="form-group">
-                                    @Html.TextAreaFor(model => model.MOTA_TINTUC, new { htmlAttributes = new { @type = "text", @class = "form-control " }, placeholder = "Mô tả ngắn", @class = "requiedText form-control rounded", rows = "6", required = true })
-                                    @Html.ValidationMessageFor(model => model.MOTA_TINTUC, "", new { @class = "text-danger" })
-                                </div>
-                            </td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td> <p class="">Nội dung</p></td>
-                            <td colspan="2">
-
-                                <div class="form-group">
-                                    <textarea id="txtContent" name="txtContent"  class="form-control rounded" rows="3">
-                           </textarea>
-                                </div>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-    <button class="btn btn-primary btnSubmit" type="submit" id="btnSubmit" style="display:none!important">Lưu</button>
-}
-
-
-
 @section jsFooter{
-  
+
+    <script>
+
+        function checkEmpty(id) {
+            var tmp = document.getElementById(id);
+            if (tmp.value == "" || tmp.value == null) {
+                return true;
+            }
+
+            return false;
+        }
+        function showIsEmpty(id) {
+            if (checkEmpty(id)) {
+                document.getElementById(id).focus();
+                return;
+            }
+        }
+    </script>
     <script>
         function selectImage() {
             var finder = new CKFinder();
@@ -149,14 +53,14 @@
 
     </script>
     <script>
-
-     
-
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
             'use strict';
+
             window.addEventListener('load', function () {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
+
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function (form) {
                     form.addEventListener('submit', function (event) {
@@ -169,67 +73,77 @@
                 });
             }, false);
         })();
-        function isChuCai(charCode) {
-            //var charCode = (evt.which) ? evt.which : event.keyCode;
-            //if (charCode == 59 || charCode == 46)
-            //    return true;
-            if (charCode > 65 && charCode < 90 || charCode > 97 || charCode > 122)
-                return true;
-            return false;
-        }
-   
-        function checkEmptyPass(pass) {
-            var kq = false;
-
-            if (pass.trim() == "") {
-                kq = true;
-
-            }
-            return kq;
-        }
-
-        //function CheckValidData() {
-        //    var valid = true;
-
-
-        //    var objTxtXacNhanMatKhau = $("#txtXacNhanMatKhau");
-        //    var objTxtMatKhau = $("#MATKHAU");
-
-
-
-        //    if (objTxtMatKhau.val().trim() == "" || objTxtMatKhau.val().trim() == null) {
-
-        //        valid = false;
-        //        alert("Mật khẩu chưa nhập");
-        //        objTxtMatKhau.val("");
-        //        objTxtMatKhau.focus();
-        //    }
-        //    else {
-
-        //        if (objTxtXacNhanMatKhau.val().trim() == "" || objTxtXacNhanMatKhau.val().trim() == null) {
-        //            valid = false;
-        //            alert("Nhập lại mật khẩu chưa nhập");
-        //            objTxtXacNhanMatKhau.focus();
-        //        }
-
-        //        else if (objTxtMatKhau.val().trim() != objTxtXacNhanMatKhau.val().trim()) {
-        //            valid = false;
-        //            alert("Mật khẩu mới và nhập lại mật khẩu không giống nhau");
-        //            objTxtMatKhau.value = "";
-        //            objTxtXacNhanMatKhau.value = "";
-        //            objTxtMatKhau.focus();
-        //        }
-        //    }
-
-
-        //    return valid;
-        //}
-        function SaveData() {
-            $("#IDTAIKHOAN").val(0);
-
-                $("#btnSubmit").click();
-        }
-
     </script>
+}
+@using (Html.BeginForm("Create", "TinTuc", FormMethod.Post, new { id = "frmCreate", name = "frmCreate", @class = "needs-validation" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+
+        <div class="card-custom card">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="cms-form-row">
+                @Html.LabelFor(model => model.TIEUDE_TINTUC, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+                <div class="cms-form-content">
+                    @Html.TextBoxFor(model => model.TIEUDE_TINTUC, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", required = "required" })
+                    @Html.ValidationMessageFor(model => model.TIEUDE_TINTUC, "", new { @class = "text-danger" })
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cms-form-row">
+                @Html.LabelFor(model => model.MOTA_TINTUC, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+                <div class="cms-form-content">
+                    @Html.TextAreaFor(model => model.MOTA_TINTUC, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", required = "required" })
+                    @Html.ValidationMessageFor(model => model.MOTA_TINTUC, "", new { @class = "text-danger" })
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cms-form-row">
+
+                @Html.LabelFor(model => model.HINHANH_TINTUC, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+
+                <div class="cms-form-content">
+                    <div class="box-add-img " onclick="selectImage()">
+                        <div class="box-add">  <img id="txtImage" name="txtImage" src="" /></div>
+                        @Html.HiddenFor(m => m.HINHANH_TINTUC)
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.HINHANH_TINTUC, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="cms-form-row">
+                @Html.LabelFor(model => model.GHICHU_TINTUC, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+                <div class="cms-form-content">
+                    @Html.TextBoxFor(model => model.GHICHU_TINTUC, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid" })
+                    @Html.ValidationMessageFor(model => model.GHICHU_TINTUC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="cms-form-row">
+                @Html.LabelFor(model => model.NOIDUNG, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+                <div class="cms-form-content">
+                    @Html.TextAreaFor(model => model.NOIDUNG, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", id = "txtContent", required = "required" })
+                    @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 
 }
+
+

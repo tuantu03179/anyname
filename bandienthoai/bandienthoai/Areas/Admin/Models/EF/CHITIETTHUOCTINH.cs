@@ -12,6 +12,8 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [Key]
         public decimal CHITIETTHUOCTINH_ID { get; set; }
 
+        public long? IDSANPHAM { get; set; }
+
         public long THUOCTINH_ID { get; set; }
 
         [Required]
@@ -34,5 +36,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public DateTime? MODIFILEDDATE { get; set; }
 
         public virtual THUOCTINH THUOCTINH { get; set; }
+
+        public virtual SANPHAM SANPHAM { get; set; }
     }
 }

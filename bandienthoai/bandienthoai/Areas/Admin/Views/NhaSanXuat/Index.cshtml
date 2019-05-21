@@ -22,11 +22,11 @@
         <div class="col col-4">
             <div class="input-item mt-3">
                 <div class="form-group">
-                    
-                        <input class="form-control" type="text" id="txtSearch" placeholder="Tìm kiếm" />
-                   
 
-                    
+                    <input class="form-control" type="text" id="txtSearch" placeholder="Tìm kiếm" />
+
+
+
                 </div>
             </div>
 
@@ -483,11 +483,11 @@
         $(document).ready(function () {
 
             $("#txtSearch").keyup(function () {
-         
+
                 var txtSearch = $("#txtSearch").val().toLowerCase();
-          
+
                 $(".Search").each(function () {
-               
+
                     if (!Contains($(this).text().toLowerCase(), txtSearch)) {
                         $(this).hide();
 

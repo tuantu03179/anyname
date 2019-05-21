@@ -1,0 +1,22 @@
+﻿@model List<bandienthoai.Models.CartItem>
+<a href="/gio-hang" class="top-cart-contain panel_cart">
+    <div class="mini-cart text-xs-center">
+        <div class="heading-cart" onclick="">
+            <div class="icon mR-2">
+                <p class="mb-0 text-info "> <i class="fa fa-shopping-cart"></i></p>
+            </div>
+            <div class="info">
+                <span class="cart_info">
+                    <span class="cartCount count_item_pr" id="cart-total">@Model.Count</span>
+                </span>
+            </div>
+        </div>
+        <div class="top-cart-content d-none">
+            <ul id="cart-sidebar" class="mini-products-list count_li">
+                <div class="no-item">
+                    <p>Không có sản phẩm nào trong giỏ hàng.</p>
+                </div>
+            </ul>
+        </div>
+    </div>
+</a>

@@ -8,5 +8,6 @@ namespace bandienthoai.Common
     public static class CommonStants
     {
         public static string USER_SESSION = "USER_SESSION";
+        public static string CartSession = "CartSession";
     }
 }

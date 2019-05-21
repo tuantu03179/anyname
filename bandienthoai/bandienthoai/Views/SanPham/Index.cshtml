@@ -1,0 +1,252 @@
+﻿@using bandienthoai.Areas.Admin.Models.EF
+@model List<SANPHAM>
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("KhuyenMai", "TrangChu", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <script type="text/javascript" src="https://bachhoagiadung.gianhangvn.com/Template/014/JS/jquery.min.js"></script>
+
+    <script type="text/javascript"
+            src="https://bachhoagiadung.gianhangvn.com/Template/014/JS/jquery.fancybox.min.js"></script>
+    <script type="text/javascript" src="https://bachhoagiadung.gianhangvn.com/Template/014/JS/jquery.carousel.js"></script>
+
+    <div class="main detail-product">
+        <div class="container ">
+            <div class="products-list ng-scope">
+
+               
+
+                    <div class="row">
+                        <div class="col-md-3 col-6">
+                            <div class="product-item-box ">
+                                <div class="product-item">
+                                    <a class="product-image" href="#" title="Chevrolet ">
+                                        <img class="card-img" src="img/001.jpg" title="Chevrolet " alt="Chevrolet ">
+                                        <noscript>
+                                            <img class="card-img" src="img/001.jpg" title="Chevrolet " alt="Chevrolet " />
+                                        </noscript>
+
+                                    </a>
+
+                                    <div class="product-info has-menu-dots">
+                                        <div class="info-left">
+                                            <h2 class="product-title">
+                                                <a href="#" title="note 9">note 9</a>
+                                            </h2>
+                                        </div>
+                                        <div class="info-right d-flex flex-column">
+                                            <div class="d-flex price">
+                                                <span class="price-text">Giá bán lẻ:</span>
+                                                <span class="price-value"> 359 triệu</span>
+                                                <span class="price-old"> 423 triệu</span>
+
+                                            </div>
+
+                                            <div class="d-flex justify-content-center product-button">
+                                                <a class="btn btn-search" href="#" title="Gửi báo giá">
+
+                                                    <i class="fa fa-search"></i>
+
+
+                                                </a>
+                                                <a class="btn btn-cart" href="" title="Đăng ký lái thử xe">
+                                                    <i class="fa fa-cart-plus"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                
+
+                <div class="clearBoth"></div>
+                <div class="section slideItem">
+                    <div class="khuyenmai">
+                        <div class="container">
+                            <div class="row">
+                                <div class="module-header">
+                                    <div class="box-title">
+                                        <h2 class="title-head">Sản phẩm tương tự</h2>
+                                        <div class="count-down" id="count-down-container" style="display:none">
+                                            <div class="count-down-value"><span id="days">-28</span>ngày</div>
+                                            <div class="count-down-value"><span id="hours">12</span>giờ</div>
+                                            <div class="count-down-value"><span id="minutes">58</span>phút</div>
+                                            <div class="count-down-value"><span id="seconds">31</span>giây</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="owl-carousel owl-theme">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="item">
+                                            <div class="product-item-box">
+                                                <div class="product-item">
+                                                    <a class="product-image" href="#" title="Chevrolet ">
+                                                        <img class="card-img" src="@item.HINHANH_SANPHAM" title="Chevrolet "
+                                                             alt="Chevrolet ">
+                                                        <noscript>
+                                                            <img class="card-img" src="@item.HINHANH_SANPHAM" title="Chevrolet " alt="Chevrolet " />
+                                                        </noscript>
+
+                                                    </a>
+
+                                                    <div class="product-info has-menu-dots">
+                                                        <div class="info-left">
+                                                            <h2 class="product-title">
+                                                                <a href="#" title="note 9">@item.TEN_SANPHAM</a>
+                                                            </h2>
+                                                        </div>
+                                                        <div class="info-right d-flex flex-column">
+                                                            <div class=" price">
+                                                                <span class="price-text"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                                                <span class="price-value"> @(@item.GIA_SANPHAM - @item.GIA_SANPHAM * @item.KHUYENMAI / 100) triệu</span>
+                                                                <span class="price-old"> @item.GIA_SANPHAM triệu</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-bottom">
+                                                            <div class="view">
+                                                                <span><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                                <span> @item.LUOTXEM lượt</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center product-button">
+                                                            <a class="btn btn-report-price" href="#" title="Gửi báo giá">
+                                                                <span><i class="fas fa-dollar-sign"></i></span>
+
+                                                            </a>
+                                                            <a class="btn btn-test-drive" href="" title="Đăng ký lái thử xe">
+                                                                <span>cart</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                                <div class="d-flex justify-content-center w-100  m-3">
+                                    <a class="btn btn-view-more btn-icon-right" href="#" title="Xem tất cả">
+                                        Xem tất cả
+                                        <span>
+                                            <i class="fa fa-chevron-right"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+
+
+
+
+
+@section js{
+    <script type="text/javascript">
+        $(".fancybox").fancybox();
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#txtSoLuong").keyup(function () {
+                if (isNaN($("#txtSoLuong").val()) || $("#txtSoLuong").val() <= 0 || $("#txtSoLuong").val().trim().length == 0) {
+                    $("#txtSoLuong").val(1);
+                }
+                var SoLuong = parseInt($("#txtSoLuong").val());
+                var GiaBan = 95000;
+                $("#total-money").text(FormatNumber(GiaBan * SoLuong) + " đ");
+            });
+
+            $("#sliderproduct").owlCarousel({
+                items: 4,
+                loop: false,
+                nav: true,
+                navText: ["&lsaquo;", "&rsaquo;"],
+                dots: false,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                afterAction: syncPosition
+            }).on('click', '.owl-item', function (e) {
+                e.preventDefault();
+                setSelectedItem($(this).index());
+            });
+
+            function setSelectedItem(number) {
+                $("#sliderproduct .item").removeClass('selected');
+
+                var selectedItem = $("#sliderproduct").find(".owl-item").eq(number).find(".item").eq(0);
+
+                if (selectedItem != undefined) {
+                    selectedItem.addClass("selected");
+                    $(".image-block a").attr("href", selectedItem.attr("data-href"));
+                    $(".image-block img").attr("src", selectedItem.attr("data-href"));
+                    $(".image-block img").magnify();
+                }
+            }
+
+            function syncPosition(el) {
+                var current = this.currentItem;
+                setSelectedItem(current);
+            }
+
+        });
+
+        function BuyNowProduct(IDSanPham) {
+            $("#hdIDSanPhamCanMua").val(IDSanPham);
+            $("#hdSoLuongSanPham").val($("#txtSoLuong").val());
+            $("#frmGioHang").submit();
+        }
+        function AddProduct(IDSanPham) {
+            var SoLuong = $("#txtSoLuong").val();
+            AddSanPhamToGioHang(IDSanPham, SoLuong);
+        }
+
+    </script>
+    <script>
+        $('.slideItem .owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+
+            autoplay: true,
+
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        });
+    </script>
+}
+

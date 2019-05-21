@@ -17,16 +17,16 @@ namespace bandienthoai.Areas.Admin.Controllers
         // GET: Admin/TinTuc
         public ActionResult Index()
         {
-            TinTucDAO dao= new TinTucDAO();
-        
-          
+            TinTucDAO dao = new TinTucDAO();
+
+
             var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
             var user = new UserDAO().ViewDetail(x);
             ViewBag.typeLoai = getTypeUserView(user);
             getTypeNews();
             var result = dao.listTintuc();
             //Add a Dummy Row.
-          
+
             return View(result);
         }
         public int getTypeUserView(TAIKHOAN user)
@@ -45,7 +45,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             getTypeNews();
             return View();
         }
-     
+
         public void getTypeNews(long? selectedId = null)
         {
             var dao = new LoaiTinTucDAO();
@@ -64,14 +64,14 @@ namespace bandienthoai.Areas.Admin.Controllers
             return File(stream, "text/plain", String.Format("{0}.cshtml", example));
         }
 
-     
+
         public JsonResult Delete(int id)
         {
-           var dao= new TinTucDAO();
+            var dao = new TinTucDAO();
             var line = dao.GetByID(id);
-            string link = Server.MapPath( "/Data/Content/"+line.TINTUC_ID+".cshtml");
+            string link = Server.MapPath("/Data/Content/" + line.TINTUC_ID + ".cshtml");
             dao.DeleteFile(link);
-          bool  value= dao.Delete(id);
+            bool value = dao.Delete(id);
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
@@ -86,7 +86,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         }
         public int changeAn(int id)
         {
-            var user= ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
+            var user = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
             var dao = new TinTucDAO();
             var kq = dao.ChangeStatus(id, user, true);
             return kq;
@@ -104,7 +104,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             var dao = new TinTucDAO();
             var type = dao.GetById(id);
 
-            var kq= dao.ChangeStatus(id, user,!type.IS_DELETE);
+            var kq = dao.ChangeStatus(id, user, !type.IS_DELETE);
             return kq;
         }
         [HttpPost]
@@ -113,7 +113,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var dao = new TinTucDAO();
-               
+
                 tin.MODIFILEDBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
                 var id = dao.Update(tin);
                 if (id)
@@ -130,8 +130,9 @@ namespace bandienthoai.Areas.Admin.Controllers
             return View("Index");
 
         }
-      
-        public string changeImage(long id,string picture){
+
+        public string changeImage(long id, string picture)
+        {
             if (id == null)
             {
                 return "Mã không tồn tại";
@@ -148,56 +149,56 @@ namespace bandienthoai.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(TinTucModel sp)
         {
-            
 
-                var dao = new TinTucDAO();
-                var tk = dao.GetByTitle(sp.TIEUDE_TINTUC);
 
-                if (tk != null)
+            var dao = new TinTucDAO();
+            var tk = dao.GetByTitle(sp.TIEUDE_TINTUC);
+
+            if (tk != null)
+            {
+                SetAlert("Tin tức đã  tồn tại", "fail");
+                return RedirectToAction("Index", "TinTuc");
+            }
+
+            //string txtContent = ViewBag.GhiChu;
+
+            var txtContent = Request.Unvalidated.Form.Get("txtContent");
+
+            // encode the data
+            sp.CREATEBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
+            sp.CREATEDATE = DateTime.Now;
+            sp.IDTAIKHOAN = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
+
+            decimal id = dao.Insert(sp);
+
+            if (id > 0)
+            {
+                //var LastId = dao.getIDLastChild();
+                //string exePath = System.AppContext.BaseDirectory + "\\Data\\Content\\" + namenew + ".html";
+                string exePath = Server.MapPath("\\Data\\Content\\tt" + id + ".cshtml");
+                FileStream fs = new FileStream(exePath, FileMode.Create);
+                using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    SetAlert("Tin tức đã  tồn tại", "fail");
-                    return RedirectToAction("Index", "TinTuc");
+
+                    foreach (var s in txtContent)
+                    {
+                        sw.Write(s);
+                    }
+                    sw.Flush();
+
                 }
+                fs.Close();
+                sp.NOIDUNG = "/Data/Content/tt" + id + ".html";
+                dao.updatenoidung(sp);
+                SetAlert("Thêm Thành công", "success");
+                return RedirectToAction("Index", "TinTuc");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Thêm không thành công!");
+            }
 
-                //string txtContent = ViewBag.GhiChu;
 
-                var txtContent = Request.Unvalidated.Form.Get("txtContent");
-
-                // encode the data
-                sp.CREATEBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
-                sp.CREATEDATE = DateTime.Now;
-                sp.IDTAIKHOAN = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
-
-                    decimal id = dao.Insert(sp);
-              
-                    if (id > 0)
-                    {
-                    //var LastId = dao.getIDLastChild();
-                    //string exePath = System.AppContext.BaseDirectory + "\\Data\\Content\\" + namenew + ".html";
-                    string exePath = Server.MapPath("\\Data\\Content\\tt" + id  + ".cshtml");
-                        FileStream fs = new FileStream(exePath, FileMode.Create);
-                        using (StreamWriter sw = new StreamWriter(fs))
-                        {
-
-                            foreach (var s in txtContent)
-                            {
-                                sw.Write(s);
-                            }
-                            sw.Flush();
-
-                        }
-                        fs.Close();
-                    sp.NOIDUNG = "/Data/Content/tt" + id + ".html";
-                    dao.updatenoidung(sp);
-                    SetAlert("Thêm Thành công", "success");
-                        return RedirectToAction("Index", "TinTuc");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Thêm không thành công!");
-                    }
-                
-            
             return View("Index");
 
         }

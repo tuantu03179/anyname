@@ -18,7 +18,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [StringLength(250)]
         public string HINH { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string LINK { get; set; }
 

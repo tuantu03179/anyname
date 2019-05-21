@@ -12,6 +12,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         {
         }
 
+        public virtual DbSet<BANGGIA> BANGGIAs { get; set; }
         public virtual DbSet<BANNER> BANNERs { get; set; }
         public virtual DbSet<BINHLUAN> BINHLUANs { get; set; }
         public virtual DbSet<CHITIETHOADON> CHITIETHOADONs { get; set; }
@@ -23,11 +24,15 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public virtual DbSet<CTIETPHIEUDOITRA> CTIETPHIEUDOITRAs { get; set; }
         public virtual DbSet<CTIETPHIEUYCNHAPKHO> CTIETPHIEUYCNHAPKHOes { get; set; }
         public virtual DbSet<DANHGIA> DANHGIAs { get; set; }
+        public virtual DbSet<FEEDBACK> FEEDBACKs { get; set; }
+        public virtual DbSet<FOOTER> FOOTERs { get; set; }
         public virtual DbSet<HOADON> HOADONs { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANGs { get; set; }
         public virtual DbSet<LOAISANPHAM> LOAISANPHAMs { get; set; }
         public virtual DbSet<LOAITAIKHOAN> LOAITAIKHOANs { get; set; }
         public virtual DbSet<LOAITINTUC> LOAITINTUCs { get; set; }
+        public virtual DbSet<LOAITT> LOAITTs { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<NHACUNGCAP> NHACUNGCAPs { get; set; }
         public virtual DbSet<NHASANXUAT> NHASANXUATs { get; set; }
         public virtual DbSet<PHIEUBAOHANH> PHIEUBAOHANHs { get; set; }
@@ -38,6 +43,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public virtual DbSet<QUATANG> QUATANGs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<SHIPPER> SHIPPERs { get; set; }
+        public virtual DbSet<SLIDE> SLIDEs { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TAIKHOAN> TAIKHOANs { get; set; }
         public virtual DbSet<THUOCTINH> THUOCTINHs { get; set; }
@@ -131,6 +137,11 @@ namespace bandienthoai.Areas.Admin.Models.EF
                 .HasMany(e => e.TINTUCs)
                 .WithRequired(e => e.LOAITINTUC)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<LOAITT>()
+                .HasMany(e => e.THUOCTINHs)
+                .WithOptional(e => e.LOAITT)
+                .HasForeignKey(e => e.IDLOAITT);
 
             modelBuilder.Entity<NHACUNGCAP>()
                 .Property(e => e.MANCC)
@@ -228,8 +239,17 @@ namespace bandienthoai.Areas.Admin.Models.EF
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<SANPHAM>()
+                .Property(e => e.GIANHAP)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SANPHAM>()
                 .Property(e => e.GIA_SANPHAM)
                 .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.BANGGIAs)
+                .WithOptional(e => e.SANPHAM)
+                .HasForeignKey(e => e.IDSANPHAM);
 
             modelBuilder.Entity<SANPHAM>()
                 .HasMany(e => e.BINHLUANs)
@@ -252,6 +272,11 @@ namespace bandienthoai.Areas.Admin.Models.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SANPHAM>()
+                .HasMany(e => e.CHITIETTHUOCTINHs)
+                .WithOptional(e => e.SANPHAM)
+                .HasForeignKey(e => e.IDSANPHAM);
+
+            modelBuilder.Entity<SANPHAM>()
                 .HasMany(e => e.CTIETPHIEUBAOHANHs)
                 .WithRequired(e => e.SANPHAM)
                 .WillCascadeOnDelete(false);
@@ -268,11 +293,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
 
             modelBuilder.Entity<SANPHAM>()
                 .HasMany(e => e.DANHGIAs)
-                .WithRequired(e => e.SANPHAM)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<SANPHAM>()
-                .HasMany(e => e.THUOCTINHs)
                 .WithRequired(e => e.SANPHAM)
                 .WillCascadeOnDelete(false);
 
@@ -321,5 +341,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
                 .WithRequired(e => e.THUOCTINH)
                 .WillCascadeOnDelete(false);
         }
+
+        public System.Data.Entity.DbSet<bandienthoai.Models.RegisterModel> RegisterModels { get; set; }
     }
 }

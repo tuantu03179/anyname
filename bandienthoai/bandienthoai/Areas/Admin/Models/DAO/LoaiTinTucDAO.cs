@@ -19,12 +19,12 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             return db.LOAITINTUCs.Where(x => x.IDLOAITINTUC == ID).SingleOrDefault();
         }
-            //get list
-            public List<LoaiTinTucModel> GetListTypeNews()
+        //get list
+        public List<LoaiTinTucModel> GetListTypeNews()
         {
             var dao = db.LOAITINTUCs.Where(x => x.IS_DELETE == false).Select(x => new LoaiTinTucModel
             {
-               IDLOAITINTUC=x.IDLOAITINTUC,
+                IDLOAITINTUC = x.IDLOAITINTUC,
                 TENLOAITIN = x.TENLOAITIN,
                 IS_DELETE = x.IS_DELETE,
                 CREATEDATE = x.CREATEDATE,
@@ -33,7 +33,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 CREATEBY = x.CREATEBY
 
             }).ToList();
-           // var dao = db.LOAITINTUCs.ToList();
+            // var dao = db.LOAITINTUCs.ToList();
             return dao;
         }
         // delete
@@ -63,7 +63,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     LOAITINTUC dao = db.LOAITINTUCs.SingleOrDefault(m => m.IS_DELETE == false && m.IDLOAITINTUC == x.IDLOAITINTUC);
 
-           
+
                     dao.TENLOAITIN = x.TENLOAITIN;
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;
@@ -78,13 +78,13 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     LOAITINTUC dao = new LOAITINTUC();
                     dao.IS_DELETE = false;
-            
+
                     dao.TENLOAITIN = x.TENLOAITIN;
 
 
                     dao.CREATEDATE = DateTime.Now.Date;
                     dao.CREATEBY = user;
-            
+
                     db.LOAITINTUCs.Add(dao);
                     db.SaveChanges();
 
@@ -98,8 +98,8 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }
 
         }
-  
-         public string GetListTypeNewsByID(long ID)
+
+        public string GetListTypeNewsByID(long ID)
         {
             var model = db.LOAITINTUCs.Where(x => x.IDLOAITINTUC == ID).SingleOrDefault();
             string value = string.Empty;

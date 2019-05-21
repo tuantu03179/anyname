@@ -13,16 +13,16 @@ namespace bandienthoai.Areas.Admin.Controllers
     public class UserController : BaseController
     {
         // GET: Admin/User
-        public ActionResult Index( )
+        public ActionResult Index()
         {
             getallTypeUser();
-               var dao = new UserDAO();
-            var x= ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
+            var dao = new UserDAO();
+            var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
             var user = new UserDAO().ViewDetail(x);
             ViewBag.typeLoai = getTypeUserView(user);
             ViewBag.IDUser = x;
-           //var model = dao.listuser(page, pageSize);
-           var model =dao.GetLoaiTaiKhoan();
+            //var model = dao.listuser(page, pageSize);
+            var model = dao.GetLoaiTaiKhoan();
             return View(model);
         }
         public void getallTypeUser(long? selectedId = null)
@@ -37,7 +37,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public  ActionResult Create(TAIKHOAN user)
+        public ActionResult Create(TAIKHOAN user)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace bandienthoai.Areas.Admin.Controllers
 
                 if (tk != null)
                 {
-                     SetAlert("Tai khaon ton tai", "fail");
+                    SetAlert("Tai khaon ton tai", "fail");
                     return RedirectToAction("Index", "User");
                 }
                 user.MATKHAU = Encryptor.MD5Hash(user.MATKHAU);
@@ -55,22 +55,22 @@ namespace bandienthoai.Areas.Admin.Controllers
                 decimal id = dao.Insert(user);
                 if (id > 0)
                 {
-                    SetAlert("Thêm Thành công","success");
+                    SetAlert("Thêm Thành công", "success");
                     return RedirectToAction("Index", "User");
                 }
                 else
                 {
-                    ModelState.AddModelError("","Thêm không thành công!");
+                    ModelState.AddModelError("", "Thêm không thành công!");
                 }
             }
             return View("Index");
-            
+
         }
         public void getTypeUser(long? selectedId = null)
         {
             var dao = new UserDAO();
             var result = dao.getAllTypeUser();
-          
+
             ViewBag.LOAITAIKHOAN_ID = new SelectList(result, "LOAITAIKHOAN_ID", "TENLOAITK", selectedId);
         }
         public int getTypeUserView(TAIKHOAN user)
@@ -78,17 +78,17 @@ namespace bandienthoai.Areas.Admin.Controllers
             var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
             if (typeUser.TENLOAITK.ToLower() == "admin")
             {
-               return 1;
+                return 1;
             }
             else
-               return 2;
+                return 2;
         }
         [HttpGet]
         public ActionResult Edit(int id)
         {
             getTypeUser();
             var user = new UserDAO().ViewDetail(id);
-            user.MATKHAU= Encryptor.Decrypt(user.MATKHAU);
+            user.MATKHAU = Encryptor.Decrypt(user.MATKHAU);
             ViewBag.typeLoai = getTypeUserView(user);
             return View(user);
         }
@@ -99,7 +99,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             {
                 var dao = new UserDAO();
                 var tmp = dao.GetByID(user.ID);
-                if(tmp.MATKHAU!= Encryptor.MD5Hash(user.MATKHAU))
+                if (tmp.MATKHAU != Encryptor.MD5Hash(user.MATKHAU))
                 {
                     SetAlert("Sai Mật khẩu", "warning");
                     return RedirectToAction("Index", "User");
@@ -107,14 +107,14 @@ namespace bandienthoai.Areas.Admin.Controllers
                 var mk = Request.Form.Get("txtMatKhauMoi");
                 if (!string.IsNullOrEmpty(mk))
                 {
-                    
+
                     user.MATKHAU = Encryptor.MD5Hash(mk);
                 }
                 else
                 {
-                    user.MATKHAU= Encryptor.MD5Hash(user.MATKHAU);
+                    user.MATKHAU = Encryptor.MD5Hash(user.MATKHAU);
                 }
-               
+
                 user.MODIFILEDBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
                 var id = dao.Update(user);
                 if (id)
@@ -130,7 +130,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             }
             return View("Index");
 
-        }   
+        }
         //[HttpDelete]
         //public ActionResult Delete(int id)
         //{
@@ -145,9 +145,9 @@ namespace bandienthoai.Areas.Admin.Controllers
         //    SetAlert("Xóa thành công", "success");
         //    }
         //    return RedirectToAction("Index");
-         
+
         //}
-    
+
         public JsonResult Delete(int id)
         {
             var dao = new UserDAO();
@@ -186,6 +186,6 @@ namespace bandienthoai.Areas.Admin.Controllers
         //{
         //    return
         //}
-        }
+    }
 
 }

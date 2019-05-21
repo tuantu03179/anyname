@@ -1,7 +1,9 @@
 ﻿@model bandienthoai.Areas.Admin.Models.LoaitaiKhoanModel
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+                /**/
+
+                ViewBag.Title = "Index";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section Header{
     <h2 class="no-margin-bottom">Quản Lý Sản Phẩm</h2>
@@ -103,7 +105,7 @@
 @section jsFooter{
 
     <script>
-    
+
         $(document).ready(function () {
             loaddata();
             function loaddata() {
@@ -113,7 +115,7 @@
                     type: "GET",
                     url: "/LoaiTaiKhoan/GetListLoaiTaikhoan",
                     success: function (TkList) {
-               
+
                         DataBind(TkList);
 
 
@@ -141,8 +143,8 @@
                     setData.append(data);
                     $("#loadingStatus").html(" ");
                 }
-          
-            
+
+
             }
             //Show The Popup Modal For Add New
 
@@ -193,7 +195,7 @@
                 url: url,
                 success: function (data) {
                     var obj = JSON.parse(data);
-                 
+
                     $("#LoaiId").val(obj.LOAITAIKHOAN_ID);
                     $("#NametypeUser").val(obj.TENLOAITK);
                     $("#Ghichu").val(obj.GHICHU_LOAITAIKHOAN);
@@ -235,17 +237,17 @@
                         $(".row_" + loaiId).remove();
                         $(".alert").html("Xóa thành công!");
                         $(".alert").classList.add("show");
-                       
+
 
                     }
                     else {
                         $("#DeleteConfim").modal("hide");
                         $(".alert").html("Xóa thất bại!");
                         $(".alert").classList.add("show");
-                        
-                      
+
+
                     }
-                 
+
                 }
             })
         }

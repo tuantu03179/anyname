@@ -18,22 +18,26 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             var kq = db.NHASANXUATs.Select(t => new NhaSanXuatModel
             {
-                  ID_NSX=t.ID_NSX,
-                  MANSX=t.MANSX,
-                  TEN_NSX=t.TEN_NSX,
-                  SDT_NSX=t.SDT_NSX,
-                  MOTA_NSX=t.MOTA_NSX,
-                  DIACHI_NSX=t.DIACHI_NSX,
-                  GHICHU_NSX=t.GHICHU_NSX,
-                  IS_DELETE=t.IS_DELETE,
-                  CREATEBY=t.CREATEBY,
-                  MODIFILEDBY=t.MODIFILEDBY,
-           MODIFILEDDATE=t.MODIFILEDDATE,
-                CREATEDATE=t.CREATEDATE,
+                ID_NSX = t.ID_NSX,
+                MANSX = t.MANSX,
+                TEN_NSX = t.TEN_NSX,
+                SDT_NSX = t.SDT_NSX,
+                MOTA_NSX = t.MOTA_NSX,
+                DIACHI_NSX = t.DIACHI_NSX,
+                GHICHU_NSX = t.GHICHU_NSX,
+                IS_DELETE = t.IS_DELETE,
+                CREATEBY = t.CREATEBY,
+                MODIFILEDBY = t.MODIFILEDBY,
+                MODIFILEDDATE = t.MODIFILEDDATE,
+                CREATEDATE = t.CREATEDATE,
 
 
-    }).ToList();
+            }).ToList();
             return kq;
+        }
+        public List<NHASANXUAT> getAllNSX()
+        {
+            return db.NHASANXUATs.ToList();
         }
         //public string GetListNSXByID(int id)
         //{
@@ -91,9 +95,10 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         public NHASANXUAT GetById(int id)
         {
             try { return db.NHASANXUATs.SingleOrDefault(t => t.ID_NSX == id); }
-            catch {
+            catch
+            {
                 return null;
-                    }
+            }
         }
         // ẩn hiện
         public int ChangeStatus(int id, string name, bool kq)
@@ -129,7 +134,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 {
 
 
-                    NHASANXUAT dao = db.NHASANXUATs.SingleOrDefault(m=> m.ID_NSX== x.ID_NSX);
+                    NHASANXUAT dao = db.NHASANXUATs.SingleOrDefault(m => m.ID_NSX == x.ID_NSX);
                     dao.TEN_NSX = x.TEN_NSX;
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;
@@ -147,7 +152,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 else
                 {
                     NHASANXUAT dao = new NHASANXUAT();
-                
+
                     dao.TEN_NSX = x.TEN_NSX;
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;
@@ -160,7 +165,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     dao.CREATEDATE = DateTime.Now.Date;
                     dao.CREATEBY = user;
-               
+
                     db.NHASANXUATs.Add(dao);
                     db.SaveChanges();
 

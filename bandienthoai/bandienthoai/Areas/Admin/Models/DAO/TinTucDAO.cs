@@ -49,12 +49,12 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }
 
         }
-      
+
         public bool updatenoidung(TinTucModel tt)
         {
             try
             {
-                var user = db.TINTUCs.Find(tt.TINTUC_ID);                  
+                var user = db.TINTUCs.Find(tt.TINTUC_ID);
                 user.NOIDUNG = tt.NOIDUNG;
                 db.SaveChanges();
                 return true;
@@ -70,7 +70,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             {
                 var user = db.TINTUCs.Find(tt.TINTUC_ID);
                 user.TIEUDE_TINTUC = tt.TIEUDE_TINTUC;
-               
+
                 user.MOTA_TINTUC = tt.MOTA_TINTUC;
                 user.NOIDUNG = tt.NOIDUNG;
                 user.HINHANH_TINTUC = tt.HINHANH_TINTUC;
@@ -87,7 +87,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 return false;
             }
         }
-        public int ChangeStatus(int id,string name,bool kq)
+        public int ChangeStatus(int id, string name, bool kq)
         {
             int i = 0;
             try
@@ -98,7 +98,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                     user.IS_DELETE = true;
                     i = 1;
                 }
-               else
+                else
                 { user.IS_DELETE = false; i = 2; }
                 user.MODIFILEDBY = name;
                 user.MODIFILEDDATE = DateTime.Now;
@@ -118,8 +118,8 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 List<TINTUC> result = db.TINTUCs.OrderBy(t => t.TINTUC_ID).Skip(db.TINTUCs.Count() - 1).Take(1).ToList();
                 return result[0].TINTUC_ID;
             }
-           
-            catch(Exception ex)
+
+            catch (Exception ex)
             {
                 return 0;
             }
@@ -127,10 +127,11 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         public TINTUC GetByTitle(string tieude)
         {
             var kq = new TINTUC();
-            try { 
-          kq= db.TINTUCs.SingleOrDefault(t=>t.TIEUDE_TINTUC==tieude);
+            try
+            {
+                kq = db.TINTUCs.SingleOrDefault(t => t.TIEUDE_TINTUC == tieude);
             }
-            catch 
+            catch
             {
 
             }
@@ -164,7 +165,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             var kq = db.TINTUCs.Select(t => new TinTucModel
             {
-                IDTAIKHOAN=t.IDTAIKHOAN,
+                IDTAIKHOAN = t.IDTAIKHOAN,
                 TINTUC_ID = t.TINTUC_ID,
                 IDLOAITINTUC = t.IDLOAITINTUC,
                 TIEUDE_TINTUC = t.TIEUDE_TINTUC,
@@ -187,11 +188,11 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             try
             {
                 FileInfo fi;
-                if (System.IO.File.Exists(fileName ) == true)
+                if (System.IO.File.Exists(fileName) == true)
                 {
                     fi = new FileInfo(fileName);
                     fi.Delete();
-                    
+
                 }
             }
             catch (Exception ex) { ex.Message.ToString(); }
@@ -240,6 +241,6 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             return db.TINTUCs.Find(id);
         }
 
-        
+
     }
 }

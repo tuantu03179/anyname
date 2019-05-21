@@ -14,14 +14,14 @@ namespace bandienthoai.Areas.Admin.Controllers
     public class ProductController : BaseController
     {
         // GET: Admin/Product
-      
+
         public ActionResult Index(string searching)
         {
             getNCC();
             getTypeProduct();
             var dao = new SanPhamDAO();
             var model = dao.GetListProduct();
-           
+
             return View(model);
         }
         [HttpGet]
@@ -43,7 +43,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         }
         public void getNSX(long? selectedId = null)
         {
-            var dao = new NhaSXDAO();
+            var dao = new NhaSanXuatDAO();
             ViewBag.ID_NSX = new SelectList(dao.getAllNSX(), "ID_NSX", "TEN_NSX", selectedId);
         }
         public void getNCC(long? selectedId = null)
@@ -79,9 +79,9 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             return Json(new
             {
-                status = result 
+                status = result
             }, JsonRequestBehavior.AllowGet);
-          
+
         }
         [HttpPost]
         public JsonResult ChangeStatus(long id)
@@ -119,16 +119,16 @@ namespace bandienthoai.Areas.Admin.Controllers
                 sp.CREATEBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
                 sp.CREATEDATE = DateTime.Now;
                 sp.LUOTXEM = 0;
-               
-     
+
+
                 decimal id = dao.Insert(sp);
-                
+
                 if (id > 0)
                 {
                     long LastId = dao.getIDLastChild();
                     var namenew = dao.getIDLastChild();
                     //string exePath = System.AppContext.BaseDirectory + "\\Data\\Content\\" + namenew + ".html";
-                    string exePath = Server.MapPath("\\Data\\Product\\"+"pro" + namenew + ".cshtml");
+                    string exePath = Server.MapPath("\\Data\\Product\\" + "pro" + namenew + ".cshtml");
                     FileStream fs = new FileStream(exePath, FileMode.Create);
                     using (StreamWriter sw = new StreamWriter(fs))
                     {

@@ -11,7 +11,7 @@
         <h2 class="no-margin-bottom">Chỉnh Sửa Tài Khoản</h2>
         <div class="page-button ml-auto">
             <a href="/Admin/User/Index"><button id="btn-back" type="button" class="btn btn-default"><i class="fas fa-arrow-left"></i> Trở Về</button></a>
-            <a id="btnluu"href="javascript:SaveData()" type="submit" class="btn btn-primary" ><i class="fas fa-plus"></i> Lưu</a>
+            <a id="btnluu" href="javascript:SaveData()" type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Lưu</a>
 
         </div>
     }
@@ -186,22 +186,22 @@
     <script>
         $(document).ready(function () {
             var list = $("#LOAITAIKHOAN_ID");
-          
+
             var x = @ViewBag.typeLoai;
-          
+
             if ( x== "1") {
                 list.prop('disabled', false);
-         
+
             }
             else {
                 //list.css("disabled", "disabled");
                 //list.css("pointer - events", "none");
-       
+
                 list.prop('disabled', true);
-                
+
             }
-               
-          
+
+
         });
         (function () {
             'use strict';
@@ -230,14 +230,14 @@
             document.getElementById("txtMatKhauCu").disabled = !objChk.checked;
         }
         function checkStatus() {
-           
+
             if ($("#rdHoatDong").val() == "1") {
                 $("#STATUS").val(true);
-               
+
                 }
                 else {
                     $("#STATUS").val(false);
-              
+
                 }
         }
         function checkEmptyPass(pass) {
@@ -314,8 +314,8 @@
                 else {
 
                     $("#btnSubmit").click();
-                
-                    
+
+
                 }
 
             }

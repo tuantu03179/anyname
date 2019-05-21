@@ -12,15 +12,16 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SANPHAM()
         {
+            BANGGIAs = new HashSet<BANGGIA>();
             BINHLUANs = new HashSet<BINHLUAN>();
             CHITIETHOADONs = new HashSet<CHITIETHOADON>();
             CHITIETPHIEUNHAPHANGs = new HashSet<CHITIETPHIEUNHAPHANG>();
             CHITIETQUATANGs = new HashSet<CHITIETQUATANG>();
+            CHITIETTHUOCTINHs = new HashSet<CHITIETTHUOCTINH>();
             CTIETPHIEUBAOHANHs = new HashSet<CTIETPHIEUBAOHANH>();
             CTIETPHIEUDOITRAs = new HashSet<CTIETPHIEUDOITRA>();
             CTIETPHIEUYCNHAPKHOes = new HashSet<CTIETPHIEUYCNHAPKHO>();
             DANHGIAs = new HashSet<DANHGIA>();
-            THUOCTINHs = new HashSet<THUOCTINH>();
         }
 
         [Key]
@@ -43,6 +44,8 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [StringLength(250)]
         public string MOTA_SANPHAM { get; set; }
 
+        public decimal? GIANHAP { get; set; }
+
         public decimal GIA_SANPHAM { get; set; }
 
         public bool TRANGTHAI { get; set; }
@@ -59,7 +62,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [StringLength(500)]
         public string SPDIKEM { get; set; }
 
-        public int? KHUYENMAI { get; set; }
+        public int KHUYENMAI { get; set; }
 
         [StringLength(250)]
         public string GHICHU_SANPHAM { get; set; }
@@ -77,6 +80,9 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public DateTime? MODIFILEDDATE { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BANGGIA> BANGGIAs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BINHLUAN> BINHLUANs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -87,6 +93,9 @@ namespace bandienthoai.Areas.Admin.Models.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHITIETQUATANG> CHITIETQUATANGs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHITIETTHUOCTINH> CHITIETTHUOCTINHs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTIETPHIEUBAOHANH> CTIETPHIEUBAOHANHs { get; set; }
@@ -105,8 +114,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public virtual NHACUNGCAP NHACUNGCAP { get; set; }
 
         public virtual NHASANXUAT NHASANXUAT { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<THUOCTINH> THUOCTINHs { get; set; }
     }
 }
