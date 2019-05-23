@@ -29,7 +29,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             {
         
                 var dao = new UserDAO();
-                var result = dao.Login(model.userName, Encryptor.MD5Hash(model.passWord));
+                var result = dao.Login(model.userName, model.passWord);
                 if (result==1)
                 {
                     var user = dao.GetByUserName(model.userName);
