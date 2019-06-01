@@ -255,7 +255,6 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 var phieunhap = db.PHIEUNHAPHANGs.Find(pn.PHIEUNHAPHANG_ID);
                 phieunhap.SOPHIEUNHAPHANG = pn.SOPHIEUNHAPHANG;
                 phieunhap.MA_NCC = pn.MA_NCC;
-                phieunhap.NGUOIGIAO = pn.NGUOIGIAO;
                 phieunhap.NGAYGIAO = pn.NGAYGIAO;
                 phieunhap.TRANGTHAINHAPHANG = pn.TRANGTHAINHAPHANG;
                 phieunhap.MODIFILEDBY = pn.MODIFILEDBY;

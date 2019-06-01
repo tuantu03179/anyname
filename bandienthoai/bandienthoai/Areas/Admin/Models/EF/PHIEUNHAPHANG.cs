@@ -25,11 +25,14 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [StringLength(50)]
         public string SOPHIEUNHAPHANG { get; set; }
 
+
         public DateTime? NGAYLAP_PHIEUNHAPHANG { get; set; }
 
-        public DateTime? NGAYGIAO { get; set; }
 
-        public DateTime? NGUOIGIAO { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",
+               ApplyFormatInEditMode = true)]
+        public DateTime? NGAYGIAO { get; set; }
 
         [Required]
         [StringLength(255)]
