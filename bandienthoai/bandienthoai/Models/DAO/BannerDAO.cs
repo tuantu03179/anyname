@@ -17,24 +17,24 @@ namespace bandienthoai.Models.DAO
         public List<SLIDE> GetListBanner(int index)
         {
             return db.SLIDEs.Where(x => x.STATUS == 1).OrderBy(y => y.DISPLAYORDER).ToList();
-            //var kq = db.BANNERs.Where(t=>t.VITRI==index).Select(t => new BannerModel
-            //{
-            //    BANNER_ID = t.BANNER_ID,
-            //    LINK = t.LINK,
-            //    GHICHU_BANNER = t.GHICHU_BANNER,
-            //    VITRI = t.VITRI,
-            //    HINH = t.HINH,
-            //    TIEUDE = t.TIEUDE,
-            //    TENTK = t.TENTK,
-            //    IS_DELETE = t.IS_DELETE,
-            //    CREATEBY = t.CREATEBY,
-            //    MODIFILEDBY = t.MODIFILEDBY,
-            //    MODIFILEDDATE = t.MODIFILEDDATE,
-            //    CREATEDATE = t.CREATEDATE,
-
-
-            //}).ToList();
+        
            
+        }
+        public BANNER GetLogo()
+        {
+            var kq = new BANNER();
+           kq=   db.BANNERs.SingleOrDefault(x => x.IS_DELETE == false && x.VITRI == 1);
+            //if (kq == null)
+            //    kq.HINH = "\\Data\\slides\\logo-mobile.png";
+            return kq;
+
+
+        }
+        public List<BANNER> GetBanner(int index)
+        {
+            return db.BANNERs.Where(x => x.IS_DELETE == false&&x.VITRI==index).ToList();
+
+
         }
     }
 }

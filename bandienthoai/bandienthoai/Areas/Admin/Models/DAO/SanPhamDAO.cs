@@ -16,6 +16,115 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             db = new QlBanHangDbContext();
         }
+        //  get san phẩm cần nhập
+        public List<ProductViewModel> GetListProduct(bool all=true)
+        {
+            var kq = new List<ProductViewModel>();
+            if (all == true)
+            {
+
+
+               kq = (from a in db.SANPHAMs
+                          join b in db.LOAISANPHAMs
+                          on a.LOAISANPHAM_ID equals b.LOAISANPHAM_ID
+                          join c in db.NHACUNGCAPs
+                          on a.ID_NCC equals c.ID_NCC
+                          where a.SOLUONGTON <= a.TONTOITHIEU
+                          select new
+                          {
+                              img = a.HINHANH_SANPHAM,
+                              Id = a.SANPHAM_ID,
+                              IdNCC = c.ID_NCC,
+                              NameNCC = c.TEN_NCC,
+                              IdTypeProduct = b.LOAISANPHAM_ID,
+                              NameTypeProduct = b.TEN_LOAISANPHAM,
+                              Name = a.TEN_SANPHAM,
+                              SoLuong = a.SOLUONGTON,
+                              Price = a.GIANHAP,
+                          }).AsEnumerable().Select(x => new ProductViewModel()
+                          {
+                              Id = x.Id,
+                              IdNCC = x.IdNCC,
+                              NameNCC = x.NameNCC,
+                              IdTypeProduct = x.IdTypeProduct,
+                              NameTypeProduct = x.NameTypeProduct,
+                              Name = x.Name,
+                              SoLuong = x.SoLuong,
+                              Price = x.Price,
+                              Image = x.img
+                          }).ToList();
+
+                
+            }
+            else
+            {
+              kq = (from a in db.SANPHAMs
+                          join b in db.LOAISANPHAMs
+                          on a.LOAISANPHAM_ID equals b.LOAISANPHAM_ID
+                          join c in db.NHACUNGCAPs
+                          on a.ID_NCC equals c.ID_NCC
+                        
+                          select new
+                          {
+                              img = a.HINHANH_SANPHAM,
+                              Id = a.SANPHAM_ID,
+                              IdNCC = c.ID_NCC,
+                              NameNCC = c.TEN_NCC,
+                              IdTypeProduct = b.LOAISANPHAM_ID,
+                              NameTypeProduct = b.TEN_LOAISANPHAM,
+                              Name = a.TEN_SANPHAM,
+                              SoLuong = a.SOLUONGTON,
+                              Price = a.GIANHAP,
+                          }).AsEnumerable().Select(x => new ProductViewModel()
+                          {
+                              Id = x.Id,
+                              IdNCC = x.IdNCC,
+                              NameNCC = x.NameNCC,
+                              IdTypeProduct = x.IdTypeProduct,
+                              NameTypeProduct = x.NameTypeProduct,
+                              Name = x.Name,
+                              SoLuong = x.SoLuong,
+                              Price = x.Price,
+                              Image = x.img
+                          }).ToList();
+            }
+            return kq;
+        }
+        public ProductViewModel GetListProductNhap(int id)
+        {
+            var kq = (from a in db.SANPHAMs
+                      join b in db.LOAISANPHAMs
+                      on a.LOAISANPHAM_ID equals b.LOAISANPHAM_ID
+                      join c in db.NHACUNGCAPs
+                      on a.ID_NCC equals c.ID_NCC
+                      where  a.SANPHAM_ID==id
+                      select new
+                      {
+                          img = a.HINHANH_SANPHAM,
+                          Id = a.SANPHAM_ID,
+                          IdNCC = c.ID_NCC,
+                          NameNCC = c.TEN_NCC,
+                          IdTypeProduct = b.LOAISANPHAM_ID,
+                          NameTypeProduct = b.TEN_LOAISANPHAM,
+                          Name = a.TEN_SANPHAM,
+                          SoLuong = a.SOLUONGTON,
+                          Price = a.GIANHAP,
+                      }).AsEnumerable().Select(x => new ProductViewModel()
+                      {
+                          Id = x.Id,
+                          IdNCC = x.IdNCC,
+                          NameNCC = x.NameNCC,
+                          IdTypeProduct = x.IdTypeProduct,
+                          NameTypeProduct = x.NameTypeProduct,
+                          Name = x.Name,
+                          SoLuong = x.SoLuong,
+                          Price = x.Price,
+                          Image = x.img
+                      }).ToList();
+
+            return kq[0];
+
+        }
         public bool ChangeStatus(decimal id)
         {
             var user = db.SANPHAMs.Find(id);
@@ -248,25 +357,26 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 return false;
             }
         }
-        public bool UpdatePhieuNhapHang(PHIEUNHAPHANG pn)
-        {
-            try
-            {
-                var phieunhap = db.PHIEUNHAPHANGs.Find(pn.PHIEUNHAPHANG_ID);
-                phieunhap.SOPHIEUNHAPHANG = pn.SOPHIEUNHAPHANG;
-                phieunhap.MA_NCC = pn.MA_NCC;
-                phieunhap.NGAYGIAO = pn.NGAYGIAO;
-                phieunhap.TRANGTHAINHAPHANG = pn.TRANGTHAINHAPHANG;
-                phieunhap.MODIFILEDBY = pn.MODIFILEDBY;
-                phieunhap.MODIFILEDDATE = DateTime.Now;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        //public bool UpdatePhieuNhapHang(PHIEUNHAPHANG pn)
+        //{
+        //    try
+        //    {
+        //        var phieunhap = db.PHIEUNHAPHANGs.Find(pn.PHIEUNHAPHANG_ID);
+        //        phieunhap.SOPHIEUNHAPHANG = pn.SOPHIEUNHAPHANG;
+        //        phieunhap.MA_NCC = pn.MA_NCC;
+        //        phieunhap.NGUOIGIAO = pn.NGUOIGIAO;
+        //        phieunhap.NGAYGIAO = pn.NGAYGIAO;
+        //        phieunhap.TRANGTHAINHAPHANG = pn.TRANGTHAINHAPHANG;
+        //        phieunhap.MODIFILEDBY = pn.MODIFILEDBY;
+        //        phieunhap.MODIFILEDDATE = DateTime.Now;
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
         public bool DeleteNhaCungCap(int id)
         {
             try

@@ -10,5 +10,6 @@ namespace bandienthoai
     {
         public int userID { set; get; }
         public string userName { set; get; }
+        public string GroupID { set; get; }
     }
 }

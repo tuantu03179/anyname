@@ -7,12 +7,15 @@
 
 
     <link href="~/Assets/client/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/client/css/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Assets/client/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Assets/client/css/owl.carousel.min.css" rel="stylesheet" />
     <link href="~/Assets/client/css/owl.theme.default.css" rel="stylesheet" />
 
+    <link href="~/Assets/client/css/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Assets/client/css/style-2.css" rel="stylesheet" />
 
+    @RenderSection("style", required: false)
 
 </head>
 
@@ -22,36 +25,7 @@
     <header>
         <div class="topbar p-2">
             <div class="container">
-                <div class="row">
-                    <div class=" col-md-4  col-lg-6 ">
-                        <div class="top_left fw">
-                            <ul class="d-flex  mb-1">
-
-                                <li class="ml-2 mr-2">
-                                    <a id="dangnhap" href="/admin/login/index" title="Đăng nhập" class=" btn btn-outline-success">
-                                        <i class="fa fa-sign-in"></i><span> Đăng nhập</span>
-                                    </a>
-                                </li>
-                                <li class="cp-item">
-                                    <a href="dang-ky-thanh-vien" title="Đăng ký" class="btn btn-outline-info">
-                                        <i class="fa fa-edit"></i><span> Đăng ký</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4  col-lg-6 ">
-                        <div class="top_right fw d-flex">
-                            <div class="hotline ">
-                                <a href="tel:0898168871">  <i class="fa fa-phone"></i><strong> 0898168871</strong></a>
-                            </div>
-                            @{Html.RenderAction("HeaderCart", "TrangChu");}
-                            
-
-                        </div>
-                    </div>
-                </div>
+                @{ Html.RenderAction("TopBar", "TrangChu");}
             </div>
         </div>
 
@@ -67,21 +41,20 @@
     </div>
     <div class="footer group">
         <div id="footer" class="container group">
-            @{ Html.RenderAction("Footer","TrangChu");}
+            @{ Html.RenderAction("Footer", "TrangChu");}
         </div>
     </div>
-
-
-
-
-
 </body>
 
 </html>
+
 <script src="~/Assets/client/js/jquery-3.3.1.min.js"></script>
 <script src="~/Assets/client/js/bootstrap.min.js"></script>
 <script src="~/Assets/client/js/owl.carousel.js"></script>
-<script>
+<script src="~/Assets/client/js/jquery-ui.min.js"></script>
+@*<script src="~/Assets/client/controller/ContacController.js"></script>*@
+
+@*<script>
     $(document).ready(function () {
         loaddata();
         function loaddata() {
@@ -91,7 +64,7 @@
                 type: "GET",
                 url: "/TrangChu/Footer",
                 success: function (kq) {
-                
+
                     var setData = $("#footer");
                     setData.append(kq);
                 }
@@ -99,5 +72,75 @@
             });
         }
     });
+</script>*@
+<script>
+    function AddCart(id) {
+
+        $.ajax({
+            url: '/Cart/AddCart',
+            data: { id: id },
+            dataType: 'json',
+            type: 'POST',
+            success: function (res) {
+                if (res.status == true) {
+                    $("#alertsuccess").html("Thêm thành công!");
+                }
+
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+                $('#goTop').fadeIn();
+            } else {
+                $('#goTop').fadeOut();
+            }
+        });
+        $('#goTop').click(function () {
+            $("html, body").animate({ scrollTop: 0 }, 600);
+            return false;
+        });
+    });
+</script>
+<script>
+    var common = {
+        init: function () {
+            common.regEvents();
+        },
+        regEvents: function () {
+            $("#txtKeyword").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/SanPham/ListName",
+                        dataType: "jsonp",
+                        data: {
+                            q: request.term
+                        },
+                        success: function (res) {
+                            response(res.kq)
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#txtKeyword").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#txtKeyword").val(ui.item.label);
+                    return false;
+                }
+            })
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+                        .append("<a>" + item.label + "</a>")
+                        .appendTo(ul);
+                };
+        }
+    }
+    common.init();
 </script>
 @RenderSection("js", required: false)

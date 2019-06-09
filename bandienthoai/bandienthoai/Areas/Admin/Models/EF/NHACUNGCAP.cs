@@ -12,7 +12,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NHACUNGCAP()
         {
-            PHIEUNHAPHANGs = new HashSet<PHIEUNHAPHANG>();
             SANPHAMs = new HashSet<SANPHAM>();
         }
 
@@ -46,9 +45,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUNHAPHANG> PHIEUNHAPHANGs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SANPHAM> SANPHAMs { get; set; }

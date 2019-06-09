@@ -132,7 +132,8 @@
             <div class="cms-form-row">
                 @Html.LabelFor(model => model.NOIDUNG, htmlAttributes: new { @class = "cms-form-label col-form-label" })
                 <div class="cms-form-content">
-                    @Html.TextAreaFor(model => model.NOIDUNG, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", id = "txtContent", required = "required" })
+                    <textarea id = "txtContent" name = "txtContent"></textarea>
+                  @*  @Html.TextAreaFor(model => model.NOIDUNG, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", id = "txtContent", required = "required" })*@
                     @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
                     <div class="invalid-feedback">
                         Valid first name is required.

@@ -19,6 +19,13 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public decimal LOAISANPHAM_ID { get; set; }
 
+        [StringLength(2)]
+        public string LANGUAGE { get; set; }
+
+        public int? DISPLAYORDER { get; set; }
+
+        public long? PARENTID { get; set; }
+
         [Required]
         [StringLength(50)]
         public string TEN_LOAISANPHAM { get; set; }

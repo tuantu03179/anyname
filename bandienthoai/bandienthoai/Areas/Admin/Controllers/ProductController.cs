@@ -119,30 +119,30 @@ namespace bandienthoai.Areas.Admin.Controllers
                 sp.CREATEBY = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
                 sp.CREATEDATE = DateTime.Now;
                 sp.LUOTXEM = 0;
-
+                sp.NOIDUNG = txtContent;
 
                 decimal id = dao.Insert(sp);
 
                 if (id > 0)
                 {
-                    long LastId = dao.getIDLastChild();
-                    var namenew = dao.getIDLastChild();
-                    //string exePath = System.AppContext.BaseDirectory + "\\Data\\Content\\" + namenew + ".html";
-                    string exePath = Server.MapPath("\\Data\\Product\\" + "pro" + namenew + ".cshtml");
-                    FileStream fs = new FileStream(exePath, FileMode.Create);
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
+                    //long LastId = dao.getIDLastChild();
+                    //var namenew = dao.getIDLastChild();
+                    ////string exePath = System.AppContext.BaseDirectory + "\\Data\\Content\\" + namenew + ".html";
+                    //string exePath = Server.MapPath("\\Data\\Product\\" + "pro" + namenew + ".cshtml");
+                    //FileStream fs = new FileStream(exePath, FileMode.Create);
+                    //using (StreamWriter sw = new StreamWriter(fs))
+                    //{
 
-                        foreach (var s in txtContent)
-                        {
-                            sw.Write(s);
-                        }
-                        sw.Flush();
+                    //    foreach (var s in txtContent)
+                    //    {
+                    //        sw.Write(s);
+                    //    }
+                    //    sw.Flush();
 
-                    }
-                    fs.Close();
-                    sp.GHICHU_SANPHAM = "/Data/Product/" + namenew + ".html";
-                    dao.updatenoidung(sp);
+                    //}
+                    //fs.Close();
+                    //sp.GHICHU_SANPHAM = "/Data/Product/" + namenew + ".html";
+                    //dao.updatenoidung(sp);
                     SetAlert("Thêm Thành công", "success");
                     return RedirectToAction("Index", "Product");
                 }

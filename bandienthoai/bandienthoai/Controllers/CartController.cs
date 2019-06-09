@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using bandienthoai.Common;
 
 namespace bandienthoai.Controllers
 {
@@ -43,8 +44,15 @@ namespace bandienthoai.Controllers
         [HttpPost]
         public ActionResult Payment(string shipName, string mobile, string email, string address)
         {
+            var id = (long)-1;
             decimal total = 0;
             var order = new ORDER();
+           var user= (UserLogin)Session[CommonStants.USER_SESSION];
+            if (user != null)
+            {
+                order.CUSTOMERID = user.userID;
+            }
+       
             order.CREATEDATE = DateTime.Now;
             order.SHIPDDRESS = address;
             order.SHIPNAME = shipName;
@@ -52,15 +60,16 @@ namespace bandienthoai.Controllers
             order.SHIPEMAIL = email;
             try
             {
-                var id = new OrderDAO().Insert(order);
+                 id= new OrderDAO().Insert(order);
                 var sessionCart = (List<CartItem>)Session[CartSession];
                 var orderDetailDAO = new OrderDetailDAO();
                 foreach (var item in sessionCart)
                 {
                     var orderDetail = new ORDERDETAIL();
                     orderDetail.PRODUCTID = item.Product.SANPHAM_ID;
+                    orderDetail.GIAMGIA = item.Product.KHUYENMAI;
                     orderDetail.ORDERID = id;
-                    orderDetail.ORDERID = id;
+                   
                     orderDetail.PRICE = (long)item.Product.GIA_SANPHAM;
                     orderDetail.QUANTITY = item.Quantity;
                     orderDetailDAO.Insert(orderDetail);
@@ -79,18 +88,20 @@ namespace bandienthoai.Controllers
                 new MailHelper().SenMail(toEmail, "Đơn hàng mới từ Shop", content);
 
                 new MailHelper().SenMail(email,"Đơn hàng mới từ Shop", content);
+                Session[CartSession] = null;
             }
             catch (Exception e)
             {
                 return Redirect("/loi-thanh-toan");
 
             }
-            return Redirect("/hoan-thanh");
+            return Redirect("/hoan-thanh?id="+id);
         }
         //hoan thành
-        public ActionResult Success()
+        public ActionResult Success(long id)
         {
-            return View();
+            var model = new OrderDAO().GetOderbyID(id);
+            return View(model);
         }
         // xóa gio hang
         public JsonResult DeleteAll()
@@ -138,10 +149,10 @@ namespace bandienthoai.Controllers
         {
             var cart = Session[CartSession];
             var product = new SanPhamDAO().ViewDetail(ProductId);
-            if (cart!=null)
+            if (cart != null)
             {
-                var list =  (List<CartItem>)cart;
-                if (list.Exists(x=>x.Product.SANPHAM_ID==ProductId))
+                var list = (List<CartItem>)cart;
+                if (list.Exists(x => x.Product.SANPHAM_ID == ProductId))
                 {
                     foreach (var item in list)
                     {
@@ -161,11 +172,11 @@ namespace bandienthoai.Controllers
 
                     list.Add(item);
                 }
-              
+
             }
             else
             {
-             
+
                 //tao doi tuong cartitem
                 var item = new CartItem();
                 item.Product = product;
@@ -177,5 +188,53 @@ namespace bandienthoai.Controllers
             }
             return RedirectToAction("Index");
         }
+        public JsonResult AddCart(long id)
+        {
+            var cart = Session[CartSession];
+            var product = new SanPhamDAO().ViewDetail(id);
+            if (cart != null)
+            {
+                var list = (List<CartItem>)cart;
+                if (list.Exists(x => x.Product.SANPHAM_ID == id))
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.Product.SANPHAM_ID == id)
+                        {
+                            item.Quantity += 1;
+                        }
+                    }
+                }
+                else
+                {
+                    //tao doi tuong cartitem
+                    var item = new CartItem();
+                    item.Product = product;
+                    item.Quantity = 1;
+                    //them vào list
+
+                    list.Add(item);
+                }
+
+            }
+            else
+            {
+
+                //tao doi tuong cartitem
+                var item = new CartItem();
+                item.Product = product;
+                item.Quantity = 1;
+                var list = new List<CartItem>();
+                list.Add(item);
+                // gans vao sesion
+                Session[CartSession] = list;
+            
+            }
+            return Json(new
+            {
+                status = true
+            });
+        }
+       
     }
 }

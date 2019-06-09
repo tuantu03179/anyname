@@ -25,7 +25,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                 TINTUC dao = new TINTUC();
                 dao.IS_DELETE = false;
-                dao.IDLOAITINTUC = x.IDLOAITINTUC;
+              
                 dao.IDTAIKHOAN = x.IDTAIKHOAN;
                 dao.TIEUDE_TINTUC = x.TIEUDE_TINTUC;
                 dao.GHICHU_TINTUC = x.GHICHU_TINTUC;
@@ -50,12 +50,12 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
         }
 
-        public bool updatenoidung(TinTucModel tt)
+        public bool updatenoidung(string link,decimal id)
         {
             try
             {
-                var user = db.TINTUCs.Find(tt.TINTUC_ID);
-                user.NOIDUNG = tt.NOIDUNG;
+                var user = db.TINTUCs.Find(id);
+                user.NOIDUNG = link;
                 db.SaveChanges();
                 return true;
             }
@@ -124,18 +124,20 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 return 0;
             }
         }
-        public TINTUC GetByTitle(string tieude)
+        public string GetByTitle(string tieude)
         {
             var kq = new TINTUC();
             try
             {
                 kq = db.TINTUCs.SingleOrDefault(t => t.TIEUDE_TINTUC == tieude);
+                if (kq != null)
+                    return kq.TIEUDE_TINTUC;
             }
             catch
             {
 
             }
-            return kq;
+            return null;
         }
         //public long getIDLastChild()
         //{
@@ -167,7 +169,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             {
                 IDTAIKHOAN = t.IDTAIKHOAN,
                 TINTUC_ID = t.TINTUC_ID,
-                IDLOAITINTUC = t.IDLOAITINTUC,
+             
                 TIEUDE_TINTUC = t.TIEUDE_TINTUC,
                 MOTA_TINTUC = t.MOTA_TINTUC,
                 NOIDUNG = t.NOIDUNG,

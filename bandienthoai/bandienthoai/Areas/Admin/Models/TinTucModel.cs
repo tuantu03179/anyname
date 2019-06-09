@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace bandienthoai.Areas.Admin.Models
 {
@@ -7,16 +8,17 @@ namespace bandienthoai.Areas.Admin.Models
     {
         public long TINTUC_ID { get; set; }
 
-        public int IDLOAITINTUC { get; set; }
+       
 
         public int IDTAIKHOAN { get; set; }
         [StringLength(50)]
         public string TIEUDE_TINTUC { get; set; }
         [Required]
-        [StringLength(50)]
+        [StringLength(250)]
         public string MOTA_TINTUC { get; set; }
 
         [StringLength(50)]
+        [AllowHtml]
         public string NOIDUNG { get; set; }
         [Required]
         [StringLength(250)]

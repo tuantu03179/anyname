@@ -14,13 +14,9 @@ namespace bandienthoai.Areas.Admin.Models.EF
 
         public int IDTAIKHOAN { get; set; }
 
-        public int IDLOAITINTUC { get; set; }
-
-        [Required]
         [StringLength(250)]
         public string TIEUDE_TINTUC { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string MOTA_TINTUC { get; set; }
 
@@ -44,9 +40,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        public virtual LOAITINTUC LOAITINTUC { get; set; }
-
-        public virtual TAIKHOAN TAIKHOAN { get; set; }
     }
 }

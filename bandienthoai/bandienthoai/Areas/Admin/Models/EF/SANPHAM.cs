@@ -33,6 +33,9 @@ namespace bandienthoai.Areas.Admin.Models.EF
 
         public int ID_NCC { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string NOIDUNG { get; set; }
+
         [Required]
         [StringLength(50)]
         public string MA_SANPHAM { get; set; }
@@ -40,6 +43,11 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [Required]
         [StringLength(250)]
         public string TEN_SANPHAM { get; set; }
+
+        [StringLength(250)]
+        public string GHICHU_SANPHAM { get; set; }
+
+        public DateTime? NGAYKTKM { get; set; }
 
         [StringLength(250)]
         public string MOTA_SANPHAM { get; set; }
@@ -63,9 +71,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string SPDIKEM { get; set; }
 
         public int KHUYENMAI { get; set; }
-
-        [StringLength(250)]
-        public string GHICHU_SANPHAM { get; set; }
 
         public bool IS_DELETE { get; set; }
 

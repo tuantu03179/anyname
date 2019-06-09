@@ -16,23 +16,16 @@ namespace bandienthoai.Models.EF
         }
 
         [Key]
-        public int SHIPPER_ID { get; set; }
+        public int ID { get; set; }
 
+      
+      [Required]
+        public string USERNAME { get; set; }
         [Required]
-        [StringLength(50)]
-        public string TENSHIPPER { get; set; }
+        public int ORDERID { get; set; }
+        
 
-        [Required]
-        [StringLength(50)]
-        public string SDT { get; set; }
-
-        [StringLength(30)]
-        public string GMAIL { get; set; }
-
-        [StringLength(50)]
-        public string DIACHI { get; set; }
-
-        [StringLength(250)]
+         [StringLength(250)]
         public string GHICHU { get; set; }
 
         public bool IS_DELETE { get; set; }

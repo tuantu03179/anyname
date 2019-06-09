@@ -12,7 +12,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [Key]
         public long IDFOOTER { get; set; }
 
-        [StringLength(255)]
+        [Column(TypeName = "ntext")]
         public string NOIDUNG { get; set; }
 
         public bool? IS_DELETE { get; set; }

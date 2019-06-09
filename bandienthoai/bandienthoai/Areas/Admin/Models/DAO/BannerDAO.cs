@@ -24,7 +24,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 VITRI = t.VITRI,
                 HINH = t.HINH,
                 TIEUDE = t.TIEUDE,
-                TENTK = t.TENTK,
+           
                 IS_DELETE = t.IS_DELETE,
                 CREATEBY = t.CREATEBY,
                 MODIFILEDBY = t.MODIFILEDBY,
@@ -50,7 +50,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                     dao.MODIFILEDBY = user;
                     dao.LINK = x.LINK;
                     dao.GHICHU_BANNER = x.GHICHU_BANNER;
-                    dao.TENTK = x.TENTK;
+                    dao.CREATEBY = user;
                     dao.TIEUDE = x.TIEUDE;
                     dao.VITRI = x.VITRI;
                     db.SaveChanges();
@@ -66,7 +66,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;
                     dao.MODIFILEDBY = user;
-                    dao.TENTK = x.TENTK;
+                    dao.CREATEBY = x.CREATEBY;
                     dao.TIEUDE = x.TIEUDE;
                     dao.VITRI = x.VITRI;
                     dao.LINK = x.LINK;

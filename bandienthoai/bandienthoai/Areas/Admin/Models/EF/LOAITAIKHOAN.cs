@@ -9,17 +9,11 @@ namespace bandienthoai.Areas.Admin.Models.EF
     [Table("LOAITAIKHOAN")]
     public partial class LOAITAIKHOAN
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LOAITAIKHOAN()
-        {
-            TAIKHOANs = new HashSet<TAIKHOAN>();
-        }
-
-        [Key]
-        public int LOAITAIKHOAN_ID { get; set; }
+        [StringLength(50)]
+        public string ID { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [StringLength(50)]
         public string TENLOAITK { get; set; }
 
         [StringLength(250)]
@@ -36,8 +30,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TAIKHOAN> TAIKHOANs { get; set; }
     }
 }

@@ -32,5 +32,9 @@ namespace bandienthoai.Models
         [Required(ErrorMessage = "Yêu cầu nhập email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [Display(Name = "Tỉnh/thành")]
+        public string Province { get; set; }
+        [Display(Name = "Quận/huyện")]
+        public string District { get; set; }
     }
 }

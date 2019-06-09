@@ -43,11 +43,11 @@
                         <tr>
                             <td>         <p class="title">Loại Tài Khoản</p></td>
                             <td>
-                                @Html.DropDownListFor(model => model.LOAITAIKHOAN_ID, null, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control" })
+                                @Html.DropDownListFor(model => model.ID, null, new { htmlAttributes = new { @class = "form-control" }, @class = "form-control" })
                             </td>
                             <td>
 
-                                @Html.ValidationMessageFor(model => model.LOAITAIKHOAN_ID, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
                             </td>
                         </tr>
                         <tr>

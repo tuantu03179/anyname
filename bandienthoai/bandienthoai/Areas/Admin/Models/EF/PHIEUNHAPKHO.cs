@@ -10,16 +10,17 @@ namespace bandienthoai.Areas.Admin.Models.EF
     public partial class PHIEUNHAPKHO
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long PHIEUNHAPKHO_ID { get; set; }
 
-        public long PHIEUYCNHAPKHO_ID { get; set; }
+        public long IDNHAPHANG { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string SOPHIEUNHAPKHO { get; set; }
+        public long IDSANPHAM { get; set; }
 
-        public DateTime? NGAYLAP_PHIEUNHAPKHO { get; set; }
+        public long? SOLUONG { get; set; }
+
+        public long IDNCC { get; set; }
+
+        public decimal? DONGIA { get; set; }
 
         [StringLength(250)]
         public string GHICHU_PHIEUNHAPKHO { get; set; }
@@ -35,7 +36,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        public virtual PHIEUYEUCAUNHAPKHO PHIEUYEUCAUNHAPKHO { get; set; }
     }
 }

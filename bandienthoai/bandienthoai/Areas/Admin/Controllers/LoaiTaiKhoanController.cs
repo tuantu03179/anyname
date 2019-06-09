@@ -23,21 +23,22 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetListLoaiTaikhoanByID(long ID)
+        public JsonResult GetListLoaiTaikhoanByID(string ID)
         {
             var value = new LoaiTaiKhoanDAO().GetListLoaiTaikhoanByID(ID);
             return Json(value, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Delete(int id)
+        public JsonResult Delete(string id)
         {
+            
             var dao = new LoaiTaiKhoanDAO();
             bool value = dao.Delete(id);
 
             if (value)
                 SetAlert("Xóa thành công", "success");
             else
-                SetAlert("Xóa thất bại", "success");
+                SetAlert("Không thể xóa nhóm quyền", "warning");
             return Json(value, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

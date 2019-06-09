@@ -18,7 +18,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             var dao = db.LOAITAIKHOANs.Where(x => x.IS_DELETE == false).Select(x => new LoaitaiKhoanModel
             {
-                IDLOAITAIKHOAN = x.LOAITAIKHOAN_ID,
+                IDLOAITAIKHOAN = x.ID,
                 TENLOAITAIKHOAN = x.TENLOAITK,
                 IS_DELETE = x.IS_DELETE,
                 CREATEDATE = x.CREATEDATE,
@@ -29,9 +29,9 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }).ToList();
             return dao;
         }
-        public string GetListLoaiTaikhoanByID(long ID)
+        public string GetListLoaiTaikhoanByID(string ID)
         {
-            var model = db.LOAITAIKHOANs.Where(x => x.LOAITAIKHOAN_ID == ID).SingleOrDefault();
+            var model = db.LOAITAIKHOANs.Where(x => x.ID == ID).SingleOrDefault();
             string value = string.Empty;
             value = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
             {
@@ -39,12 +39,16 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             });
             return value;
         }
-        public bool Delete(int id)
+        public bool Delete(string id)
         {
             try
             {
+                if (Commom.ComonConstants.MOD_GROUP == id || Commom.ComonConstants.ADMIN_GROUP == id)
+                {
+                    return false;
+                }
                 var t = db.LOAITAIKHOANs.Find(id);
-                db.LOAITAIKHOANs.Remove(t);
+                t.IS_DELETE = true;
                 db.SaveChanges();
                 return true;
             }
@@ -54,34 +58,35 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }
 
         }
-        public LOAITAIKHOAN GetTypeUserByID(int ID)
-        {
-           
-                return db.LOAITAIKHOANs.Where(x => x.LOAITAIKHOAN_ID == ID).SingleOrDefault();
+        //public LOAITAIKHOAN GetTypeUserByID(int ID)
+        //{
+
+        //        return db.LOAITAIKHOANs.Where(x => x.LOAITAIKHOAN_ID == ID).SingleOrDefault();
 
 
 
-        }
-        public int SaveData(LoaitaiKhoanModel x,string user)
+        //}
+        public int SaveData(LoaitaiKhoanModel x, string user)
         {
             try
             {
-                if (x.IDLOAITAIKHOAN > 0)
+                var typeUser = db.LOAITAIKHOANs.Find(x.IDLOAITAIKHOAN);
+                if (typeUser != null)
                 {
 
 
-                    LOAITAIKHOAN dao = db.LOAITAIKHOANs.SingleOrDefault(m => m.IS_DELETE == false && m.LOAITAIKHOAN_ID == x.IDLOAITAIKHOAN);
+                    LOAITAIKHOAN dao = db.LOAITAIKHOANs.SingleOrDefault(m => m.IS_DELETE == false && m.ID == x.IDLOAITAIKHOAN);
 
-                    dao.LOAITAIKHOAN_ID = x.IDLOAITAIKHOAN;
+                    dao.ID = x.IDLOAITAIKHOAN;
                     dao.TENLOAITK = x.TENLOAITAIKHOAN;
                     dao.IS_DELETE = false;
                     dao.MODIFILEDDATE = DateTime.Now.Date;
                     dao.MODIFILEDBY = user;
-                   
+
                     dao.GHICHU_LOAITAIKHOAN = x.GHICHU;
                     db.SaveChanges();
 
-                return 1;
+                    return 1;
 
                 }
                 else
@@ -89,9 +94,9 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     LOAITAIKHOAN dao = new LOAITAIKHOAN();
                     dao.IS_DELETE = false;
-                    dao.LOAITAIKHOAN_ID = x.IDLOAITAIKHOAN;
+                    dao.ID = x.IDLOAITAIKHOAN;
                     dao.TENLOAITK = x.TENLOAITAIKHOAN;
-                   
+
 
                     dao.CREATEDATE = DateTime.Now.Date;
                     dao.CREATEBY = user;
@@ -101,14 +106,14 @@ namespace bandienthoai.Areas.Admin.Models.DAO
 
                     return 2;
                 }
-                
+
             }
             catch
             {
                 return 0;
             }
-            
+
         }
-        
+
     }
 }

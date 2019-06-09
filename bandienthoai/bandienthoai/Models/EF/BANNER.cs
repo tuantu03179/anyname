@@ -12,8 +12,6 @@ namespace bandienthoai.Models.EF
         [Key]
         public long BANNER_ID { get; set; }
 
-        public int TENTK { get; set; }
-
         [Required]
         [StringLength(250)]
         public string HINH { get; set; }
@@ -40,7 +38,5 @@ namespace bandienthoai.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        public virtual TAIKHOAN TAIKHOAN { get; set; }
     }
 }

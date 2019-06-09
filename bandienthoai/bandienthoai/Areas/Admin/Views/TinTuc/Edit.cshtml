@@ -84,11 +84,11 @@
 
             <div class="cms-form-row">
 
-                @Html.LabelFor(model => model.HINHANH_TINTUC, htmlAttributes: new { @class = "cms-form-label col-form-label" })
+               
 
                 <div class="cms-form-content">
                     <div class="box-add-img " onclick="selectImage()">
-                        <div class="box-add">  <img id="txtImage" name="txtImage" src="" /></div>
+                        <div class="box-add">  <img id="txtImage" name="txtImage" src="@Model.HINHANH_TINTUC" /></div>
                         @Html.HiddenFor(m => m.HINHANH_TINTUC)
                     </div>
                     @*@Html.TextBoxFor(model => model.HINHANH_TINTUC, new { @class = "mr-2 form-width-default ng-untouched ng-pristine ng-valid", id = "txtLinkImage" })*@

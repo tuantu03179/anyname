@@ -16,7 +16,10 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             db = new QlBanHangDbContext();
         }
-      
+      public List<PHIEUNHAPHANG> GetPhieuNhap(int stt)
+        {
+            return db.PHIEUNHAPHANGs.Where(t => t.TRANGTHAINHAPHANG == stt).ToList();
+        }
         public decimal InsertNCC(NHACUNGCAP ncc)
         {
             db.NHACUNGCAPs.Add(ncc);
@@ -49,25 +52,70 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 return false;
             }
         }
-        public bool UpdatePhieuNhapHang(PHIEUNHAPHANG pn)
+
+        public long InsertNhap(PHIEUNHAPHANG pn)
         {
             try
             {
-                var phieunhap = db.PHIEUNHAPHANGs.Find(pn.PHIEUNHAPHANG_ID);
-                phieunhap.SOPHIEUNHAPHANG = pn.SOPHIEUNHAPHANG;
-                phieunhap.MA_NCC = pn.MA_NCC;
-                phieunhap.NGAYGIAO = pn.NGAYGIAO;
-                phieunhap.TRANGTHAINHAPHANG = pn.TRANGTHAINHAPHANG;
-                phieunhap.MODIFILEDBY = pn.MODIFILEDBY;
-                phieunhap.MODIFILEDDATE = DateTime.Now;
+                var kq = db.PHIEUNHAPHANGs.Add(pn);
                 db.SaveChanges();
-                return true;
+                return pn.PHIEUNHAPHANG_ID;
             }
-            catch (Exception ex)
+            catch
             {
-                return false;
+                return -1;
             }
+            
         }
+        public List<PhieuNhapModel> GetNhapHangById(long id)
+        {
+            
+                var kq = (from a in db.SANPHAMs
+                          join b in db.PHIEUNHAPKHOes
+                          on a.SANPHAM_ID equals b.IDSANPHAM
+                          join c in db.NHACUNGCAPs
+                          on b.IDNCC equals c.ID_NCC
+                          where b.IDNHAPHANG == id
+
+
+                          select new
+                          {
+                              NameProduct = a.TEN_SANPHAM,
+                              NameNCC = c.TEN_NCC,
+                              Quality = b.SOLUONG,
+                              Price = b.DONGIA
+                          }).AsEnumerable().Select(x => new PhieuNhapModel()
+                          {
+                              NameProduct = x.NameProduct,
+                              NameNCC = x.NameNCC,
+                              Quality = x.Quality,
+                              Price = x.Price
+
+                          }).ToList();
+            return kq;
+           
+        }
+
+        //public bool UpdatePhieuNhapHang(PHIEUNHAPHANG pn)
+        //{
+        //    try
+        //    {
+        //        var phieunhap = db.PHIEUNHAPHANGs.Find(pn.PHIEUNHAPHANG_ID);
+        //        phieunhap.SOPHIEUNHAPHANG = pn.SOPHIEUNHAPHANG;
+        //        phieunhap.MA_NCC = pn.MA_NCC;
+        //        phieunhap.NGUOIGIAO = pn.NGUOIGIAO;
+        //        phieunhap.NGAYGIAO = pn.NGAYGIAO;
+        //        phieunhap.TRANGTHAINHAPHANG = pn.TRANGTHAINHAPHANG;
+        //        phieunhap.MODIFILEDBY = pn.MODIFILEDBY;
+        //        phieunhap.MODIFILEDDATE = DateTime.Now;
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
         public bool DeleteNhaCungCap(int id)
         {
             try
@@ -83,6 +131,21 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             }
 
         }
+
+        public long InsertDetailNhap(DetailNhapModel model)
+        {
+            var nhap = new PHIEUNHAPKHO();
+            nhap.IDNCC = model.idNCC;
+            nhap.IDSANPHAM = model.idProduct;
+            nhap.SOLUONG = model.SoLuong;
+            nhap.IDNHAPHANG = model.idNhap;
+            nhap.CREATEDATE = DateTime.Now;
+            db.PHIEUNHAPKHOes.Add(nhap);
+            db.SaveChanges();
+            if (nhap.PHIEUNHAPKHO_ID> 0) { return nhap.PHIEUNHAPKHO_ID; }
+            return -1;
+        }
+
         public bool DeletePhieuNhapHang(int id)
         {
             try

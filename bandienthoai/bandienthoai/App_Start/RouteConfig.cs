@@ -21,6 +21,18 @@ namespace bandienthoai
 
           );
             routes.MapRoute(
+            name: "AllProduct Category",
+            url: "tat-ca-san-pham",
+            defaults: new { controller = "SanPham", action = "Index", id = UrlParameter.Optional }
+
+        );
+            routes.MapRoute(
+            name: "Promotion Product",
+            url: "khuyen-mai",
+            defaults: new { controller = "SanPham", action = "KhuyenMai", id = UrlParameter.Optional }
+
+        );
+            routes.MapRoute(
             name: "Product Detail",
             url: "chi-tiet/{GHICHU_SANPHAM}-{id}",
             defaults: new { controller = "SanPham", action = "Detail", id = UrlParameter.Optional }
@@ -66,6 +78,30 @@ defaults: new { controller = "Contact", action = "Index", id = UrlParameter.Opti
 name: "Registers",
 url: "dang-ky-thanh-vien",
 defaults: new { controller = "UserClient", action = "Register", id = UrlParameter.Optional }
+
+);
+            routes.MapRoute(
+name: "Login",
+url: "dang-nhap",
+defaults: new { controller = "UserClient", action = "Login", id = UrlParameter.Optional }
+
+);
+            routes.MapRoute(
+name: "Tìm kiếm",
+url: "tim-kiem",
+defaults: new { controller = "SanPham", action = "Search", id = UrlParameter.Optional }
+
+);
+            routes.MapRoute(
+name: "Detail Shipper",
+    url: "Shipper/Detail-{id}",
+defaults: new { controller = "Shipper", action = "DetailShipper", id = UrlParameter.Optional }
+
+);
+            routes.MapRoute(
+name: "Order Detail Shipper",
+url: "Shipper/don-hang-{id}",
+defaults: new { controller = "Shipper", action = "GiaoHangShipper", id = UrlParameter.Optional }
 
 );
             routes.MapRoute(

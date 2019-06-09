@@ -9,12 +9,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
     [Table("LOAITINTUC")]
     public partial class LOAITINTUC
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LOAITINTUC()
-        {
-            TINTUCs = new HashSet<TINTUC>();
-        }
-
         [Key]
         public int IDLOAITINTUC { get; set; }
 
@@ -32,8 +26,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TINTUC> TINTUCs { get; set; }
     }
 }

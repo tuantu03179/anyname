@@ -1,5 +1,6 @@
 ﻿@model List<bandienthoai.Models.CartItem>
 @{
+    var total = 0;
     ViewBag.Title = "Thanh Toán";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -76,6 +77,26 @@
         }
         cart.init();
     </script>
+    <script type="text/javascript">
+
+        function FormatNumber(pNumber) {
+                 var num = pNumber.toString().replace(/\$|\,/g, '');
+                 if (isNaN(num)) {
+                     num = "";
+                 }
+                 sign = (num == (num = Math.abs(num)));
+                 num = Math.floor(num * 100 + 0.50000000001);
+                 num = Math.floor(num / 100).toString();
+                 for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+                     num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
+                 }
+                 return (((sign) ? '' : '-') + num);
+        }
+        $(document).ready(function () {
+           
+            $("#total").text(FormatNumber(@total)+" VNĐ");
+        });
+         </script>
 }
 @if (Model.Count > 0)
 {
@@ -99,6 +120,7 @@
 
                     @foreach (var item in Model)
                     {
+                        @(total += (int)(item.Product.GIA_SANPHAM - (item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100) * item.Quantity));
                         <tr>
                             <td>@item.Product.MA_SANPHAM</td>
                             <td>@item.Product.TEN_SANPHAM</td>
@@ -110,54 +132,86 @@
                                     <p class="product-row">
 
                                         <span>
-                                            <input type="text" data-id="@item.Product.SANPHAM_ID" class="txtQuantity" value="@item.Quantity"
-                                                   maxlength="4">
+                                            @item.Quantity
                                         </span>
                                     </p>
                                 </div>
                             </td>
-                            <td>@(item.Product.GIA_SANPHAM != 0 ? (item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100).ToString("N0") + " VNĐ" : "Liên Hệ")</td>
-                            <td>@(item.Product.GIA_SANPHAM != 0 ? ((item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100) * item.Quantity).ToString("N0") + " VNĐ" : "Liên Hệ")</td>
+                            <td><div id="PriceSale" value="@(item.Product.GIA_SANPHAM != 0 ? (item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100):0)">@(item.Product.GIA_SANPHAM != 0 ? (item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100).ToString("N0") + " VNĐ" : "Liên Hệ")</div></td>
+                            <td><div id="TotalPrice">@(item.Product.GIA_SANPHAM != 0 ? ((item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100) * item.Quantity).ToString("N0") + " VNĐ" : "Liên Hệ")</div></td>
                             <td><a class="btn btn-outline-danger btn-delete" data-id="@item.Product.SANPHAM_ID" href="#"><i class="fa fa-delete"></i>xóa</a></td>
                         </tr>
 
                     }
 
 
-                    </tbody>
-                </table>
-            
+                </tbody>
+            </table>
+       
 
+        </div>
+        <div class="section group">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    @using (Html.BeginForm("Payment", "Cart", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            <label>Người nhận</label>
+
+                            <input name="shipName" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Điện thoại</label>
+
+                            <input type="tel" name="mobile" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+
+                            <input type="email" name="email" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+
+                            <input name="address" class="form-control" required />
+                        </div>
+                        <button class="btn btn-success" type="submit">Thanh toán</button>
+                        <a class="btn btn-dark"  href="/gio-hang">Về giỏ hàng</a>
+                    }
                 </div>
-                <div class="section group">
-                    <div class="col-12 col-md-6">
-                        @using (Html.BeginForm("Payment", "Cart", FormMethod.Post))
-                        {
-                            <div class="form-group">
-                                <label>Người nhận</label>
-
-                                <input name="shipName" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Điện thoại</label>
-
-                                <input name="mobile" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-
-                                <input name="email" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Địa chỉ</label>
-
-                                <input name="address" class="form-control" />
-                            </div>
-                            <button class="btn btn-success" type="submit">Thanh toán</button>
-                        }
+                <div class="col-12 col-md-6">
+                    <div class="product-buy">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Tổng tiền hàng:</td>
+                                    <td><span id="total" class="text-danger text-bold"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian giao hàng:</td>
+                                    <td><span class="text-danger text-bold">&nbsp; 3 - 5 Ngày</span></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                            <input type="hidden" name="cmd" value="_s-xclick">
+                                            <input type="hidden" name="hosted_button_id" value="XTEFDU6PRHLGU">
+                                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Thanh toán trực tuyến!">
+                                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                   
                 </div>
             </div>
 
-        }
+        </div>
+        
+    </div>
+
+}
 

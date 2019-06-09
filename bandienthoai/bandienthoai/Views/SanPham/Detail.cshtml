@@ -1,137 +1,149 @@
 ﻿@model bandienthoai.Models.EF.SANPHAM
 @{
+    var ListImage = (List<bandienthoai.Models.EF.IMAGEPRODDUCT>)ViewBag.ListImage;
     ViewBag.Title = "Chi tiết sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var Category = (bandienthoai.Models.EF.LOAISANPHAM)ViewBag.Category;
     var RelatedProduct = (List<bandienthoai.Models.EF.SANPHAM>)ViewBag.RelatedProduct;
 }
 
-<div class="main ">
-    <div class="container ">
+<div class="content ">
+    <div class="session group ">
 
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a href="/san-pham/@Category.GHICHU_LOAISANPHAM-@Category.LOAISANPHAM_ID">Sản phẩm</a></li>
                 <li class="breadcrumb-item active" aria-current="page">@Model.TEN_SANPHAM</li>
             </ol>
         </nav>
+      
         <div class="primary-product row ">
             <div class="col-md-6 col-12 col-product-slider">
-                <div class="image-block">
-                    <a class="fancybox"
-                       href="@Model.HINHANH_SANPHAM">
-                        <img data-toggle="magnify" class="img-fluid"
-                             src="@Model.HINHANH_SANPHAM" />
-                    </a>
-                </div>
-                <div class="thumb-list">
-                    <div id="sliderproduct" class="owl-carousel owl-theme">
-                        <div class="item selected"
-                             data-href="@Model.HINHANH_SANPHAM">
-                            <img class="img-fluid"
-                                 src="@Model.HINHANH_SANPHAM" />
-                        </div>
-                        <div class="item"
-                             data-href="@Model.HINHANH_SANPHAM">
-                            <img class="img-fluid"
-                                 src="@Model.HINHANH_SANPHAM" />
-                        </div>
-                        <div class="item"
-                             data-href="@Model.HINHANH_SANPHAM">
-                            <img class="img-fluid"
-                                 src="@Model.HINHANH_SANPHAM" />
-                        </div>
-                        <div class="item"
-                             data-href="@Model.HINHANH_SANPHAM">
-                            <img class="img-fluid"
-                                 src="@Model.HINHANH_SANPHAM" />
-                        </div>
-                 
+                @if (ListImage!=null)
+                {
+
+                    <div class="image-block">
+                        <a class="fancybox"
+                           href="@ListImage[0].IMAGE">
+                            <img data-toggle="magnify" class="img-fluid"
+                                 src="@ListImage[0].IMAGE" />
+                        </a>
                     </div>
-                </div>
+                    <div class="thumb-list">
+                        <div id="sliderproduct" class="owl-carousel owl-theme">
+                            @foreach (var item in ListImage)
+                            {
+                                <div class="item selected"
+                                     data-href="@item.IMAGE">
+                                    <img class="img-fluid"
+                                         src="@item.IMAGE" />
+                                </div>
+                            }
+
+
+
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="image-block">
+                        <a class="fancybox"
+                           href="@Model.HINHANH_SANPHAM">
+                            <img data-toggle="magnify" class="img-fluid"
+                                 src="@Model.HINHANH_SANPHAM" />
+                        </a>
+                    </div>
+                    <div class="thumb-list">
+                        <div id="sliderproduct" class="owl-carousel owl-theme">
+                           
+                                <div class="item selected"
+                                     data-href="@Model.HINHANH_SANPHAM">
+                                    <img class="img-fluid"
+                                         src="@Model.HINHANH_SANPHAM" />
+                                </div>
+                            
+
+
+
+                        </div>
+                    </div>
+                }
                 <div class="notice-tragop">
-                    <a href="https://cellphones.com.vn/tra-gop-trung-qua" rel="nofollow">
+                    <a href="#" rel="nofollow">
                         <img style="width: 100%" src="https://cellphones.com.vn/media/wysiwyg/1200x200_1.png" alt="TRẢ GÓP DỄ DÀNG - LỘC VÀNG VỀ TAY" title="TRẢ GÓP DỄ DÀNG - LỘC VÀNG VỀ TAY" width="auto" height="auto">
                     </a>
                 </div>
             </div>
-            <div class="col-md-6 col-12 col-product-detail">
-                <h1 class="product-name">@Model.TEN_SANPHAM</h1>
-                <div class="social-sharing">
-                    <button type="button" class="btn btn-outline-danger btn-google-plus"
-                            onclick="javascript:OpenSocialSharing('google-plus', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
-                        <i class="fa fa-google-plus"></i> Google+
-                    </button>
-                    <button type="button" class="btn btn-outline-success btn-facebook"
-                            onclick="javascript:OpenSocialSharing('facebook', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
-                        <i class="fa fa-facebook"></i> Share
-                    </button>
-                    <button type="button" class="btn btn-twitter btn-outline-info"
-                            onclick="javascript:OpenSocialSharing('twitter', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
-                        <i class="fa fa-twitter"></i> Tweet
-                    </button>
-                </div>
-                <div class="left" style="margin-right: 15px;">
+                <div class="col-md-6 col-12 col-product-detail">
+                    <h1 class="product-name">@Model.TEN_SANPHAM</h1>
+                    <div class="social-sharing">
+                        <button type="button" class="btn btn-outline-danger btn-google-plus"
+                                onclick="javascript:OpenSocialSharing('google-plus', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
+                            <i class="fa fa-google-plus"></i> Google+
+                        </button>
+                        <button type="button" class="btn btn-outline-success btn-facebook"
+                                onclick="javascript:OpenSocialSharing('facebook', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
+                            <i class="fa fa-facebook"></i> Share
+                        </button>
+                        <button type="button" class="btn btn-twitter btn-outline-info"
+                                onclick="javascript:OpenSocialSharing('twitter', '@Model.TEN_SANPHAM', 'http://bachhoagiadung.net/banh-hong-binh-dinh-1-kg-984760.html')">
+                            <i class="fa fa-twitter"></i> Tweet
+                        </button>
+                    </div>
+
+
+                    <aside class="promotion_wrapper">
+                        <b id="promotion_header"><i class="fa fa-gift" aria-hidden="true"></i> Khuyến mãi</b>
+                        <div class="khuyenmai-info">
+
+                            <div class="kmChung"><h4>Trả góp 0%:</h4><p>@Model.MOTA_SANPHAM</p></div>
+
+
+                            <div id="lt-promotion-pack"></div>
+                        </div>
+                    </aside>
+
+
+
                     <div class="product-buy">
-                        <p class="special-price" style="display: block;"><span class="product-price" id="product-price">@(Model.GIA_SANPHAM != 0 ? (Model.GIA_SANPHAM - Model.GIA_SANPHAM * Model.KHUYENMAI / 100).ToString("N0") + " VNĐ" : "Liên Hệ")&nbsp;</span></p><p class="old-price">Giá niêm yết : <span id="old-price-12780">@(Model.GIA_SANPHAM != 0 ? Model.GIA_SANPHAM.ToString("N0") + " VNĐ" : "")</span></p>
-                    </div>
-                </div>
-                <p class="product-row">
-                    <label lang="detailproduct_production">Xuất xứ :</label>
-                    <span>TPQ Shop</span>
-                </p>
 
-                <p class="product-row">
-                    <label lang="detailproduct_warranty">Bảo hành :</label>
-                    <span>3 tháng</span>
-                </p>
-                <aside class="promotion_wrapper">
-                    <b id="promotion_header"><i class="fa fa-gift" aria-hidden="true"></i> Khuyến mãi</b>
-                    <div class="khuyenmai-info">
+                        <div class="price d-flex">
 
-                        <div class="kmChung"><h4>Trả góp 0%:</h4><div class="pack-detail"><ul class="el-promotion-pack" style="margin-bottom: 0px"><li><a href="https://cellphones.com.vn/tra-gop" rel="nofollow">Trả góp lãi suất 0% với Home Credit. Trả trước 30%, kỳ hạn 6 tháng (Áp dụng cùng các khuyến mại khác)</a></li><li><a href="https://cellphones.com.vn/tra-gop/" rel="nofollow">Trả góp 0% với FE Credit - trả trước từ 30% (áp dụng cùng các khuyến mãi khác)</a></li></ul></div><h4>Khuyến mãi hãng:</h4><div class="pack-detail"><ul class="el-promotion-pack" style="margin-bottom: 0px"><li><a href="#glxgift-2tr" rel="nofollow">Giảm thêm 2 triệu qua Galaxy Gift (không áp dụng chung thu cũ đổi mới)</a></li><li><a href="https://cellphones.com.vn/thu-cu-doi-moi-samsung" rel="nofollow">[ĐỘC QUYỀN] Thu cũ đổi mới Samsung chính sách 5 KHÔNG</a></li></ul></div></div>
+                            <p class="special-price" style="display: block;"><span class="product-price" id="product-price">@(Model.GIA_SANPHAM != 0 ? (Model.GIA_SANPHAM - Model.GIA_SANPHAM * Model.KHUYENMAI / 100).ToString("N0") + " VNĐ" : "Liên Hệ")&nbsp;</span></p><p class="old-price">Giá niêm yết : <span id="old-price-12780">@(Model.GIA_SANPHAM != 0 ? Model.GIA_SANPHAM.ToString("N0") + " VNĐ" : "")</span></p>
+
+                        </div>
 
 
-                        <div id="lt-promotion-pack"></div>
-                    </div>
-                </aside>
+                        <div class="group btn-group w-100">
+                            <div class="container">
+                                <div class="d-flex justify-content-center">
 
-
-
-                <div class="product-buy">
-
-
-                    <p class="product-row">
-                        <label lang="detailproduct_quantity">Số lượng :</label>
-                        <span>
-                            <input type="text" id="txtSoLuong" class="form-control" value="1"
-                                   maxlength="4">
-                        </span>
-                    </p>
-
-                    <div class="group btn-group w-100">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-6 col-12">
-                                    <a href="javascript:BuyNowProduct(984760)" class="btn btn-danger w-100"
-                                       lang="detailproduct_btnbuy">
-                                        <span>MUA NGAY</span>
-
-                                    </a>
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <a href="/them-gio-hang?ProductId=@Model.SANPHAM_ID&quantity=1" class="btn btn-primary w-100"
-                                       >THÊM VÀO GIỎ HÀNG</a>
+                                    <div class="col-sm-6 col-12 ">
+                                        <a href="/them-gio-hang?ProductId=@Model.SANPHAM_ID&quantity=1" class="btn btn-primary w-100 p-3">MUA NGAY</a>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="second-product group">
+                    <ul class="tabs group">
+                        <li class="active"><a role="tab" data-toggle="tab" href="#tab0">Chi tiết</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="tab0">
+                            @Html.Raw(@Model.NOIDUNG)
+
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
         <div class="main">
             <div class="section slideItem">
                 <div class="RelatedProduct">
@@ -219,6 +231,7 @@
 
 </div>
 @section js{
+
     <script>
         $('.slideItem .owl-carousel').owlCarousel({
             loop: true,

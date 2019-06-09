@@ -18,21 +18,21 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
             var user = new UserDAO().ViewDetail(x);
-            ViewBag.typeLoai = getTypeUserView(user);
+           // ViewBag.typeLoai = getTypeUserView(user);
 
             return View();
         }
 
-        public int getTypeUserView(TAIKHOAN user)
-        {
-            var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
-            if (typeUser.TENLOAITK.ToLower() == "admin")
-            {
-                return 1;
-            }
-            else
-                return 2;
-        }
+        //public int getTypeUserView(TAIKHOAN user)
+        //{
+        //    //var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
+        //    if (typeUser.TENLOAITK.ToLower() == "admin")
+        //    {
+        //        return 1;
+        //    }
+        //    else
+        //        return 2;
+        //}
         public JsonResult GetListNhaSX()
         {
             var dao = new NhaSanXuatDAO();

@@ -9,10 +9,10 @@ namespace bandienthoai.Areas.Admin.Models
     public class DonHangModel
     {
         [Key]
-        public long HOADON_ID { get; set; }
+        public long ID { get; set; }
 
         public int IDTOAIKHOAN { get; set; }
-        public int IDKHACHHANG { get; set; }
+ 
         public bool HINHTHUCTHANHTOAN { get; set; }
         [StringLength(50)]
         public string HOTEN { get; set; }
@@ -24,13 +24,11 @@ namespace bandienthoai.Areas.Admin.Models
         public string DIACHI { get; set; }
         public DateTime? NGAYXUATHD { get; set; }
 
-        public DateTime? NGAYBDGIAO { get; set; }
-
-        public DateTime? NGAYKTGIAO { get; set; }
-
-        public double? THANHTIEN_HOADON { get; set; }
+        public int? SOLUONG { get; set; }
+        public decimal? DONGIA { get; set; }
+       
         [StringLength(50)]
-        public string TENTAIKHOAN { get; set; }
+        public string TENSANPHAM { get; set; }
         [StringLength(255)]
         public string TRANGTHAI { get; set; }
 

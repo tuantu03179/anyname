@@ -12,19 +12,24 @@ namespace bandienthoai.Models.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
         {
-            BANNERs = new HashSet<BANNER>();
             BINHLUANs = new HashSet<BINHLUAN>();
             DANHGIAs = new HashSet<DANHGIA>();
             HOADONs = new HashSet<HOADON>();
-            TINTUCs = new HashSet<TINTUC>();
         }
 
         public int ID { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string TENTAIKHOAN { get; set; }
 
-        public int LOAITAIKHOAN_ID { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string USERGROUPID { get; set; }
+
+        public int? PROVINCEID { get; set; }
+
+        public int? DISTRICTID { get; set; }
 
         [StringLength(11)]
         public string SDT { get; set; }
@@ -60,9 +65,6 @@ namespace bandienthoai.Models.EF
         public bool STATUS { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BANNER> BANNERs { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BINHLUAN> BINHLUANs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -70,10 +72,5 @@ namespace bandienthoai.Models.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOADON> HOADONs { get; set; }
-
-        public virtual LOAITAIKHOAN LOAITAIKHOAN { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TINTUC> TINTUCs { get; set; }
     }
 }

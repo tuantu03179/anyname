@@ -18,32 +18,61 @@ namespace bandienthoai.Controllers
         public ActionResult Index()
         {
             var dao = new SanPhamDAO();
+       
             ViewBag.KhuyenMais = dao.GetListKhuyenMai();
-            ViewBag.NewProducts = dao.GetListKhuyenMai();
+            ViewBag.NewProducts = dao.GetListNew(20);
             GetListBannerGiua();
             return View();
         }
-       [ChildActionOnly]
+       
+        public ActionResult TopBar()
+        {
+            
+            return PartialView();
+        }
+        [ChildActionOnly]
+        
         public ActionResult MainMenu()
         {
+           var logo = new BannerDAO().GetLogo();
+            if(logo==null)
+                ViewBag.logo = "\\Data\\slides\\logo-mobile.png";
+            else
+                ViewBag.logo = logo.HINH;
+
             var dao = new MenuDAO().ListByGroupId(1);
             return PartialView(dao);
         }
-        [ChildActionOnly]
-        public PartialViewResult HeaderCart()
+        
+            public PartialViewResult HeaderCart()
         {
-          
-        var cart = Session[CommonStants.CartSession];
+
+            var cart = Session[CommonStants.CartSession];
 
             var list = new List<CartItem>();
             if (cart != null)
             {
                 list = (List<CartItem>)cart;
             }
-            
+
             return PartialView(list);
         }
+      public JsonResult GetCart()
+        {
+            var cart = Session[CommonStants.CartSession];
 
+            var list = new List<CartItem>();
+            if (cart != null)
+            {
+                list = (List<CartItem>)cart;
+            }
+
+            return Json(new
+            {
+               data=list,
+                status=true
+            });
+        }
         public ActionResult Footer()
         {
             var dao = new FooterDAO().GetFooter();

@@ -22,23 +22,23 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
             var user = new UserDAO().ViewDetail(x);
-            ViewBag.typeLoai = getTypeUserView(user);
+          //  ViewBag.typeLoai = getTypeUserView(user);
             getTypeNews();
             var result = dao.listTintuc();
             //Add a Dummy Row.
 
             return View(result);
         }
-        public int getTypeUserView(TAIKHOAN user)
-        {
-            var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
-            if (typeUser.TENLOAITK.ToLower() == "admin")
-            {
-                return 1;
-            }
-            else
-                return 2;
-        }
+        //public int getTypeUserView(TAIKHOAN user)
+        //{
+        //  //  var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
+        //    if (typeUser.TENLOAITK.ToLower() == "admin")
+        //    {
+        //        return 1;
+        //    }
+        //    else
+        //        return 2;
+        //}
         [HttpGet]
         public ActionResult Create()
         {
@@ -188,8 +188,8 @@ namespace bandienthoai.Areas.Admin.Controllers
 
                 }
                 fs.Close();
-                sp.NOIDUNG = "/Data/Content/tt" + id + ".html";
-                dao.updatenoidung(sp);
+                string link = "/Data/Content/tt" + id + ".html";
+                dao.updatenoidung(link,id);
                 SetAlert("Thêm Thành công", "success");
                 return RedirectToAction("Index", "TinTuc");
             }

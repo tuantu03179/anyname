@@ -1,9 +1,9 @@
 ﻿@model bandienthoai.Areas.Admin.Models.LoaitaiKhoanModel
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "Index";
-                Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 @section Header{
     <h2 class="no-margin-bottom">Quản Lý Sản Phẩm</h2>
@@ -24,9 +24,7 @@
                 <th>ID</th>
                 <th> Loại Tài Khoản</th>
                 <th>Người Tạo</th>
-                <th>Người Cập Nhật</th>
-                <th>Thời Gian Tạo</th>
-                <th>Thời Gian Cập Nhật</th>
+
                 <th>Ghi chú</th>
                 <th>Action(Edit)</th>
                 <th>Action(Delete)</th>
@@ -51,24 +49,17 @@
                 <div class="modal-body">
                     <form id="form">
                         <fieldset id="SubmitForm">
-                            @Html.HiddenFor(m => m.IDLOAITAIKHOAN, new { @id = "LoaiId" })
+                          
+
                             <div class="form-group">
-                                @Html.HiddenFor(m => m.TENLOAITAIKHOAN, new { @id = "NametypeUser", @class = "form-control", @placeholder = "Loại tài khoản*" })
-
-
-
-                                <label class="checkbox-inline">
-                                    <input type="radio" name="typeUser" value="Admin" />Admin
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="radio" name="typeUser" value="Client" checked />Client
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="radio" name="typeUser" value="Staff" />Staff
-                                </label>
+                                @Html.TextBoxFor(m => m.IDLOAITAIKHOAN, new { @id = "LoaiId", @class = "form-control", @placeholder = "ID Nhóm tài khoản*" })
                             </div>
                             <div class="form-group">
-                                @Html.TextAreaFor(m => m.GHICHU, new { @id = "Ghichu", @class = "form-control", @placeholder = "Ghi chú*" })
+                                @Html.TextBoxFor(m => m.TENLOAITAIKHOAN, new { @id = "NametypeUser", @class = "form-control", @placeholder = "Tên nhóm tài khoản*" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.TextAreaFor(m => m.GHICHU, new { @id = "Ghichu", @class = "form-control", @placeholder = "Ghi chú" })
                             </div>
 
                             <div class="form-group">
@@ -91,7 +82,7 @@
 
                 </div>
                 <div class="modal-body">
-                    <h4>Xóa 1 loại tài khoản</h4>
+                    <h4>Xóa tài khoản</h4>
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-primary" data-dismiss="modal"><i class="fas fa-times"></i></a>
@@ -133,12 +124,9 @@
                         "<td>" + TkList[i].TENLOAITAIKHOAN + "</td>" +
                         "<td>" + TkList[i].CREATEBY + "</td>" +
 
-                        "<td>" + TkList[i].MODIFILEDBY + "</td>" +
-                        "<td>" + TkList[i].CREATEDATE + "</td>" +
-                        "<td>" + TkList[i].MODIFILEDDATE + "</td>" +
                         "<td>" + TkList[i].GHICHU + "</td>" +
-                        "<td>" + "<a href='#' class='btn btn-warning' onclick='EditRecord(" + TkList[i].IDLOAITAIKHOAN + ")' ><span class='glyphicon glyphicon-edit'>Chỉnh Sửa</span></a>" + "</td>" +
-                        "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteRecord(" + TkList[i].IDLOAITAIKHOAN + ")'><span class='glyphicon glyphicon-trash'>Xóa</span></a>" + "</td>" +
+                        "<td>" + "<button href='#' class='btn btn-warning' onclick=\"EditRecord('" + TkList[i].IDLOAITAIKHOAN + "')\" ><span class='glyphicon glyphicon-edit'>Chỉnh Sửa</span></button>" + "</td>" +
+                        "<td>" + "<button  class='btn btn-danger deleterecord' onclick=\" DeleteRecord('" + TkList[i].IDLOAITAIKHOAN + "')\" data-id='" + TkList[i].IDLOAITAIKHOAN + "'><span class='glyphicon glyphicon-trash'>Xóa</span></button>" + "</td>" +
                         "</tr>";
                     setData.append(data);
                     $("#loadingStatus").html(" ");
@@ -178,7 +166,7 @@
         }
         function AddNew(Id) {
             $("#form")[0].reset();
-            $("#LoaiId").val(0);
+        
 
             $("#ModalTitle").html("Thêm mới");
             $("#MyModal").modal();
@@ -196,7 +184,8 @@
                 success: function (data) {
                     var obj = JSON.parse(data);
 
-                    $("#LoaiId").val(obj.LOAITAIKHOAN_ID);
+                    $("#LoaiId").val(obj.ID);
+                    $('#LoaiId').prop('readonly', true);
                     $("#NametypeUser").val(obj.TENLOAITK);
                     $("#Ghichu").val(obj.GHICHU_LOAITAIKHOAN);
 
@@ -205,7 +194,7 @@
             })
         }
         $("#SaveRecord").click(function () {
-        CheckStatus();
+        //CheckStatus();
             var data = $("#SubmitForm").serialize();
 
             $.ajax({
@@ -220,8 +209,10 @@
 
 
         });
-        //delete
+
+
         function DeleteRecord(id) {
+           
             $("#LoaiId").val(id);
             $("#DeleteConfim").modal("show");
         }
@@ -235,16 +226,17 @@
                     if (value) {
                         $("#DeleteConfim").modal("hide");
                         $(".row_" + loaiId).remove();
-                        $(".alert").html("Xóa thành công!");
+                       
                         $(".alert").classList.add("show");
+                        window.location.href = "/Admin/LoaiTaiKhoan/Index";
 
-
+                        alert("xóa thành công");
                     }
                     else {
                         $("#DeleteConfim").modal("hide");
                         $(".alert").html("Xóa thất bại!");
                         $(".alert").classList.add("show");
-
+                        window.location.href = "/Admin/LoaiTaiKhoan/Index";
 
                     }
 
@@ -254,4 +246,5 @@
 
 
     </script>
+
 }

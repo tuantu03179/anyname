@@ -15,22 +15,13 @@ namespace bandienthoai.Areas.Admin.Models.EF
             HOADONs = new HashSet<HOADON>();
         }
 
-        [Key]
-        public int SHIPPER_ID { get; set; }
+        public int ID { get; set; }
+
+        public int ORDERID { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string TENSHIPPER { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string SDT { get; set; }
-
-        [StringLength(30)]
-        public string GMAIL { get; set; }
-
-        [StringLength(50)]
-        public string DIACHI { get; set; }
+        public string USERNAME { get; set; }
 
         [StringLength(250)]
         public string GHICHU { get; set; }

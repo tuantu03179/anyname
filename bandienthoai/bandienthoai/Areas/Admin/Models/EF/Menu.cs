@@ -14,6 +14,8 @@ namespace bandienthoai.Areas.Admin.Models.EF
         [StringLength(50)]
         public string TEXT { get; set; }
 
+        public int? PARENTID { get; set; }
+
         [StringLength(250)]
         public string LINK { get; set; }
 
@@ -37,5 +39,7 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string MODIFILEDBY { get; set; }
 
         public DateTime? MODIFILEDDATE { get; set; }
+
+        public virtual MENUTYPE MENUTYPE { get; set; }
     }
 }

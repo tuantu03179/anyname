@@ -15,6 +15,9 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public string NAME { get; set; }
 
         [StringLength(50)]
+        public string TITLE { get; set; }
+
+        [StringLength(50)]
         public string PHONE { get; set; }
 
         [StringLength(50)]

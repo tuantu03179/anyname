@@ -14,61 +14,20 @@ namespace bandienthoai.Models.DAO
         {
             db = new QlBanHangDbContext();
         }
-        //public List<SanPhamModel> GetListKhuyenMai()
-        //{
-        //    var res = (from t in db.SANPHAMs
-        //               join l in db.LOAISANPHAMs on t.LOAISANPHAM_ID equals l.LOAISANPHAM_ID
-        //               join nc in db.NHACUNGCAPs on t.ID_NCC equals nc.ID_NCC
-        //               join sx in db.NHASANXUATs on t.ID_NCC equals sx.ID_NSX
-        //    where t.KHUYENMAI>0
-        //               select new
-        //               {
-        //                   idnsx = sx.ID_NSX,
-        //                   Loaisp = l.TEN_LOAISANPHAM,
-        //                   Masp = t.MA_SANPHAM,
-        //                   Id = t.SANPHAM_ID,
-        //                   SLTon = t.SOLUONGTON,
-        //                   Tontoithieu = t.TONTOITHIEU,
-        //                   SPkemtheo = t.SPDIKEM,
-        //                   Ncc = nc.TEN_NCC,
-        //                   maloai = l.LOAISANPHAM_ID,
-        //                   idncc = nc.ID_NCC,
+        public List<SANPHAM> GetListAllProduct( ref int TotalRecord, int page = 1, int PageSize = 2)
+        {
+            TotalRecord = db.SANPHAMs.Count();
+            var kq = db.SANPHAMs.OrderByDescending(x => x.CREATEDATE).Skip((PageSize - 1) * page).Take(PageSize).ToList();
 
-        //                   Tensp = t.TEN_SANPHAM,
-        //                   Mota = t.MOTA_SANPHAM,
-        //                   Giasp = t.GIA_SANPHAM,
-        //                   Luotxem = t.LUOTXEM,
-        //                   Trangthai = t.TRANGTHAI,
-        //                   Khuyenmai = t.KHUYENMAI,
-        //                   Hinhanh = t.HINHANH_SANPHAM
+            return kq;
+        }
+        public List<SANPHAM> GetListAllKhuyenMai(ref int TotalRecord, int page = 1, int PageSize = 2)
+        {
+            TotalRecord = db.SANPHAMs.Where(t=>t.KHUYENMAI>0).Count();
+            var kq = db.SANPHAMs.Where(t => t.KHUYENMAI > 0).OrderByDescending(x => x.CREATEDATE).Skip((PageSize - 1) * page).Take(PageSize).ToList();
 
-        //               }).ToList();
-        //    List<SanPhamModel> tk = new List<SanPhamModel>();
-
-        //    foreach (var item in res)
-        //    {
-        //        SanPhamModel m = new SanPhamModel();
-        //        m.ID = item.Id;
-        //        m.LOAISANPHAM = item.Loaisp;
-        //        m.TENSANPHAM = item.Tensp;
-        //        m.NCC = item.Ncc;
-        //        m.IDLOAISP = item.maloai;
-        //        m.IDNCC = item.idncc;
-        //        m.MOTA = item.Mota;
-        //        m.GIASANPHAM = item.Giasp;
-        //        m.TRANGTHAI = item.Trangthai;
-        //        m.HINHANH = item.Hinhanh;
-        //        m.MASANPHAM = item.Masp;
-
-        //        m.SANPHAMKEMTHEO = item.SPkemtheo;
-        //        m.SOLUONGTON = item.SLTon;
-        //        m.TONTOITHIEU = item.Tontoithieu;
-        //        m.LUOTXEM = item.Luotxem;
-        //        m.KHUYENMAI = item.Khuyenmai;
-        //        tk.Add(m);
-        //    }
-        //    return tk;
-        //}
+            return kq;
+        }
         //san phảm mới
         public List<SANPHAM> GetListNewProduct(int top)
         {
@@ -76,16 +35,64 @@ namespace bandienthoai.Models.DAO
 
             return kq;
         }
+        //get list image
+        public List<IMAGEPRODDUCT> GetListImagetId(decimal id)
+        {
+            try { 
+            return db.IMAGEPRODDUCTs.Where(x => x.IDPRODUCT == id).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+
+
+
+        }
         //public List<SANPHAM> GetListFeatureProduct()
         //{
         //    var kq = db.SANPHAMs.Where(x => x.TOP).Take(top).ToList();
 
         //    return kq;
         //}
+        //get sp mới
+
+        //public List<ProductViewModel> GetListPromotion()
+        //{
+
+        //    var kq = (from a in db.SANPHAMs
+        //              join b in db.KHUYENMAIs
+        //              on a.SANPHAM_ID equals b.IDSANPHAM
+        //              where b.GIATRI > 0
+        //              select new
+        //              {
+
+        //                  ID = a.SANPHAM_ID,
+        //                  Images = a.HINHANH_SANPHAM,
+        //                  MetaTitle = a.GHICHU_SANPHAM,
+        //                  Price = a.GIA_SANPHAM,
+        //                  Promotion = b.GIATRI,
+        //                  Name = a.TEN_SANPHAM,
+        //                  Luotxem = a.LUOTXEM
+
+        //              }).AsEnumerable().Select(x => new ProductViewModel
+        //              {
+
+        //                  ID = x.ID,
+        //                  Images = x.Images,
+        //                  MetaTitle = x.MetaTitle,
+        //                  Price = x.Price,
+        //                  Promotion = x.Promotion,
+        //                  Name = x.Name,
+        //                  Luotxem = x.Luotxem,
+        //              });
+
+        //    return kq.ToList();
+        //}
         public List<SANPHAM> GetListKhuyenMai()
         {
             var kq = db.SANPHAMs.Where(t => t.KHUYENMAI > 0).ToList();
-            
+
             return kq;
         }
         // get list product
@@ -96,10 +103,62 @@ namespace bandienthoai.Models.DAO
 
             return kq;
         }
+        // get list product new
+        public List<SANPHAM> GetListNew(int  tmp)
+        {
+            var kq = db.SANPHAMs.OrderByDescending(t=>t.CREATEDATE).Take(tmp).ToList();
+
+            return kq;
+        }
+        //search
+        public List<ProductViewModel> Search(string Keyword, ref int TotalRecord, int page = 1, int PageSize = 2)
+        {
+            TotalRecord = db.SANPHAMs.Where(t => t.TEN_SANPHAM.Contains(Keyword)).Count();
+
+            var model = (from a in db.SANPHAMs
+                         join b in db.LOAISANPHAMs
+                         on a.LOAISANPHAM_ID equals b.LOAISANPHAM_ID
+                         where a.TEN_SANPHAM.Contains(Keyword)
+                         select new
+                         {
+                             CateMetatitle = b.GHICHU_LOAISANPHAM,
+                             CateName = b.TEN_LOAISANPHAM,
+                             ID = a.SANPHAM_ID,
+                             Images = a.HINHANH_SANPHAM,
+                             MetaTitle = a.GHICHU_SANPHAM,
+                             Price = a.GIA_SANPHAM,
+                             DateKT=a.NGAYKTKM,
+                             Promotion = a.KHUYENMAI,
+                             Name = a.TEN_SANPHAM,
+                             Luotxem = a.LUOTXEM
+
+                         }).AsEnumerable().Select(x => new ProductViewModel
+                         {
+                             CateMetatitle = x.CateMetatitle,
+                             CateName = x.CateName,
+                             ID = x.ID,
+                             NgayKTKM=x.DateKT,
+                             Images = x.Images,
+                             MetaTitle = x.MetaTitle,
+                             Price = x.Price,
+                             Promotion = x.Promotion,
+                             Name = x.Name,
+                             Luotxem = x.Luotxem,
+                         });
+           var kq= model.OrderByDescending(x => x.CREATEDATE).Skip((PageSize - 1) * page).Take(PageSize).ToList();
+            return kq.ToList();
+        }
         public List<SANPHAM> GetListRelatedProducts(long id)
         {
             var product = db.SANPHAMs.Find(id);
             var kq = db.SANPHAMs.Where(t => t.SANPHAM_ID !=id && t.LOAISANPHAM_ID==product.LOAISANPHAM_ID).ToList();
+
+            return kq;
+        }
+        public List<string> ListName(string key)
+        {
+          
+            var kq = db.SANPHAMs.Where(t => t.TEN_SANPHAM.Contains(key)).Select(x=>x.TEN_SANPHAM).ToList();
 
             return kq;
         }

@@ -19,6 +19,9 @@ namespace bandienthoai.Models.EF
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public decimal LOAISANPHAM_ID { get; set; }
 
+        [StringLength(2)]
+        public string LANGUAGE { get; set; }
+
         public int? DISPLAYORDER { get; set; }
 
         public long? PARENTID { get; set; }

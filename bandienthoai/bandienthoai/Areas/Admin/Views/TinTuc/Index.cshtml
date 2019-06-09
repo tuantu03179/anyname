@@ -51,17 +51,17 @@
                     <thead>
                         <tr>
 
-                            <th><input type="checkbox" id="checkall" /></th>
-                            <th>STT</th>
-                            <th>Tiêu Đề</th>
-
-                            <th>Hình Ảnh</th>
+                            <th width="10px"><input type="checkbox" id="checkall" /></th>
+                            <th width="10px">STT</th>
 
 
-                            <th>Thời Gian Tạo</th>
+                            <th width="80px">Hình Ảnh</th>
+                            <th width="150px">Tiêu Đề</th>
+
+                            <th>Mô tả ngắn</th>
                             <th>Ghi Chú</th>
-                            <th> Chỉnh Sửa</th>
-                            <th> Ẩn/Hiện</th>
+                            <th width="20px"> Chỉnh Sửa</th>
+                            <th width="20px"> Ẩn/Hiện</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,38 +69,39 @@
                         @foreach (var item in Model)
                         {
 
-                            <tr id="row_@item.TINTUC_ID">
+                        <tr id="row_@item.TINTUC_ID">
 
-                                <td><input type="checkbox" value="@item.TINTUC_ID" class="record" /></td>
-                                <td><p></p></td>
-                                <td><p>@item.TIEUDE_TINTUC</p></td>
+                            <td><input type="checkbox" value="@item.TINTUC_ID" class="record" /></td>
+                            <td><p></p></td>
+                            <td>
+                                <div style="width:100px;height:100px; border:2px solid #e2d4d4;background:#fff;">
+                                    <img id="img_@item.TINTUC_ID" style="cursor:pointer;height:100%;width:100%" src="@item.HINHANH_TINTUC"
+                                         onclick="selectImage('/TinTuc/changeImage/@item.TINTUC_ID',this.id)" />
+                                </div>
+                            </td>
+                            <td><p>@item.TIEUDE_TINTUC</p></td>
 
 
 
-                                <td>
-                                    <div style="width:100px;height:100px; border:2px solid #e2d4d4;background:#fff;">
-                                        <img id="img_@item.TINTUC_ID" style="cursor:pointer;height:100%;width:100%" src="@item.HINHANH_TINTUC"
-                                             onclick="selectImage('/TinTuc/changeImage/@item.TINTUC_ID',this.id)" />
-                                    </div>
-                                </td>
 
-                                <td><p>@item.CREATEDATE</p></td>
-                                <td><p>@item.GHICHU_TINTUC</p></td>
-                                <td>
-                                    <a id="@item.TINTUC_ID" href="javascript:Editdata(@item.TINTUC_ID)">
-                                        <button type="button" class="btn btn-default">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <button id="stt_@item.TINTUC_ID" data-id="@item.TINTUC_ID" type="button" class="btn btn-secondary btnAnHien" style="    min-width: 110px;">
-                                        <i class='fas fa-eye'></i>
-                                        @Html.Raw(item.IS_DELETE ? "Ẩn" : " Hiển Thị")
 
+                            <td><p>@item.MOTA_TINTUC</p></td>
+                            <td><p>@item.GHICHU_TINTUC</p></td>
+                            <td>
+                                <a id="@item.TINTUC_ID" href="javascript:Editdata(@item.TINTUC_ID)">
+                                    <button type="button" class="btn btn-default">
+                                        <i class="fas fa-pencil-alt"></i>
                                     </button>
-                                </td>
-                            </tr>
+                                </a>
+                            </td>
+                            <td>
+                                <button id="stt_@item.TINTUC_ID" data-id="@item.TINTUC_ID" type="button" class="btn btn-secondary btnAnHien" style="    min-width: 110px;">
+                                    <i class='fas fa-eye'></i>
+                                    @Html.Raw(item.IS_DELETE ? "Ẩn" : " Hiển Thị")
+
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
 
@@ -224,22 +225,15 @@
             }
 
         }
-         @*function Editdata(a) {
-             var x = @ViewBag.typeLoai;
-             if (a ==@ViewBag.IDUser) {
+         function Editdata(a) {
+           
+            
 
-                 window.location.href = "/Admin/User/Edit/" + a;
-             }
-              else if (x == "2") {
-                 alert("Bạn không được quyền chỉnh sửa thông tin người khác!");
-
-             }
-             else {
-
-                 window.location.href = "/Admin/User/Edit/" + a;
-
-             }
-        }*@
+                 window.location.href = "/Admin/TinTuc/Edit/" + a;
+            
+              
+            
+        }
 
 
     </script>
@@ -377,14 +371,9 @@
          //delete fonfim
         $("#btndelete").click(function () {
 
-            var x = @ViewBag.typeLoai;
-
-            if (x == "2") {
-                alert("Bạn không được quyền xóa!");
-            }
-            else {
+            
                 deletetable();
-            }
+            
 
         });
         //delete table
@@ -392,11 +381,7 @@
         function deletetable() {
             $("table tbody").find('input[class="record"]').each(function () {
                 if ($(this) != null) {
-                    var x = @ViewBag.typeLoai;
-                    if (x == "2") {
-                        alert("Bạn không được quyền xóa!");
-                    }
-                    else if ($(this).is(":checked")) {
+                    if ($(this).is(":checked")) {
                         var tmp = $(this);
                         var va = this.value;
 

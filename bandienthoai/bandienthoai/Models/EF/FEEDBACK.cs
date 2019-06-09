@@ -13,8 +13,10 @@ namespace bandienthoai.Models.EF
 
         [StringLength(50)]
         public string NAME { get; set; }
+
         [StringLength(50)]
         public string TITLE { get; set; }
+
         [StringLength(50)]
         public string PHONE { get; set; }
 

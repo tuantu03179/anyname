@@ -21,6 +21,7 @@ namespace bandienthoai.Models.EF
         public virtual DbSet<CHITIETQUATANG> CHITIETQUATANGs { get; set; }
         public virtual DbSet<CHITIETTHUOCTINH> CHITIETTHUOCTINHs { get; set; }
         public virtual DbSet<CONTACT> CONTACTs { get; set; }
+        public virtual DbSet<CREDENTIAL> CREDENTIALs { get; set; }
         public virtual DbSet<CTIETPHIEUBAOHANH> CTIETPHIEUBAOHANHs { get; set; }
         public virtual DbSet<CTIETPHIEUDOITRA> CTIETPHIEUDOITRAs { get; set; }
         public virtual DbSet<CTIETPHIEUYCNHAPKHO> CTIETPHIEUYCNHAPKHOes { get; set; }
@@ -28,6 +29,7 @@ namespace bandienthoai.Models.EF
         public virtual DbSet<FEEDBACK> FEEDBACKs { get; set; }
         public virtual DbSet<FOOTER> FOOTERs { get; set; }
         public virtual DbSet<HOADON> HOADONs { get; set; }
+        public virtual DbSet<IMAGEPRODDUCT> IMAGEPRODDUCTs { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANGs { get; set; }
         public virtual DbSet<LOAISANPHAM> LOAISANPHAMs { get; set; }
         public virtual DbSet<LOAITAIKHOAN> LOAITAIKHOANs { get; set; }
@@ -45,6 +47,7 @@ namespace bandienthoai.Models.EF
         public virtual DbSet<PHIEUNHAPKHO> PHIEUNHAPKHOes { get; set; }
         public virtual DbSet<PHIEUYEUCAUNHAPKHO> PHIEUYEUCAUNHAPKHOes { get; set; }
         public virtual DbSet<QUATANG> QUATANGs { get; set; }
+        public virtual DbSet<ROLE> ROLEs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<SHIPPER> SHIPPERs { get; set; }
         public virtual DbSet<SLIDE> SLIDEs { get; set; }
@@ -85,6 +88,14 @@ namespace bandienthoai.Models.EF
 
             modelBuilder.Entity<CONTACT>()
                 .Property(e => e.CONTENT)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CREDENTIAL>()
+                .Property(e => e.USERGROUPID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CREDENTIAL>()
+                .Property(e => e.ROLEID)
                 .IsUnicode(false);
 
             modelBuilder.Entity<CTIETPHIEUBAOHANH>()
@@ -132,19 +143,17 @@ namespace bandienthoai.Models.EF
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<LOAISANPHAM>()
+                .Property(e => e.LANGUAGE)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<LOAISANPHAM>()
                 .HasMany(e => e.SANPHAMs)
                 .WithRequired(e => e.LOAISANPHAM)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<LOAITAIKHOAN>()
-                .HasMany(e => e.TAIKHOANs)
-                .WithRequired(e => e.LOAITAIKHOAN)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<LOAITINTUC>()
-                .HasMany(e => e.TINTUCs)
-                .WithRequired(e => e.LOAITINTUC)
-                .WillCascadeOnDelete(false);
+                .Property(e => e.ID)
+                .IsUnicode(false);
 
             modelBuilder.Entity<LOAITT>()
                 .HasMany(e => e.THUOCTINHs)
@@ -255,6 +264,10 @@ namespace bandienthoai.Models.EF
                 .WithRequired(e => e.QUATANG)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ROLE>()
+                .Property(e => e.ID)
+                .IsUnicode(false);
+
             modelBuilder.Entity<SANPHAM>()
                 .Property(e => e.LOAISANPHAM_ID)
                 .HasPrecision(18, 0);
@@ -323,15 +336,13 @@ namespace bandienthoai.Models.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TAIKHOAN>()
-                .Property(e => e.SDT)
-                .IsFixedLength()
+                .Property(e => e.USERGROUPID)
                 .IsUnicode(false);
 
             modelBuilder.Entity<TAIKHOAN>()
-                .HasMany(e => e.BANNERs)
-                .WithRequired(e => e.TAIKHOAN)
-                .HasForeignKey(e => e.TENTK)
-                .WillCascadeOnDelete(false);
+                .Property(e => e.SDT)
+                .IsFixedLength()
+                .IsUnicode(false);
 
             modelBuilder.Entity<TAIKHOAN>()
                 .HasMany(e => e.BINHLUANs)
@@ -349,12 +360,6 @@ namespace bandienthoai.Models.EF
                 .HasMany(e => e.HOADONs)
                 .WithRequired(e => e.TAIKHOAN)
                 .HasForeignKey(e => e.IDTOAIKHOAN)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<TAIKHOAN>()
-                .HasMany(e => e.TINTUCs)
-                .WithRequired(e => e.TAIKHOAN)
-                .HasForeignKey(e => e.IDTAIKHOAN)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<THUOCTINH>()

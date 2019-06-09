@@ -1,9 +1,12 @@
-﻿using bandienthoai.Areas.Admin.Models.DAO;
+﻿using bandienthoai.Areas.Admin.Models;
+using bandienthoai.Areas.Admin.Models.DAO;
 using bandienthoai.Areas.Admin.Models.EF;
 using bandienthoai.Common;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,22 +18,72 @@ namespace bandienthoai.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var dao = new DonHangDAO();
-            getStatus();
-            var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
-            var user = new UserDAO().ViewDetail(x);
-            ViewBag.typeLoai = getTypeUserView(user);
             var model = dao.GetListDonHang();
             return View(model);
         }
-        public int getTypeUserView(TAIKHOAN user)
+        public JsonResult Export(int id)
         {
-            var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
-            if (typeUser.TENLOAITK.ToLower() == "admin")
+            bool kq = false;
+            try
             {
-                return 1;
+                var app = new Microsoft.Office.Interop.Excel.Application();
+            Workbook workbook = app.Workbooks.Add(System.Reflection.Missing.Value);
+            Worksheet worksheet = workbook.ActiveSheet;
+            var oder = new DonHangDAO().GetDetailDonHang(id);
+
+                worksheet.Cells[1, 1] = "Số hóa đơn";
+                worksheet.Cells[1, 2] = id;
+
+                worksheet.Cells[1, 4] = "Hóa đơn Mobile Shop";
+
+
+
+                worksheet.Cells[3, 1] = "STT";
+                worksheet.Cells[3, 2] = "Tên hàng hóa";
+                worksheet.Cells[3, 3] = "ĐVT";
+                worksheet.Cells[3, 4] = "Số lượng";
+                worksheet.Cells[3, 5] = "Đơn giá";
+                worksheet.Cells[3, 6] = "Giảm giá";
+                worksheet.Cells[3, 7] = "Thành tiền";
+
+           
+                int row = 4;
+            foreach (var item in oder)
+            {
+                worksheet.Cells[row, 1] = row-3;
+                worksheet.Cells[row, 2] = item.NameProduct;
+                worksheet.Cells[row, 3] = "VNĐ";
+                worksheet.Cells[row, 4] = item.Quantity;
+                worksheet.Cells[row, 5] = item.Quantity * item.Price;
+                worksheet.Cells[row, 6] = item.Promotion;
+                worksheet.Cells[row, 7] = item.Quantity * item.Price - (item.Quantity * item.Price)*(item.Promotion/100);
+                    row++;
+                }
+                worksheet.Cells[row+1, 1] = "Người nhân(Ký và ghi rõ họ tên)";
+                worksheet.Cells[row+2, 5] = "Ngày ... Tháng ... Năm ...";
+                worksheet.Cells[row+1, 5] = "Người bán hàng(Ký và ghi rõ họ tên)";
+                workbook.SaveAs("C:\\Users\\GALAXY\\Desktop\\da\\bandienthoai\\bandienthoai\\Data\\Content\\HoaDon_" + id+ ".xls");
+          
+            workbook.Close();
+            Marshal.ReleaseComObject(workbook);
+            app.Quit();
+            Marshal.FinalReleaseComObject(app);
+            
+                kq = true;
             }
-            else
-                return 2;
+            catch
+            {
+
+            }
+            return Json(new { status=kq},JsonRequestBehavior.AllowGet) ;
+        }
+        public JsonResult DetailOrder(int id)
+        {
+            var dao = new DonHangDAO();
+          
+            List<OrderDetailModel> model = new List<OrderDetailModel>();
+            model = dao.GetDetailDonHang(id);
+            return Json( model,JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetListDonHang()
         {
@@ -39,52 +92,36 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        public void getStatus(long? selectedId = null)
-        {
-            var dao = new DonHangDAO();
-            ViewBag.TRANGTHAI = new SelectList(dao.getAllHoaDon(), "TRANGTHAI", "TRANGTHAI", selectedId);
-        }
+      
         // set chờ duyệt
         public int changeChoDuyet(int id)
         {
             var user = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
+
             var dao = new DonHangDAO();
-            var kq = dao.ChangeStatus(id, user, "Chờ Duyệt");
-            if (kq == 1)
-                return 1;
+            var check = dao.GetOrderByID(id);
+            if (check.STATUS == 2)
+            {
+                return dao.ChangeStatus(id, user, 1);
+            }
+
             else
-                return 0;
+                return -1;
+          
         }
         public int changeDaDuyet(int id)
         {
             var user = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
             var dao = new DonHangDAO();
-            var kq = dao.ChangeStatus(id, user, "Đã Liên Hệ");
-            if (kq == 1)
-                return 2;
-            else
-                return 0;
-        }
-        public int changeThanhToan(int id)
-        {
-            var user = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
-            var dao = new DonHangDAO();
-            var kq = dao.ChangeStatus(id, user, "Đã Thanh Toán");
-            if (kq == 1)
-                return 3;
-            else
-                return 0;
+            return dao.ChangeStatus(id, user, 2);
 
         }
+      
         public int changeGiaoHang(int id)
         {
             var user = ((UserLogin)Session[CommonStants.USER_SESSION]).userName;
             var dao = new DonHangDAO();
-            var kq = dao.ChangeStatus(id, user, "Đã Liên Hệ");
-            if (kq == 1)
-                return 4;
-            else
-                return 0;
+            return dao.ChangeStatus(id, user, 6);
         }
         public JsonResult Delete(int id)
         {
@@ -102,6 +139,39 @@ namespace bandienthoai.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Xóa Thất Bại!");
             }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult ThanhToan(int id)
+        {
+            var dao = new DonHangDAO();
+
+            var result = false;
+
+
+            result = dao.ThanhToan(id,true);
+            if (result)
+            {
+                SetAlert("Thanh toán thành công", "success");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Thanh toán Thất Bại!");
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult ChuaThanhToan(int id)
+        {
+            var dao = new DonHangDAO();
+
+            var result = false;
+
+
+        dao.ThanhToan(id, false);
+       
 
             return Json(result, JsonRequestBehavior.AllowGet);
 

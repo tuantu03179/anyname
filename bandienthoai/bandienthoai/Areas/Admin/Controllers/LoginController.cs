@@ -13,6 +13,7 @@ namespace bandienthoai.Areas.Admin.Controllers
     public class LoginController : Controller
     {
         // GET: Admin/Login
+       
         public ActionResult Index()
         {
             return View();
@@ -23,19 +24,24 @@ namespace bandienthoai.Areas.Admin.Controllers
             Session.Add(CommonStants.USER_SESSION, userSession);
             return View("index");
         }
+     
         public ActionResult login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
         
                 var dao = new UserDAO();
-                var result = dao.Login(model.userName, model.passWord);
+                var pass = Encryptor.MD5Hash(model.passWord);
+                var result = dao.Login(model.userName, pass, true);
                 if (result==1)
                 {
                     var user = dao.GetByUserName(model.userName);
                     var userSession = new UserLogin();
+                    userSession.GroupID = user.USERGROUPID;
                     userSession.userName = user.TENTAIKHOAN;
                     userSession.userID = user.ID;
+                    var Credential = dao.GetCredential(model.userName);
+                    Session.Add(CommonStants.SESSION_CREDENTIAL, Credential);
                     Session.Add(CommonStants.USER_SESSION, userSession);
                     return RedirectToAction("Index", "Home");
                 }
@@ -54,6 +60,11 @@ namespace bandienthoai.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Sai mật khẩu!");
 
                 }
+                else if (result == -3)
+                {
+                    ModelState.AddModelError("", "Tài khoản của bạn không có quyền đăng nhập !");
+
+                }
                 else
                 {
                     ModelState.AddModelError("", "Tên đăng nhập không đúng");
@@ -67,6 +78,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             }
             return View("index");
         }
+       
 
     }
 }

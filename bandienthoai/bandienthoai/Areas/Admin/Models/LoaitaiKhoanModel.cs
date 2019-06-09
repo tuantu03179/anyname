@@ -11,7 +11,7 @@ namespace bandienthoai.Areas.Admin.Models
 
 
         [Required]
-        public int IDLOAITAIKHOAN { get; set; }
+        public string IDLOAITAIKHOAN { get; set; }
 
         [StringLength(50)]
         public string TENLOAITAIKHOAN { get; set; }
@@ -21,9 +21,9 @@ namespace bandienthoai.Areas.Admin.Models
         public Nullable<bool> IS_DELETE { get; set; }
         [StringLength(50)]
         public string CREATEBY { get; set; }
-
+        [DisplayFormat(ApplyFormatInEditMode =true,DataFormatString ="{0:dd-MM-yyyy HH:mm}")]
         public Nullable<DateTime> CREATEDATE { get; set; }
-   
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm}")]
         public Nullable<DateTime> MODIFILEDDATE { get; set; }
         [StringLength(50)]
         public string MODIFILEDBY { get; set; }

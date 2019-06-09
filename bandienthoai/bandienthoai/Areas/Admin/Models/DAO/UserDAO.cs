@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using bandienthoai.Areas.Admin.Models.EF;
 using bandienthoai.Common;
+using Commom;
 
 namespace bandienthoai.Areas.Admin.Models.DAO
 {
@@ -16,6 +17,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
         {
             db = new QlBanHangDbContext();
         }
+
         public decimal Insert(TAIKHOAN tk)
         {
             db.TAIKHOANs.Add(tk);
@@ -50,12 +52,93 @@ namespace bandienthoai.Areas.Admin.Models.DAO
                 return false;
             }
         }
-        //public IEnumerable<TAIKHOAN> listuser(int page, int pagesize)
-        //{
-        //    return db.TAIKHOANs.OrderByDescending(x=>x.CREATEDATE).ToPagedList(page,pagesize);
-        //}
+        //inser quyền
+        public CREDENTIAL GetCredentialByGroupID(string GroupID,string RoleID)
+        {
+            return db.CREDENTIALs.Find(GroupID, RoleID);
+        }
+        public void DeleteCredential()
+        {
+            db.CREDENTIALs.RemoveRange(db.CREDENTIALs);
+            db.SaveChanges();
+        }
+        public bool InsertRole(string id,List<string> list)
+        {
+            DeleteCredential();
+            bool kq = false;
+            foreach (var item in list)
+            {
+                //var model = GetCredentialByGroupID(id,item);
+                //if (model==null){
+                    var credential = new CREDENTIAL();
+                    credential.USERGROUPID = id;
+                    credential.ROLEID = item;
+                    db.CREDENTIALs.Add(credential);
+                    db.SaveChanges();
+                    kq = true;
+                //}
+            }
+            return kq;
+        }
+        //get all quyeenf
+        public List<ROLE> GetListAllRole()
+        {
+            return db.ROLEs.ToList();
+        }
+        public List<CREDENTIAL> GetRoleById(string id)
+        {
+            return db.CREDENTIALs.Where(x => x.USERGROUPID == id).ToList();
+        }
+        //get list quyền
+        public List<RoleViewModel> GetListRole(string id="")
+        {
+            var list = (from a in db.LOAITAIKHOANs
+                        join b in db.CREDENTIALs
+                        on a.ID equals b.USERGROUPID
+                        join c in db.ROLEs
+                        on b.ROLEID equals c.ID
+                        select new
+                        {
 
-        public decimal Login(string user, string pass)
+                            GroupID = a.ID,
+                            RoleID = c.ID,
+                            GroupName = a.TENLOAITK,
+                            RoleName = c.NAME
+                        }).AsEnumerable().Select(x => new RoleViewModel()
+                        {
+                            GroupID = x.GroupID,
+                            RoleID = x.RoleID,
+                            NameGroup = x.GroupName,
+                            NameRole = x.RoleName
+                        });
+            if(id!="")
+            {
+                return list.Where(x=>x.GroupID==id).ToList();
+            }
+            return list.ToList();
+        }
+        public List<string> GetCredential(string username)
+        {
+            var user = db.TAIKHOANs.Single(x => x.TENTAIKHOAN == username);
+            var data = (from a in db.CREDENTIALs
+                       join b in db.LOAITAIKHOANs
+                       on a.USERGROUPID equals b.ID
+                       join c in db.ROLEs
+                       on a.ROLEID equals c.ID
+                       where b.ID==user.USERGROUPID
+                       select new 
+                       {
+                           userId = a.ROLEID,
+                           GroupID = a.USERGROUPID
+                       }).AsEnumerable().Select(x=>new CREDENTIAL()
+                       {
+                           ROLEID = x.userId,
+                           USERGROUPID = x.GroupID
+                       })
+                       ;
+            return data.Select(x=>x.ROLEID).ToList();
+        }
+        public decimal Login(string user, string pass,bool IsLoginAdmin=false)
         {
             var result = db.TAIKHOANs.SingleOrDefault(x => x.TENTAIKHOAN == user);
             if (result == null)
@@ -65,18 +148,45 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             
             else
             {
-                if (result.STATUS==false)
+                if(IsLoginAdmin==true)
                 {
-                    return -1;
+                    if (result.USERGROUPID == ComonConstants.ADMIN_GROUP || result.USERGROUPID == ComonConstants.MOD_GROUP)
+                    {
+
+                        if (result.STATUS == false)
+                        {
+                            return -1;
+                        }
+                        else
+                        {
+                            if (result.MATKHAU == pass)
+                            {
+                                return 1;
+                            }
+                            return -2;
+                        }
+                    }
+                    else
+                    {
+                        return -3;
+                    }
                 }
                 else
                 {
-                    if (result.MATKHAU == pass)
+                    if (result.STATUS == false)
                     {
-                        return 1;
+                        return -1;
                     }
-                    return -2;
+                    else
+                    {
+                        if (result.MATKHAU == pass)
+                        {
+                            return 1;
+                        }
+                        return -2;
+                    }
                 }
+                   
             }
         }
        
@@ -126,7 +236,7 @@ namespace bandienthoai.Areas.Admin.Models.DAO
             
             var res = (from t in db.TAIKHOANs
                       join l in db.LOAITAIKHOANs
-                           on t.LOAITAIKHOAN_ID equals l.LOAITAIKHOAN_ID into g
+                           on t.USERGROUPID equals l.ID into g
                       from d in g.DefaultIfEmpty()
                       select new
                       {

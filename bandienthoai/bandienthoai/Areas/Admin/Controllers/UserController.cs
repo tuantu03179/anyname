@@ -7,19 +7,21 @@ using System.Web;
 using System.Web.Mvc;
 
 using bandienthoai.Common;
+using System.Web.Script.Serialization;
 
 namespace bandienthoai.Areas.Admin.Controllers
 {
     public class UserController : BaseController
     {
         // GET: Admin/User
+        [HasCredential(RoleID = "VIEW_USER")]
         public ActionResult Index()
         {
             getallTypeUser();
             var dao = new UserDAO();
             var x = ((UserLogin)Session[CommonStants.USER_SESSION]).userID;
             var user = new UserDAO().ViewDetail(x);
-            ViewBag.typeLoai = getTypeUserView(user);
+            //ViewBag.typeLoai = getTypeUserView(user);
             ViewBag.IDUser = x;
             //var model = dao.listuser(page, pageSize);
             var model = dao.GetLoaiTaiKhoan();
@@ -31,12 +33,14 @@ namespace bandienthoai.Areas.Admin.Controllers
             ViewBag.IDLOAITAIKHOAN = new SelectList(dao.GetListLoaiTK(), "IDLOAITAIKHOAN", "TENLOAITAIKHOAN", selectedId);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_USER")]
         public ActionResult Create()
         {
             getTypeUser();
             return View();
         }
         [HttpPost]
+        [HasCredential(RoleID = "ADD_USER")]
         public ActionResult Create(TAIKHOAN user)
         {
             if (ModelState.IsValid)
@@ -66,6 +70,39 @@ namespace bandienthoai.Areas.Admin.Controllers
             return View("Index");
 
         }
+        //Phân Quyền
+        [HttpPost]
+        public JsonResult AddRole(string id, string list)
+        {
+            if (ModelState.IsValid)
+            {
+                var jsonList = new JavaScriptSerializer().Deserialize<List<String>>(list);
+                var dao = new UserDAO();
+             bool kq= dao.InsertRole(id, jsonList);
+                var model = dao.getAllTypeUser();
+            }
+
+           return Json(new
+            {
+               
+                status = true
+
+            });
+        }
+        [HttpGet]
+        public ActionResult PhanQuyen(long? selectedId = null)
+        {
+            var dao = new UserDAO();
+            var model = dao.getAllTypeUser();
+            ViewBag.ListTypeUser = new SelectList(model, "ID", "TENLOAITK", selectedId);
+            ViewBag.ListRole = dao.GetListAllRole();
+            return View();
+        }
+        public void GetListRole(string selectedId="")
+        {
+            var dao = new UserDAO();
+            ViewBag.ListRole = dao.GetListRole(selectedId);
+        }
         public void getTypeUser(long? selectedId = null)
         {
             var dao = new UserDAO();
@@ -73,26 +110,40 @@ namespace bandienthoai.Areas.Admin.Controllers
 
             ViewBag.LOAITAIKHOAN_ID = new SelectList(result, "LOAITAIKHOAN_ID", "TENLOAITK", selectedId);
         }
-        public int getTypeUserView(TAIKHOAN user)
+        //Get ROle theo id
+        public JsonResult GetRole(string id)
         {
-            var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
-            if (typeUser.TENLOAITK.ToLower() == "admin")
+            var list = new UserDAO().GetRoleById(id);
+           
+            return Json(new
             {
-                return 1;
-            }
-            else
-                return 2;
+                data = list,
+                status = true
+
+            });
         }
+        //public int getTypeUserView(TAIKHOAN user)
+        //{
+        //   // var typeUser = new LoaiTaiKhoanDAO().GetTypeUserByID(user.LOAITAIKHOAN_ID);
+        //    if (typeUser.TENLOAITK.ToLower() == "admin")
+        //    {
+        //        return 1;
+        //    }
+        //    else
+        //        return 2;
+        //}
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_USER")]
         public ActionResult Edit(int id)
         {
             getTypeUser();
             var user = new UserDAO().ViewDetail(id);
             user.MATKHAU = Encryptor.Decrypt(user.MATKHAU);
-            ViewBag.typeLoai = getTypeUserView(user);
+          //  ViewBag.typeLoai = getTypeUserView(user);
             return View(user);
         }
         [HttpPost]
+        [HasCredential(RoleID = "EDIT_USER")]
         public ActionResult Edit(TAIKHOAN user)
         {
             if (ModelState.IsValid)
@@ -147,7 +198,7 @@ namespace bandienthoai.Areas.Admin.Controllers
         //    return RedirectToAction("Index");
 
         //}
-
+        [HasCredential(RoleID = "DELETE_USER")]
         public JsonResult Delete(int id)
         {
             var dao = new UserDAO();
@@ -167,6 +218,7 @@ namespace bandienthoai.Areas.Admin.Controllers
 
         }
         [HttpPost]
+        [HasCredential(RoleID = "EDIT_USER")]
         public JsonResult ChangeStatus(long id)
         {
             var result = new UserDAO().ChangeStatus(id);
@@ -176,6 +228,7 @@ namespace bandienthoai.Areas.Admin.Controllers
             });
         }
         [HttpGet]
+        [HasCredential(RoleID = "VIEW_USER")]
         public void getLoaiTK(long id)
         {
             var result = new UserDAO().GetLoaiTaiKhoanByID(id);

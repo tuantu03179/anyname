@@ -3,8 +3,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section js{ 
-@*<script src="~/Assets/client/controller/cartController.js"></script>*@
+@section js{
+    @*
+        <script src="~/Assets/client/controller/cartController.js"></script>*@
     <script>
         var cart = {
             init: function () {
@@ -24,9 +25,9 @@
                         listCart.push({
                             Quantity: $(item).val(),
                             Product: {
-                               SANPHAM_ID: $(item).data('id')
+                                SANPHAM_ID: $(item).data('id')
                             }
-                                
+
                         });
                     });
 
@@ -39,15 +40,15 @@
                             if (res.status == true) {
                                 window.location.href = "/gio-hang";
                             }
-                            
+
                         }
                     });
                 });
                 $('#btnDelete').off('click').on('click', function () {
-                  
+
                     $.ajax({
                         url: '/Cart/DeleteAll',
-                       
+
                         dataType: 'json',
                         type: 'POST',
                         success: function (res) {
@@ -60,11 +61,11 @@
                 });
                 // xóa từng sản phẩm
                 $('.btn-delete').off('click').on('click', function (e) {
-                   
+
                     e.preventDefault();
                     $.ajax({
                         url: '/Cart/Delete?id=' + $(this).data('id'),
-                        
+
                         dataType: 'json',
                         type: 'POST',
                         success: function (res) {
@@ -79,6 +80,37 @@
         }
         cart.init();
     </script>
+
+    <script type="text/javascript">
+        function FormatNumber(pNumber) {
+            var num = pNumber.toString().replace(/\$|\,/g, '');
+            if (isNaN(num)) {
+                num = "";
+            }
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num * 100 + 0.50000000001);
+            num = Math.floor(num / 100).toString();
+            for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
+                num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
+            }
+            return (((sign) ? '' : '-') + num);
+        }
+
+       
+        $(document).ready(function () {
+            $("#txtSoLuong").keyup(function () {
+                if (isNaN($("#txtSoLuong").val()) || $("#txtSoLuong").val() <= 0 || $("#txtSoLuong").val().trim().length == 0) {
+                    $("#txtSoLuong").val(1);
+                }
+                var tmp = $("#PriceSale").text();
+                var SoLuong = parseInt($("#txtSoLuong").val());
+                var GiaBan = parseInt(tmp.toString().replace(/\$|\,/g, ''));
+                $("#TotalPrice").text(FormatNumber(GiaBan * SoLuong));
+
+            });
+
+        });
+    </script>
 }
 <div class="content">
     <div class="section group">
@@ -92,8 +124,8 @@
                         <th scope="col">Tên sản phẩm</th>
                         <th scope="col">Ảnh sản phẩm</th>
                         <th scope="col">Số lượng</th>
-                        <th scope="col">Đơn giá</th>
-                        <th scope="col">Thành tiền</th>
+                        <th scope="col">Đơn giá(VNĐ)</th>
+                        <th scope="col">Thành tiền(VNĐ)</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -101,45 +133,54 @@
 
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>@item.Product.MA_SANPHAM</td>
-                            <td>@item.Product.TEN_SANPHAM</td>
-                            <td><div class="box-image"><img class="img-thumbnail" src="@item.Product.HINHANH_SANPHAM" /></div></td>
-                            <td>
-                                <div class="product-buy">
+                    <tr>
+                        <td>@item.Product.MA_SANPHAM</td>
+                        <td>@item.Product.TEN_SANPHAM</td>
+                        <td><div class="box-image"><img class="img-thumbnail" src="@item.Product.HINHANH_SANPHAM" /></div></td>
+                        <td>
+                            <div class="product-buy">
 
 
-                                    <p class="product-row">
+                                <p class="product-row">
 
-                                        <span>
-                                            <input type="text" data-id="@item.Product.SANPHAM_ID" class="txtQuantity" value="@item.Quantity"
-                                                   maxlength="4">
-                                        </span>
-                                    </p>
-                                </div>
-                            </td>
-                            <td>@(item.Product.GIA_SANPHAM != 0 ? (item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100).ToString("N0") + " VNĐ" : "Liên Hệ")</td>
-                            <td>@(item.Product.GIA_SANPHAM != 0 ? ((item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100) * item.Quantity).ToString("N0") + " VNĐ" : "Liên Hệ")</td>
-                            <td><a class="btn btn-outline-danger btn-delete" data-id="@item.Product.SANPHAM_ID" href="#"><i class="fa fa-delete"></i>xóa</a></td>
-                        </tr>
+                                    <span>
+                                        <input id="txtSoLuong" type="text" data-id="@item.Product.SANPHAM_ID" class="txtQuantity form-control" value="@item.Quantity"
+                                               maxlength="4">
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        @{ 
+                            
+                        }
+                        <td><div id="PriceSale" readonly value="">@(item.Product.GIA_SANPHAM != 0 ? (item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100).ToString("N0") : "Liên Hệ")</div></td>
+                        <td><div id="TotalPrice">@(item.Product.GIA_SANPHAM != 0 ? ((item.Product.GIA_SANPHAM - item.Product.GIA_SANPHAM * item.Product.KHUYENMAI / 100) * item.Quantity).ToString("N0"): "Liên Hệ")</div></td>
+                        <td><a class="btn btn-outline-danger btn-delete" data-id="@item.Product.SANPHAM_ID" href="#"><i class="fa fa-delete"></i>xóa</a></td>
+                    </tr>
 
                     }
 
 
 
                 </tbody>
-                </table>
-                <button id="btnContinue" class="btn btn-danger">Tiếp tục mua hàng</button>
-                <button id="btnUpdate" class="btn btn-danger">Cập nhật giỏ hàng</button>
-                <button id="btnDelete" class="btn btn-danger">Xóa giỏ hàng</button>
-                <button id="btnPayment" class="btn btn-danger">Thanh Toán</button>
-          
-                    }
-                    else
-                    {
-                    <p>Chưa có sản phẩm nào trong giỏ hàng</p>
-                    }
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <button id="btnContinue" class="btn btn-danger mb-2" style='min-width:165px'>Tiếp tục mua hàng</button>
+                    <button id="btnUpdate" class="btn btn-danger mb-2" style='min-width:165px'>Cập nhật giỏ hàng</button>
+                    <button id="btnDelete" class="btn btn-danger mb-1" style='min-width:165px'>Xóa giỏ hàng</button>
+                    <button id="btnPayment" class="btn btn-danger mb-1" style='min-width:165px'>Thanh Toán</button>
                 </div>
+
+
+            </div>
+
+        }
+        else
+        {
+            <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+        }
+    </div>
 </div>
 
 

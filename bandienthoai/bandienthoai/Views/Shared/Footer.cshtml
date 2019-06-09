@@ -1,3 +1,13 @@
 ﻿@model bandienthoai.Models.EF.FOOTER
 
-@Html.Raw(Model.NOIDUNG)
+@{ if (Model != null)
+    {
+    @Html.Raw(Model.NOIDUNG)
+    }
+
+    else {
+        <div>
+            <p>Dang ai quoc</p>
+        </div>
+    }
+}

@@ -13,7 +13,6 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public PHIEUYEUCAUNHAPKHO()
         {
             CTIETPHIEUYCNHAPKHOes = new HashSet<CTIETPHIEUYCNHAPKHO>();
-            PHIEUNHAPKHOes = new HashSet<PHIEUNHAPKHO>();
         }
 
         [Key]
@@ -46,8 +45,5 @@ namespace bandienthoai.Areas.Admin.Models.EF
         public virtual ICollection<CTIETPHIEUYCNHAPKHO> CTIETPHIEUYCNHAPKHOes { get; set; }
 
         public virtual PHIEUNHAPHANG PHIEUNHAPHANG { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUNHAPKHO> PHIEUNHAPKHOes { get; set; }
     }
 }

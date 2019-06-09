@@ -14,7 +14,7 @@ namespace bandienthoai.Models.EF
         public long? ORDERID { get; set; }
 
         public int? QUANTITY { get; set; }
-
+        public int? GIAMGIA { get; set; }
         public decimal? PRICE { get; set; }
 
         public long? PRODUCTID { get; set; }
